@@ -2,14 +2,24 @@
 interface Props {
   compact?: boolean;
   fictional?: boolean;
+  imageUrl?: string;
   kind: "animation" | "bars" | "dashboard" | "line" | "map" | "scatter" | "small-multiples";
   title: string;
 }
 
-const { compact = false, fictional = true, kind, title } = Astro.props;
+const { compact = false, fictional = true, imageUrl, kind, title } = Astro.props;
 ---
 
-<figure class:list={["project-visual", { compact }]} aria-label={`Catalog schematic for ${title}`}>
+<figure class:list={["project-visual", { compact }]} aria-label={imageUrl ? `Original source preview for ${title}` : `Catalog schematic for ${title}`}>
+  {imageUrl ? (
+    <img
+      src={imageUrl}
+      alt={`Original source preview for ${title}`}
+      loading={compact ? "lazy" : "eager"}
+      decoding="async"
+      referrerpolicy="no-referrer"
+    />
+  ) : (
   <svg viewBox="0 0 640 360" role="img" aria-hidden="true">
     <rect class="visual-background" x="0" y="0" width="640" height="360"></rect>
     {kind === "line" && (
@@ -66,5 +76,6 @@ const { compact = false, fictional = true, kind, title } = Astro.props;
       </g>
     )}
   </svg>
-  <figcaption>{title} — {fictional ? "fictional preview" : "catalog schematic; open the source for the original"}</figcaption>
+  )}
+  <figcaption>{title} — {imageUrl ? "original source preview" : fictional ? "fictional preview" : "catalog schematic; open the source for the original"}</figcaption>
 </figure>

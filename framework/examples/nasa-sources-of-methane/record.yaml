@@ -65,12 +65,20 @@ visualizations:
       media:
         selection: representative
         items:
+          - id: narrated-preview
+            label: Narrated visualization still
+            kind: image
+            format: JPEG
+            dimensions: 1024×576
+            fileSize: 171.2 KB
+            url: https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004799/Global_methane_narrated.1416_print.jpg
           - id: narrated-video
             label: Narrated video
             kind: video
             format: MP4
             dimensions: 1920×1080
             fileSize: 171.1 MB
+            url: https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004799/MethaneNarrationSM.mp4
           - id: music-only-video
             label: Music-only 4K video
             kind: video
@@ -87,6 +95,7 @@ visualizations:
             kind: image
             format: PNG
             dimensions: 320×180
+            url: https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004799/GlobalMethane_BG.1416_web.png
 sections:
   project:
     description: NASA SVS project explaining the sources, global distribution, and atmospheric transport of methane through a narrated 3D visualization and downloadable production assets.

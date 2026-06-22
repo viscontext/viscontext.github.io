@@ -44,6 +44,11 @@ visualizations:
       media:
         selection: complete
         items:
+          - id: chart-preview
+            label: Current chart preview
+            kind: image
+            format: PNG
+            url: https://ourworldindata.org/grapher/human-development-index.png
           - id: live-chart
             label: Live interactive chart
             kind: interactive

@@ -8,6 +8,7 @@
 - Permit explicit null values when a source does not provide a framework field.
 - Separate visualizations from representative video, image, frame-set, data,
   metadata, and interactive media assets.
+- Add source-hosted original previews for every imported catalog record.
 - Expand contributor roles and support affiliations.
 
 ## 0.3.0 — Visualization collections

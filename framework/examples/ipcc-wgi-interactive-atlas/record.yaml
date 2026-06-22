@@ -44,6 +44,11 @@ visualizations:
       media:
         selection: representative
         items:
+          - id: two-degree-warming-map
+            label: Global surface-temperature change at 2°C warming
+            kind: image
+            format: PNG
+            url: https://interactive-atlas.ipcc.ch/2_warming_tas.png
           - id: live-atlas
             label: Live Interactive Atlas
             kind: interactive

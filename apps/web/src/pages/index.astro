@@ -1,7 +1,7 @@
 ---
 import ProjectVisual from "../components/ProjectVisual.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { records } from "../lib/data";
+import { getRecordPreview, records } from "../lib/data";
 
 const projects = [...records].sort((a, b) => a.work.title.localeCompare(b.work.title));
 const topics = [...new Set(projects.map((record) => record.work.topic))].sort();
@@ -70,6 +70,7 @@ const providers = [...new Set(projects.flatMap((record) => record.provenance ? [
         const visualizationTitles = record.visualizations.items.map((item) => item.title).join(" ");
         const origin = record.work.fictional ? "fictional" : "imported";
         const provider = record.provenance?.provider ?? "";
+        const previewImage = getRecordPreview(record);
         return (
           <li
             class="project-card"
@@ -80,7 +81,7 @@ const providers = [...new Set(projects.flatMap((record) => record.provenance ? [
             data-search={`${record.work.title} ${author} ${provider} ${description} ${visualizationTitles}`.toLowerCase()}
           >
             <a class="visual-link" href={`/records/${record.id}/`} tabindex="-1" aria-hidden="true">
-              <ProjectVisual compact fictional={record.work.fictional} kind={record.work.visualKind} title={record.work.title} />
+              <ProjectVisual compact fictional={record.work.fictional} imageUrl={previewImage} kind={record.work.visualKind} title={record.work.title} />
             </a>
             <div class="card-content">
               <div class="card-tags"><span class="origin-tag">{origin === "imported" ? "real source" : "fictional"}</span><span>{record.work.topic}</span><span>{record.work.type}</span><span>{record.work.year}</span></div>

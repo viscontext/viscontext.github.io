@@ -51,6 +51,17 @@ describe("experimental framework compiler", () => {
     expect((ipccAtlas?.visualizations as JsonObject).totalCount).toBe(2);
     const ipccSpm = records.find((record) => record.id === "ipcc-wgi-spm-1");
     expect((ipccSpm?.visualizations as JsonObject).totalCount).toBe(2);
+
+    const importedRecords = records.filter((record) => record.provenance);
+    for (const record of importedRecords) {
+      const visualizations = (record.visualizations as JsonObject).items as JsonObject[];
+      const hasSourcePreview = visualizations.some((visualization) => {
+        const media = visualization.media as JsonObject | undefined;
+        const assets = (media?.items ?? []) as JsonObject[];
+        return assets.some((asset) => asset.kind === "image" && Boolean(asset.url));
+      });
+      expect(hasSourcePreview, `${String(record.id)} should expose a source preview`).toBe(true);
+    }
   });
 
   it("requires provenance for imported real-world records", async () => {

@@ -633,6 +633,8 @@ The current prototype includes:
   collections;
 - generic project pages pairing a visualization preview with a row-column
   context metadata table;
+- original source previews for attributed records, with fictional schematics as
+  an explicit fallback;
 - an author upload form with browser-local draft saving and submission preview;
 - a plain framework field table for inspecting the provisional structure;
 - unit tests, type checks, HTML accessibility validation, and dependency audit;

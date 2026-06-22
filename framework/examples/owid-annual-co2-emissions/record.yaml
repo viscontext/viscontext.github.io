@@ -43,6 +43,11 @@ visualizations:
       media:
         selection: representative
         items:
+          - id: chart-preview
+            label: Current chart preview
+            kind: image
+            format: PNG
+            url: https://ourworldindata.org/grapher/annual-co2-emissions-per-country.png
           - id: live-chart
             label: Live interactive chart
             kind: interactive

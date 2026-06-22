@@ -55,6 +55,7 @@ textarea { resize: vertical; }
 
 .project-visual { margin: 0; border-bottom: 1px solid var(--border); background: #eee; }
 .project-visual svg { display: block; width: 100%; height: auto; }
+.project-visual img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #eee; }
 .project-visual figcaption { padding: 7px 9px; color: var(--muted); background: #fff; font-size: 11px; }
 .project-visual .visual-background { fill: #f2f2f2; }
 .project-visual svg path, .project-visual svg polyline { fill: none; stroke: #333; stroke-width: 4; }

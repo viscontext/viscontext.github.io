@@ -98,3 +98,25 @@ export interface SiteData {
 export const data = siteData as SiteData;
 export const { framework, records } = data;
 export const terminology = framework.terminology;
+
+type Visualization = ContextRecord["visualizations"]["items"][number];
+
+function getDisplayUrl(sourceUrl: string): string {
+  const source = new URL(sourceUrl);
+  if (source.hostname === "svs.gsfc.nasa.gov") {
+    const params = new URLSearchParams({ url: sourceUrl, w: "1024" });
+    return `https://images.weserv.nl/?${params.toString()}`;
+  }
+  return sourceUrl;
+}
+
+export function getVisualizationPreview(visualization: Visualization): string | undefined {
+  const sourceUrl = visualization.media?.items.find((asset) => asset.kind === "image" && asset.url)?.url;
+  return sourceUrl ? getDisplayUrl(sourceUrl) : undefined;
+}
+
+export function getRecordPreview(record: ContextRecord): string | undefined {
+  return record.visualizations.items
+    .map(getVisualizationPreview)
+    .find((preview): preview is string => Boolean(preview));
+}

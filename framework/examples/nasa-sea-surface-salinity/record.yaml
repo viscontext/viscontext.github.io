@@ -55,12 +55,20 @@ visualizations:
       media:
         selection: representative
         items:
+          - id: visualization-preview
+            label: Sea-surface salinity visualization still
+            kind: image
+            format: JPEG
+            dimensions: 1024×512
+            fileSize: 132.1 KB
+            url: https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005017/salinity_v48_8k.4653_print.jpg
           - id: high-resolution-video
             label: High-resolution salinity animation
             kind: video
             format: H.265 MP4
             dimensions: 4000×2000
             fileSize: 88.0 MB
+            url: https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005017/salinity_v49_8k_2000p30_h265.mp4
           - id: eight-k-frames
             label: 8K production frame set
             kind: frame-set
@@ -72,6 +80,7 @@ visualizations:
             format: TIFF
             dimensions: 2000×502
             fileSize: 827.5 KB
+            url: https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005017/salinity_v48_colorbar2.tif
           - id: composite-video
             label: Composite animation with overlays
             kind: video

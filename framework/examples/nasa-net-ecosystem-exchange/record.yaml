@@ -59,6 +59,7 @@ visualizations:
             format: MP4
             dimensions: 3840×2160
             fileSize: 256.2 MB
+            url: https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005047/co2_nee_5.mp4
           - id: webm-video
             label: 4K WebM animation
             kind: video
@@ -76,6 +77,7 @@ visualizations:
             format: JPEG
             dimensions: 1024×576
             fileSize: 124.3 KB
+            url: https://svs.gsfc.nasa.gov/vis/a000000/a005000/a005047/co2_nee_5.01750_print.jpg
 sections:
   project:
     description: NASA Carbon Monitoring System visualization of modeled net ecosystem exchange—the balance of carbon dioxide absorbed and released by ecosystems—from 2000 to 2018.

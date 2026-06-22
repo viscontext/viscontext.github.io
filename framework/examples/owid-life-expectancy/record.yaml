@@ -49,6 +49,11 @@ visualizations:
       media:
         selection: representative
         items:
+          - id: chart-preview
+            label: Current chart preview
+            kind: image
+            format: PNG
+            url: https://ourworldindata.org/grapher/life-expectancy.png
           - id: live-chart
             label: Live interactive chart
             kind: interactive

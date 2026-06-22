@@ -2,7 +2,7 @@
 import MetadataTable from "../../components/MetadataTable.astro";
 import ProjectVisual from "../../components/ProjectVisual.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { framework, records, type ContextRecord } from "../../lib/data";
+import { framework, getRecordPreview, getVisualizationPreview, records, type ContextRecord } from "../../lib/data";
 
 export function getStaticPaths() {
   return records.map((record) => ({ params: { id: record.id }, props: { record } }));
@@ -13,6 +13,7 @@ const { record } = Astro.props;
 const author = record.contributors[0]?.displayName ?? "Unknown author";
 const isImported = !record.work.fictional && Boolean(record.provenance);
 const hasMedia = record.visualizations.items.some((visualization) => visualization.media);
+const previewImage = getRecordPreview(record);
 const formatCount = (count: number) => new Intl.NumberFormat("en").format(count);
 ---
 
@@ -30,7 +31,7 @@ const formatCount = (count: number) => new Intl.NumberFormat("en").format(count)
     </header>
 
     <div class="project-overview">
-      <ProjectVisual fictional={record.work.fictional} kind={record.work.visualKind} title={record.work.title} />
+      <ProjectVisual fictional={record.work.fictional} imageUrl={previewImage} kind={record.work.visualKind} title={record.work.title} />
       <aside>
         <h2>Project summary</h2>
         <p>{String(record.sections.project?.description)}</p>
@@ -94,7 +95,7 @@ const formatCount = (count: number) => new Intl.NumberFormat("en").format(count)
         <ol class="visualization-grid">
           {record.visualizations.items.map((visualization) => (
             <li>
-              <ProjectVisual compact fictional={record.work.fictional} kind={visualization.visualKind} title={visualization.title} />
+              <ProjectVisual compact fictional={record.work.fictional} imageUrl={getVisualizationPreview(visualization)} kind={visualization.visualKind} title={visualization.title} />
               <div class="visualization-content">
                 <h3>{visualization.title}</h3>
                 <p>{visualization.description}</p>

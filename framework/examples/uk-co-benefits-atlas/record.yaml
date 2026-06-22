@@ -66,6 +66,14 @@ visualizations:
         chartType: Coordinated maps, trends, and comparison charts
         visualEncoding: Spatial color, temporal position, and comparative position expose how each benefit varies across places and time.
         knownLimitations: A report family generates many views; the item is not a single fixed chart.
+      media:
+        selection: representative
+        items:
+          - id: atlas-overview
+            label: UK Co-Benefits Atlas overview
+            kind: image
+            format: PNG
+            url: https://vishub.net/figures/atlas.png
     - id: location-reports
       title: Location report pages
       visualKind: dashboard
