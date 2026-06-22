@@ -1,6 +1,6 @@
 # VisContext product and implementation plan
 
-Status: revised proposal, 22 June 2026
+Status: Increment 0 implemented, 22 June 2026
 
 **VisContext is a temporary project name.** The research contribution includes
 discovering the conceptual framework, its structure, and its vocabulary. The
@@ -620,20 +620,20 @@ None of these decisions block Increment 0.
 10. **Research boundary:** Which usage data, if any, may be collected, and under
     what consent and ethics process?
 
-## 18. Next implementation slice
+## 18. Current implementation and next slice
 
-The next change should implement only Increment 0:
+Increment 0 now includes:
 
-1. scaffold the workspace and Astro static site;
-2. add `framework.yaml`, `terminology.yaml`, and one small schema;
-3. add one placeholder YAML record;
-4. build a validator and canonical JSON generator;
-5. render the generated record without hard-coded section knowledge;
-6. publish versioned static JSON beside the HTML;
-7. add CI and GitHub Pages deployment.
+- the independent framework, terminology, presentation, schema, and example
+  files;
+- a compiler that validates framework invariants and records;
+- deterministic canonical JSON and a versioned static API;
+- generic Astro framework and record pages;
+- one fictional placeholder visual and record;
+- unit tests, type checks, HTML accessibility validation, and dependency audit;
+- pinned CI and GitHub Pages deployment workflows.
 
-No database, authentication, comments, badges, uploads, or production taxonomy
-belongs in this slice. Those platform capabilities are deferred, not discarded.
-The immediate success criterion is replaceability: changing the temporary
-vocabulary or placeholder structure should be an ordinary data change, not an
-application rewrite.
+The next slice is Increment 1, the framework workbench. It should generate field
+reference documentation, improve validation feedback, show framework-version
+differences, and make local schema iteration visible in one command. Production
+taxonomy work, authentication, uploads, comments, and badges remain deferred.

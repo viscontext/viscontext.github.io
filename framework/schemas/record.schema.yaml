@@ -1,0 +1,73 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://viscontext.github.io/schemas/0.1.0/record.schema.json
+title: Experimental context record
+type: object
+additionalProperties: false
+required:
+  - id
+  - version
+  - frameworkVersion
+  - status
+  - work
+  - contributors
+  - sections
+properties:
+  id:
+    type: string
+    pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+  version:
+    type: string
+    pattern: ^0\.[0-9]+\.[0-9]+$
+  frameworkVersion:
+    const: 0.1.0
+  status:
+    enum:
+      - example
+      - published
+      - withdrawn
+  work:
+    type: object
+    additionalProperties: false
+    required:
+      - type
+      - title
+      - fictional
+    properties:
+      type:
+        enum:
+          - visualization
+          - visual-story
+      title:
+        type: string
+        minLength: 1
+        maxLength: 160
+      fictional:
+        type: boolean
+      canonicalUrl:
+        type: string
+        format: uri
+  contributors:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      additionalProperties: false
+      required:
+        - displayName
+        - role
+      properties:
+        displayName:
+          type: string
+          minLength: 1
+        role:
+          enum:
+            - creator
+            - example-maintainer
+  sections:
+    type: object
+    additionalProperties: false
+    required:
+      - overview
+    properties:
+      overview:
+        $ref: https://viscontext.github.io/schemas/0.1.0/sections/overview.schema.json

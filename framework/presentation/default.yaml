@@ -1,0 +1,24 @@
+record:
+  eyebrow: Experimental context record
+  frameworkNotice: This structure is provisional and exists to test the framework pipeline.
+sections:
+  - id: overview
+    label: Overview
+    description: A deliberately small set of placeholder fields for the first framework experiment.
+    fields:
+      - id: description
+        label: Short description
+        help: What does the visual present?
+        valueType: text
+      - id: visualUrl
+        label: Visual source
+        help: Where can the visual work be found?
+        valueType: url
+      - id: intendedUse
+        label: Intended use
+        help: What is this visual intended to help people understand or do?
+        valueType: text
+      - id: knownLimitation
+        label: Known limitation
+        help: What important constraint should a reader know first?
+        valueType: text

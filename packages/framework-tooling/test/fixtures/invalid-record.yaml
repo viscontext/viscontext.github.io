@@ -1,0 +1,12 @@
+id: Invalid placeholder ID
+version: 0.1.0
+frameworkVersion: 0.1.0
+status: example
+work:
+  type: visualization
+  title: Invalid fixture
+  fictional: true
+contributors: []
+sections:
+  overview:
+    description: This fixture intentionally omits required fields.

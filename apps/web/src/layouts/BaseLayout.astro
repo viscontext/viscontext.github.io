@@ -1,0 +1,36 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { terminology } from "../lib/data";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = terminology.project.name,
+  description = terminology.project.description,
+} = Astro.props;
+const pageTitle = title === terminology.project.name ? title : `${title} — ${terminology.project.name}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#101b2d" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23101b2d%22/><circle cx=%2230%22 cy=%2250%22 r=%2211%22 fill=%22%23ff5b45%22/><circle cx=%2250%22 cy=%2250%22 r=%2211%22 fill=%22%23b6e36b%22/><circle cx=%2270%22 cy=%2250%22 r=%2211%22 fill=%22%23f5f1e8%22/></svg>" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <SiteHeader />
+    <main id="main-content">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

@@ -1,0 +1,13 @@
+project:
+  name: VisContext
+  description: Structured context for visual works
+terms:
+  record:
+    singular: context record
+    plural: context records
+  section:
+    singular: section
+    plural: sections
+  work:
+    singular: visual work
+    plural: visual works

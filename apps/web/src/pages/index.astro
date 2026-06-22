@@ -1,0 +1,78 @@
+---
+import PlaceholderVisual from "../components/PlaceholderVisual.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { framework, records, terminology } from "../lib/data";
+
+const example = records[0];
+if (!example) throw new Error("The generated site bundle contains no example record.");
+---
+
+<BaseLayout>
+  <section class="hero shell">
+    <div class="hero-copy">
+      <p class="eyebrow"><span></span> Experimental framework · {framework.version}</p>
+      <h1>Every visual has<br /><em>a context.</em></h1>
+      <p class="hero-intro">
+        An open framework for describing how visual works are made, what they mean,
+        and where their limits begin.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href={`/records/${example.id}/`}>Inspect the example <span aria-hidden="true">↗</span></a>
+        <a class="button button-secondary" href="/framework/">Explore the framework</a>
+      </div>
+    </div>
+    <div class="hero-visual-wrap">
+      <div class="visual-index" aria-hidden="true">EXAMPLE / 001</div>
+      <PlaceholderVisual />
+    </div>
+  </section>
+
+  <section class="manifesto">
+    <div class="shell manifesto-grid">
+      <p class="section-kicker">Why context?</p>
+      <blockquote>
+        A visualization rarely speaks for itself. Its data, intent, design choices,
+        and limitations shape what a reader can reasonably conclude.
+      </blockquote>
+      <p class="manifesto-note">
+        {terminology.project.name} is a temporary name. The framework, terminology,
+        and interface are designed to change independently.
+      </p>
+    </div>
+  </section>
+
+  <section class="principles shell">
+    <div class="section-title-row">
+      <p class="section-kicker">Built to evolve</p>
+      <p>Three boundaries keep an unsettled research framework replaceable.</p>
+    </div>
+    <div class="principle-grid">
+      <article>
+        <span>01</span>
+        <h2>Framework first</h2>
+        <p>Terminology, sections, and fields live outside the website in versioned, human-readable files.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <h2>One canonical form</h2>
+        <p>YAML is for authoring. JSON Schema validates it. Generated JSON supplies every consumer.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h2>Open by construction</h2>
+        <p>The same validated material becomes accessible pages and a versioned static data API.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="example-band">
+    <div class="shell example-grid">
+      <div>
+        <p class="eyebrow eyebrow-light"><span></span> One provisional {terminology.terms.record.singular}</p>
+        <h2>{example.work.title}</h2>
+      </div>
+      <p>{String(example.sections.overview?.description)}</p>
+      <a class="circle-link" href={`/records/${example.id}/`} aria-label={`Open ${example.work.title}`}><span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+</BaseLayout>

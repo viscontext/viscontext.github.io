@@ -1,0 +1,66 @@
+---
+import PlaceholderVisual from "../../components/PlaceholderVisual.astro";
+import RecordSection from "../../components/RecordSection.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { framework, records, terminology, type ContextRecord } from "../../lib/data";
+
+export function getStaticPaths() {
+  return records.map((record) => ({ params: { id: record.id }, props: { record } }));
+}
+
+interface Props {
+  record: ContextRecord;
+}
+
+const { record } = Astro.props;
+---
+
+<BaseLayout title={record.work.title} description={String(record.sections.overview?.description ?? "Experimental context record")}>
+  <header class="record-hero shell">
+    <div class="breadcrumbs">
+      <a href="/">Home</a><span aria-hidden="true">/</span><span>{terminology.terms.record.singular}</span>
+    </div>
+    <div class="record-heading-grid">
+      <div>
+        <p class="eyebrow"><span></span> {framework.presentation.record.eyebrow}</p>
+        <h1>{record.work.title}</h1>
+        <p class="record-deck">{String(record.sections.overview?.description)}</p>
+      </div>
+      <dl class="record-meta">
+        <div><dt>Status</dt><dd>{record.status}</dd></div>
+        <div><dt>Record</dt><dd>{record.version}</dd></div>
+        <div><dt>Framework</dt><dd>{record.frameworkVersion}</dd></div>
+        <div><dt>Submitted by</dt><dd>{record.contributors[0]?.displayName}</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <div class="shell record-visual">
+    <PlaceholderVisual />
+  </div>
+
+  <aside class="framework-notice shell" aria-label="Framework status">
+    <strong>Provisional structure</strong>
+    <p>{framework.presentation.record.frameworkNotice}</p>
+    <a href="/framework/">How the framework works <span aria-hidden="true">→</span></a>
+  </aside>
+
+  <div class="shell sections-wrap">
+    {framework.presentation.sections.map((section, index) => (
+      <RecordSection
+        index={index}
+        section={section}
+        values={record.sections[section.id] ?? {}}
+      />
+    ))}
+  </div>
+
+  <section class="record-actions shell">
+    <div>
+      <p class="section-kicker">Portable by default</p>
+      <h2>Inspect the source data.</h2>
+      <p>This page and its API response were generated from the same validated record.</p>
+    </div>
+    <a class="button button-secondary" href={`/api/v1/records/${record.id}.json`}>Open record JSON <span aria-hidden="true">↗</span></a>
+  </section>
+</BaseLayout>

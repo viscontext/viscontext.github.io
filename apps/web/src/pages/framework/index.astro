@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { framework, terminology } from "../../lib/data";
+---
+
+<BaseLayout title="Experimental framework" description="The replaceable framework behind VisContext.">
+  <header class="page-hero shell narrow-hero">
+    <p class="eyebrow"><span></span> Framework {framework.version} · {framework.status}</p>
+    <h1>Temporary<br /><em>by design.</em></h1>
+    <p>
+      The terminology and structure are part of the research contribution. This
+      first version proves that they can change without rewriting the website.
+    </p>
+  </header>
+
+  <section class="architecture shell">
+    <p class="section-kicker">One-way dependency</p>
+    <div class="flow" role="img" aria-label="Framework data flows from human-authored YAML through JSON Schema validation into canonical JSON consumed by the website and API.">
+      <div><span>01</span><strong>YAML</strong><small>Human authoring</small></div>
+      <i aria-hidden="true">→</i>
+      <div><span>02</span><strong>JSON Schema</strong><small>Validation</small></div>
+      <i aria-hidden="true">→</i>
+      <div><span>03</span><strong>Canonical JSON</strong><small>Exchange</small></div>
+      <i aria-hidden="true">→</i>
+      <div><span>04</span><strong>Website + API</strong><small>Consumers</small></div>
+    </div>
+  </section>
+
+  <section class="framework-details">
+    <div class="shell framework-grid">
+      <div>
+        <p class="section-kicker">Current experiment</p>
+        <h2>{framework.sections.length} provisional {terminology.terms.section.singular}</h2>
+        <p>
+          This is intentionally not a proposed taxonomy. It is the smallest useful
+          structure for testing validation, generation, rendering, and renaming.
+        </p>
+      </div>
+      <div class="section-register">
+        {framework.presentation.sections.map((section, index) => (
+          <article>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <div>
+              <h3>{section.label}</h3>
+              <p>{section.description}</p>
+              <small>{section.fields.length} placeholder fields</small>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="api-callout shell">
+    <div>
+      <p class="section-kicker">Machine-readable</p>
+      <h2>Use the same framework without this website.</h2>
+    </div>
+    <div class="api-link-block">
+      <code>/api/v1/framework/{framework.version}.json</code>
+      <a href={`/api/v1/framework/${framework.version}.json`}>Open framework JSON <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+</BaseLayout>

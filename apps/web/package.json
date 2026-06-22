@@ -1,0 +1,21 @@
+{
+  "name": "@viscontext/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev"
+  },
+  "dependencies": {
+    "astro": "7.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.9",
+    "typescript": "6.0.3"
+  }
+}

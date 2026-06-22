@@ -1,0 +1,27 @@
+{
+  "name": "viscontext",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "overrides": {
+    "yaml-language-server": "1.23.0"
+  },
+  "scripts": {
+    "build": "npm run generate && npm run build --workspace @viscontext/web",
+    "check": "npm run generate && npm run test && npm run check --workspace @viscontext/web && npm run build --workspace @viscontext/web && npm run validate:html",
+    "dev": "npm run generate && npm run dev --workspace @viscontext/web",
+    "generate": "npm run generate --workspace @viscontext/framework-tooling",
+    "test": "npm run test --workspace @viscontext/framework-tooling",
+    "validate:html": "html-validate \"dist/**/*.html\""
+  },
+  "devDependencies": {
+    "html-validate": "10.17.0"
+  }
+}

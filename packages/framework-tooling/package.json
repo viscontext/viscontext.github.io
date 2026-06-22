@@ -1,0 +1,22 @@
+{
+  "name": "@viscontext/framework-tooling",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "generate": "tsc -p tsconfig.build.json && node dist/cli.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "yaml": "2.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.30",
+    "typescript": "6.0.3",
+    "vitest": "4.1.9"
+  }
+}
