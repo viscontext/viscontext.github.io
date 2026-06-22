@@ -1,19 +1,19 @@
 $schema: https://json-schema.org/draft/2020-12/schema
-$id: https://viscontext.github.io/schemas/0.3.0/sections/project.schema.json
+$id: https://viscontext.github.io/schemas/0.4.0/sections/project.schema.json
 title: Project section
 type: object
 additionalProperties: false
 required: [description, projectUrl, publicationDate, license]
 properties:
   description:
-    type: string
+    type: [string, "null"]
     minLength: 1
   projectUrl:
-    type: string
+    type: [string, "null"]
     format: uri
   publicationDate:
-    type: string
+    type: [string, "null"]
     minLength: 1
   license:
-    type: string
+    type: [string, "null"]
     minLength: 1

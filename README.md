@@ -5,10 +5,12 @@ and inspecting structured context about visualizations and visual stories. The
 final names for the platform, its records, and their sections are intentionally
 unresolved while the conceptual framework is being researched.
 
-The project is currently a functional catalog prototype. It includes nine fake
-visualization projects—including multi-visualization, ordered-story, and large
-sampled collections—reader-facing context tables, and a local-only author
-submission form built from a provisional framework.
+The project is currently a functional catalog prototype. It includes nine
+fictional projects and four attributed records imported from NASA SVS and Our
+World in Data. Together they exercise multi-visualization projects, ordered
+stories, large sampled collections, explicit missing metadata, provenance, and
+large media collections. The prototype also includes reader-facing context
+tables and a local-only author submission form built from a provisional framework.
 
 ## Project documents
 

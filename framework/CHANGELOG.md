@@ -1,5 +1,14 @@
 # Framework changelog
 
+## 0.4.0 — Imported source records
+
+- Add provenance for metadata normalized from external visualization catalogs.
+- Add four attributed records from NASA SVS and Our World in Data.
+- Permit explicit null values when a source does not provide a framework field.
+- Separate visualizations from representative video, image, frame-set, data,
+  metadata, and interactive media assets.
+- Expand contributor roles and support affiliations.
+
 ## 0.3.0 — Visualization collections
 
 - Add single, complete multi-visualization, ordered-story, and sampled

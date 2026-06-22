@@ -1,0 +1,88 @@
+id: owid-human-development-index
+version: 0.1.0
+frameworkVersion: 0.4.0
+status: published
+work:
+  type: interactive
+  topic: society
+  visualKind: map
+  title: Human Development Index
+  year: 2025
+  fictional: false
+  canonicalUrl: https://ourworldindata.org/grapher/human-development-index
+contributors:
+  - displayName: Our World in Data
+    role: Publisher and data processor
+  - displayName: UNDP Human Development Report
+    role: Original data provider
+provenance:
+  mode: imported
+  provider: Our World in Data
+  externalId: human-development-index
+  sourceUrl: https://ourworldindata.org/grapher/human-development-index
+  metadataUrl: https://ourworldindata.org/grapher/human-development-index.metadata.json?v=1&csvType=full&useColumnShortNames=false
+  archivedUrl: https://archive.ourworldindata.org/20260518-090244/grapher/human-development-index.html
+  retrievedAt: 2026-06-22
+  sourceUpdatedAt: Indicator metadata last updated 7 May 2025; source snapshot archived 18 May 2026
+  attribution: UNDP, Human Development Report (2025) – with minor processing by Our World in Data.
+  normalizationNotes:
+    - Normalized from the OWID chart metadata JSON and its public data page.
+    - The archived URL preserves the cited chart state while the canonical URL can continue to update.
+    - Context not supplied by OWID is stored as null rather than inferred.
+visualizations:
+  totalCount: 1
+  listingMode: complete
+  items:
+    - id: human-development-index-chart
+      title: Human Development Index by country, 1990–2023
+      visualKind: map
+      description: Interactive country comparison of the Human Development Index, available as map, chart, and table views.
+      context:
+        chartType: Interactive choropleth map and time-series chart
+        visualEncoding: HDI values from zero to one are encoded by map color or vertical position over time.
+        knownLimitations: HDI summarizes health, education, and income but does not capture inequality, sustainability, or subjective wellbeing.
+      media:
+        selection: complete
+        items:
+          - id: live-chart
+            label: Live interactive chart
+            kind: interactive
+            url: https://ourworldindata.org/grapher/human-development-index
+          - id: archived-chart
+            label: Archived interactive chart
+            kind: interactive
+            url: https://archive.ourworldindata.org/20260518-090244/grapher/human-development-index.html
+          - id: metadata-json
+            label: Chart metadata
+            kind: metadata
+            format: JSON
+            url: https://ourworldindata.org/grapher/human-development-index.metadata.json?v=1&csvType=full&useColumnShortNames=false
+          - id: full-data
+            label: Full chart data
+            kind: data
+            format: CSV
+            url: https://ourworldindata.org/grapher/human-development-index.csv?v=1&csvType=full&useColumnShortNames=false
+sections:
+  project:
+    description: Our World in Data chart presenting the Human Development Index as a cross-country and historical measure of health, education, and material living standards.
+    projectUrl: https://ourworldindata.org/grapher/human-development-index
+    publicationDate: Indicator metadata updated 7 May 2025
+    license: OWID-produced visualization and text are CC BY; UNDP data and other third-party material remain subject to their original terms.
+  usage:
+    intent: Support broad comparisons of human development across countries and over time.
+    targetAudience: null
+    recommendedInterpretation: Higher values indicate higher average achievement across health, education, and income; use the index as a broad summary rather than a complete account of wellbeing.
+  data:
+    sources: UNDP Human Development Report (2025), with minor processing by Our World in Data; OWID regions are included as a supporting variable.
+    collectionPeriod: 1990 to 2023
+    updateFrequency: The metadata lists the next update for 22 July 2026.
+  analysis:
+    processing: OWID reports minor processing. UNDP normalizes life expectancy, schooling, and gross national income indices and combines them using a geometric mean.
+    codeUrl: null
+  encoding:
+    chartType: Interactive choropleth map, time-series chart, and data table
+    visualEncoding: HDI is represented by map color or vertical position; country and time selections control the visible subset.
+    interaction: Readers can switch views, select countries and years, inspect values, download subsets or complete data, and open metadata.
+  limitations:
+    knownLimitations: HDI does not capture inequality, sustainability, or subjective wellbeing and compresses three dimensions into one national average.
+    uncertainty: The chart metadata does not specify a quantitative uncertainty interval for HDI values.

@@ -11,7 +11,7 @@ const types = [...new Set(projects.map((record) => record.work.type))].sort();
 <BaseLayout title="Visualization project repository" description="Browse visualization projects and inspect their context metadata.">
   <header class="page-heading shell">
     <div>
-      <p class="prototype-label">Functional prototype · fake project data</p>
+      <p class="prototype-label">Functional prototype · fictional and sourced records</p>
       <h1>Visualization project repository</h1>
       <p>Browse visualization projects and inspect the context metadata provided alongside them.</p>
     </div>
@@ -39,6 +39,14 @@ const types = [...new Set(projects.map((record) => record.work.type))].sort();
           {types.map((type) => <option value={type}>{type}</option>)}
         </select>
       </label>
+      <label>
+        Record origin
+        <select id="origin-filter">
+          <option value="">All records</option>
+          <option value="imported">Real source records</option>
+          <option value="fictional">Fictional examples</option>
+        </select>
+      </label>
     </div>
 
     <div class="catalog-summary">
@@ -52,18 +60,21 @@ const types = [...new Set(projects.map((record) => record.work.type))].sort();
         const description = String(record.sections.project?.description ?? "");
         const visualizationCount = record.visualizations.totalCount;
         const visualizationTitles = record.visualizations.items.map((item) => item.title).join(" ");
+        const origin = record.work.fictional ? "fictional" : "imported";
+        const provider = record.provenance?.provider ?? "";
         return (
           <li
             class="project-card"
             data-topic={record.work.topic}
             data-type={record.work.type}
-            data-search={`${record.work.title} ${author} ${description} ${visualizationTitles}`.toLowerCase()}
+            data-origin={origin}
+            data-search={`${record.work.title} ${author} ${provider} ${description} ${visualizationTitles}`.toLowerCase()}
           >
             <a class="visual-link" href={`/records/${record.id}/`} tabindex="-1" aria-hidden="true">
-              <ProjectVisual compact kind={record.work.visualKind} title={record.work.title} />
+              <ProjectVisual compact fictional={record.work.fictional} kind={record.work.visualKind} title={record.work.title} />
             </a>
             <div class="card-content">
-              <div class="card-tags"><span>{record.work.topic}</span><span>{record.work.type}</span><span>{record.work.year}</span></div>
+              <div class="card-tags"><span class="origin-tag">{origin === "imported" ? "real source" : "fictional"}</span><span>{record.work.topic}</span><span>{record.work.type}</span><span>{record.work.year}</span></div>
               <h3><a href={`/records/${record.id}/`}>{record.work.title}</a></h3>
               <p class="card-author">By {author}</p>
               <p>{description}</p>
@@ -89,6 +100,7 @@ const types = [...new Set(projects.map((record) => record.work.type))].sort();
     const search = requiredElement<HTMLInputElement>('#catalog-search');
     const topic = requiredElement<HTMLSelectElement>('#topic-filter');
     const type = requiredElement<HTMLSelectElement>('#type-filter');
+    const origin = requiredElement<HTMLSelectElement>('#origin-filter');
     const cards = [...document.querySelectorAll<HTMLElement>('.project-card')];
     const count = requiredElement<HTMLElement>('#result-count');
     const empty = requiredElement<HTMLElement>('#empty-state');
@@ -100,7 +112,8 @@ const types = [...new Set(projects.map((record) => record.work.type))].sort();
         const matchesSearch = !query || (card.dataset.search ?? '').includes(query);
         const matchesTopic = !topic.value || card.dataset.topic === topic.value;
         const matchesType = !type.value || card.dataset.type === type.value;
-        card.hidden = !(matchesSearch && matchesTopic && matchesType);
+        const matchesOrigin = !origin.value || card.dataset.origin === origin.value;
+        card.hidden = !(matchesSearch && matchesTopic && matchesType && matchesOrigin);
         if (!card.hidden) visible += 1;
       }
       count.textContent = `${visible} ${visible === 1 ? 'project' : 'projects'}`;
@@ -110,5 +123,6 @@ const types = [...new Set(projects.map((record) => record.work.type))].sort();
     search.addEventListener('input', updateCatalog);
     topic.addEventListener('change', updateCatalog);
     type.addEventListener('change', updateCatalog);
+    origin.addEventListener('change', updateCatalog);
   </script>
 </BaseLayout>

@@ -1,16 +1,16 @@
 $schema: https://json-schema.org/draft/2020-12/schema
-$id: https://viscontext.github.io/schemas/0.3.0/sections/encoding.schema.json
+$id: https://viscontext.github.io/schemas/0.4.0/sections/encoding.schema.json
 title: Visual encoding section
 type: object
 additionalProperties: false
 required: [chartType, visualEncoding, interaction]
 properties:
   chartType:
-    type: string
+    type: [string, "null"]
     minLength: 1
   visualEncoding:
-    type: string
+    type: [string, "null"]
     minLength: 1
   interaction:
-    type: string
+    type: [string, "null"]
     minLength: 1

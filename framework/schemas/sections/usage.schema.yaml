@@ -1,16 +1,16 @@
 $schema: https://json-schema.org/draft/2020-12/schema
-$id: https://viscontext.github.io/schemas/0.3.0/sections/usage.schema.json
+$id: https://viscontext.github.io/schemas/0.4.0/sections/usage.schema.json
 title: Usage section
 type: object
 additionalProperties: false
 required: [intent, targetAudience, recommendedInterpretation]
 properties:
   intent:
-    type: string
+    type: [string, "null"]
     minLength: 1
   targetAudience:
-    type: string
+    type: [string, "null"]
     minLength: 1
   recommendedInterpretation:
-    type: string
+    type: [string, "null"]
     minLength: 1

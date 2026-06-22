@@ -1,0 +1,113 @@
+id: nasa-sources-of-methane
+version: 0.1.0
+frameworkVersion: 0.4.0
+status: published
+work:
+  type: video
+  topic: climate
+  visualKind: animation
+  title: Sources of Methane
+  year: 2020
+  fictional: false
+  canonicalUrl: https://svs.gsfc.nasa.gov/4799
+contributors:
+  - displayName: Cindy Starr
+    role: Visualizer
+    affiliation: Global Science and Technology, Inc.
+  - displayName: Kel Elkins
+    role: Data visualizer
+    affiliation: USRA
+  - displayName: Greg Shirah
+    role: Data visualizer
+    affiliation: NASA/GSFC
+  - displayName: Trent L. Schindler
+    role: Data visualizer
+    affiliation: USRA
+  - displayName: Ellen T. Gray
+    role: Producer
+    affiliation: ADNET Systems, Inc.
+  - displayName: Katie Jepson
+    role: Producer
+    affiliation: USRA
+  - displayName: Benjamin Poulter
+    role: Scientist
+    affiliation: NASA/GSFC
+  - displayName: Lesley Ott
+    role: Scientist
+    affiliation: NASA/GSFC
+  - displayName: Abhishek Chatterjee
+    role: Scientist
+    affiliation: USRA
+provenance:
+  mode: imported
+  provider: NASA Scientific Visualization Studio
+  externalId: "4799"
+  sourceUrl: https://svs.gsfc.nasa.gov/4799
+  retrievedAt: 2026-06-22
+  sourceUpdatedAt: 28 February 2025, 8:01 AM EST
+  attribution: Please give credit for this item to NASA's Scientific Visualization Studio.
+  normalizationNotes:
+    - Manually normalized from the public NASA SVS record; the source page remains authoritative.
+    - Downloadable media below are representative renditions, not separate visualizations or a complete file manifest.
+    - Context not stated by NASA is stored as null rather than inferred.
+visualizations:
+  totalCount: 1
+  listingMode: complete
+  items:
+    - id: atmospheric-methane-transport
+      title: Atmospheric methane emission and transport
+      visualKind: animation
+      description: 3D volumetric animation of atmospheric methane emissions and transport from 9 December 2017 to 1 December 2018.
+      context:
+        chartType: 3D volumetric globe animation
+        visualEncoding: Methane concentration and source regions are shown in a vertically exaggerated atmosphere around a globe.
+        knownLimitations: Earth's atmosphere and topography are vertically exaggerated by approximately 50 times.
+      media:
+        selection: representative
+        items:
+          - id: narrated-video
+            label: Narrated video
+            kind: video
+            format: MP4
+            dimensions: 1920×1080
+            fileSize: 171.1 MB
+          - id: music-only-video
+            label: Music-only 4K video
+            kind: video
+            format: MP4
+            dimensions: 3840×2160
+            fileSize: 1.1 GB
+          - id: methane-layer-frames
+            label: Methane-only frame set
+            kind: frame-set
+            dimensions: 1920×1080
+            itemCount: 262144
+          - id: background-preview
+            label: Methane layer preview image
+            kind: image
+            format: PNG
+            dimensions: 320×180
+sections:
+  project:
+    description: NASA SVS project explaining the sources, global distribution, and atmospheric transport of methane through a narrated 3D visualization and downloadable production assets.
+    projectUrl: https://svs.gsfc.nasa.gov/4799
+    publicationDate: 9 July 2020
+    license: NASA media usage guidelines apply; the source requests credit to NASA's Scientific Visualization Studio and third-party rights may apply.
+  usage:
+    intent: Explain the relative sources and global atmospheric transport of methane and support understanding of observations and carbon-climate feedbacks.
+    targetAudience: null
+    recommendedInterpretation: Read highlighted source regions together with atmospheric transport; concentrations over a location can reflect both local emissions and transported methane.
+  data:
+    sources: GMAO GEOS atmospheric methane model output, LPJ-wsl wetland estimates, satellite-derived wetland coverage, and inventories of human activity. NASA SVS dataset ID 1066.
+    collectionPeriod: 9 December 2017 to 1 December 2018
+    updateFrequency: null
+  analysis:
+    processing: GEOS model output combines source inventories and modeled wetland emissions; source regions are highlighted over time in a 3D atmospheric rendering.
+    codeUrl: null
+  encoding:
+    chartType: Narrated 3D volumetric globe animation
+    visualEncoding: Atmospheric methane is rendered around the globe with highlighted regional source outflows, a date overlay, and a color scale.
+    interaction: Non-interactive video with downloadable narrated, music-only, image, and frame-set renditions.
+  limitations:
+    knownLimitations: The atmosphere and topography are vertically exaggerated by approximately 50 times, and the visualization uses modeled emissions and transport rather than direct global measurement.
+    uncertainty: The source discusses uncertainty in estimating methane sources and sinks but does not encode a quantitative uncertainty layer in the visualization.

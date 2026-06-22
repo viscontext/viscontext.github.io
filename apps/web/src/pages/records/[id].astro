@@ -11,6 +11,9 @@ export function getStaticPaths() {
 interface Props { record: ContextRecord }
 const { record } = Astro.props;
 const author = record.contributors[0]?.displayName ?? "Unknown author";
+const isImported = !record.work.fictional && Boolean(record.provenance);
+const hasMedia = record.visualizations.items.some((visualization) => visualization.media);
+const formatCount = (count: number) => new Intl.NumberFormat("en").format(count);
 ---
 
 <BaseLayout title={record.work.title} description={String(record.sections.project?.description ?? "Visualization project context")}>
@@ -19,7 +22,7 @@ const author = record.contributors[0]?.displayName ?? "Unknown author";
   <article class="project-detail shell">
     <header class="detail-heading">
       <div>
-        <p class="prototype-label">Fake catalog record</p>
+        <p class="prototype-label">{isImported ? "Imported real-world record" : "Fictional catalog record"}</p>
         <h1>{record.work.title}</h1>
         <p>By {author}</p>
       </div>
@@ -27,29 +30,63 @@ const author = record.contributors[0]?.displayName ?? "Unknown author";
     </header>
 
     <div class="project-overview">
-      <ProjectVisual kind={record.work.visualKind} title={record.work.title} />
+      <ProjectVisual fictional={record.work.fictional} kind={record.work.visualKind} title={record.work.title} />
       <aside>
         <h2>Project summary</h2>
         <p>{String(record.sections.project?.description)}</p>
         <dl>
           <div><dt>Author</dt><dd>{author}</dd></div>
-          <div><dt>Published</dt><dd>{String(record.sections.project?.publicationDate)}</dd></div>
-          <div><dt>License</dt><dd>{String(record.sections.project?.license)}</dd></div>
+          <div><dt>Published</dt><dd>{String(record.sections.project?.publicationDate ?? "Not provided")}</dd></div>
+          <div><dt>License</dt><dd>{String(record.sections.project?.license ?? "Not provided")}</dd></div>
+          <div><dt>Record origin</dt><dd>{isImported ? `Imported from ${record.provenance?.provider}` : "Fictional example"}</dd></div>
           <div><dt>Context framework</dt><dd>{record.frameworkVersion} (experimental)</dd></div>
         </dl>
         <a class="button secondary" href={record.work.canonicalUrl}>Open original project</a>
       </aside>
     </div>
 
-    {record.visualizations.totalCount > 1 && (
+    {record.provenance && (
+      <section class="provenance-section" aria-labelledby="provenance-heading">
+        <div class="context-heading-row">
+          <div>
+            <h2 id="provenance-heading">Source provenance</h2>
+            <p>This record normalizes external metadata. It is not a claim that the original author completed this framework.</p>
+          </div>
+          <a href={record.provenance.sourceUrl}>Open authoritative source</a>
+        </div>
+        <dl class="provenance-grid">
+          <div><dt>Provider</dt><dd>{record.provenance.provider}</dd></div>
+          <div><dt>External ID</dt><dd>{record.provenance.externalId}</dd></div>
+          <div><dt>Retrieved</dt><dd>{record.provenance.retrievedAt}</dd></div>
+          <div><dt>Source updated</dt><dd>{record.provenance.sourceUpdatedAt ?? "Not provided"}</dd></div>
+          <div class="wide"><dt>Attribution</dt><dd>{record.provenance.attribution}</dd></div>
+          {record.provenance.metadataUrl && <div class="wide"><dt>Machine metadata</dt><dd><a href={record.provenance.metadataUrl}>{record.provenance.metadataUrl}</a></dd></div>}
+          {record.provenance.archivedUrl && <div class="wide"><dt>Archived source</dt><dd><a href={record.provenance.archivedUrl}>{record.provenance.archivedUrl}</a></dd></div>}
+        </dl>
+        <h3>Normalization notes</h3>
+        <ul>{record.provenance.normalizationNotes.map((note) => <li>{note}</li>)}</ul>
+        <details class="contributor-details">
+          <summary>{record.contributors.length} credited contributors and organizations</summary>
+          <ul class="contributor-list">
+            {record.contributors.map((contributor) => (
+              <li><strong>{contributor.displayName}</strong><span>{contributor.role}{contributor.affiliation ? ` · ${contributor.affiliation}` : ""}</span></li>
+            ))}
+          </ul>
+        </details>
+      </section>
+    )}
+
+    {(record.visualizations.totalCount > 1 || hasMedia) && (
       <section class="visualization-index" aria-labelledby="visualization-index-heading">
         <div class="context-heading-row">
           <div>
-            <h2 id="visualization-index-heading">Visualizations in this project</h2>
+            <h2 id="visualization-index-heading">Visualizations and media</h2>
             <p>
               {record.visualizations.listingMode === "sampled"
                 ? `Showing ${record.visualizations.items.length} representative items from a collection of ${record.visualizations.totalCount}. A production index would be paginated.`
-                : `${record.visualizations.totalCount} visualizations are listed in project order.`}
+                : record.visualizations.totalCount === 1
+                  ? "One visualization is listed. Its downloadable files and renditions remain media assets, not additional visualizations."
+                  : `${record.visualizations.totalCount} visualizations are listed in project order.`}
             </p>
           </div>
           <strong>{record.visualizations.totalCount} total</strong>
@@ -57,7 +94,7 @@ const author = record.contributors[0]?.displayName ?? "Unknown author";
         <ol class="visualization-grid">
           {record.visualizations.items.map((visualization) => (
             <li>
-              <ProjectVisual compact kind={visualization.visualKind} title={visualization.title} />
+              <ProjectVisual compact fictional={record.work.fictional} kind={visualization.visualKind} title={visualization.title} />
               <div class="visualization-content">
                 <h3>{visualization.title}</h3>
                 <p>{visualization.description}</p>
@@ -70,6 +107,22 @@ const author = record.contributors[0]?.displayName ?? "Unknown author";
                       {visualization.context.knownLimitations && <div><dt>Limitations</dt><dd>{visualization.context.knownLimitations}</dd></div>}
                     </dl>
                   </details>
+                )}
+                {visualization.media && (
+                  <div class="media-assets">
+                    <h4>Source media <small>({visualization.media.selection})</small></h4>
+                    <ul>
+                      {visualization.media.items.map((asset) => (
+                        <li>
+                          <div>{asset.url ? <a href={asset.url}>{asset.label}</a> : <strong>{asset.label}</strong>}<span>{asset.kind}</span></div>
+                          <p>
+                            {[asset.format, asset.dimensions, asset.fileSize, asset.itemCount ? `${formatCount(asset.itemCount)} items` : undefined].filter(Boolean).join(" · ")}
+                          </p>
+                          {asset.description && <p>{asset.description}</p>}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </div>
             </li>

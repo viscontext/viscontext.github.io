@@ -1,0 +1,102 @@
+id: nasa-net-ecosystem-exchange
+version: 0.1.0
+frameworkVersion: 0.4.0
+status: published
+work:
+  type: video
+  topic: climate
+  visualKind: animation
+  title: Net Ecosystem Exchange of Carbon Dioxide
+  year: 2022
+  fictional: false
+  canonicalUrl: https://svs.gsfc.nasa.gov/5047/
+contributors:
+  - displayName: Mark SubbaRao
+    role: Visualizer
+    affiliation: NASA/GSFC
+  - displayName: Lesley Ott
+    role: Scientist
+    affiliation: NASA/GSFC
+  - displayName: Laurence Schuler
+    role: Technical support
+    affiliation: ADNET Systems, Inc.
+  - displayName: Ian Jones
+    role: Technical support
+    affiliation: ADNET Systems, Inc.
+  - displayName: Ella Kaplan
+    role: Web administrator
+    affiliation: Global Science and Technology, Inc.
+provenance:
+  mode: imported
+  provider: NASA Scientific Visualization Studio
+  externalId: "5047"
+  sourceUrl: https://svs.gsfc.nasa.gov/5047/
+  retrievedAt: 2026-06-22
+  sourceUpdatedAt: 6 October 2024, 11:09 PM EDT
+  attribution: Please give credit for this item to NASA's Scientific Visualization Studio.
+  normalizationNotes:
+    - Manually normalized from the public NASA SVS record; the source page remains authoritative.
+    - The 65,536-file frame set is represented as one media asset with an item count.
+    - Context not stated by NASA is stored as null rather than inferred.
+visualizations:
+  totalCount: 1
+  listingMode: complete
+  items:
+    - id: net-ecosystem-exchange-animation
+      title: Global net ecosystem exchange, 2000–2018
+      visualKind: animation
+      description: Animated global estimate of carbon dioxide absorbed and released by ecosystems from 2000 through 2018.
+      context:
+        chartType: Animated global raster map
+        visualEncoding: A diverging color scale shows the direction and magnitude of modeled ecosystem-atmosphere carbon exchange over time.
+        knownLimitations: The visualization represents model estimates because global carbon exchange cannot be measured directly.
+      media:
+        selection: representative
+        items:
+          - id: mp4-video
+            label: 4K MP4 animation
+            kind: video
+            format: MP4
+            dimensions: 3840×2160
+            fileSize: 256.2 MB
+          - id: webm-video
+            label: 4K WebM animation
+            kind: video
+            format: WebM
+            dimensions: 3840×2160
+            fileSize: 14.2 MB
+          - id: production-frames
+            label: Production frame set
+            kind: frame-set
+            dimensions: 3840×2160 at 30 fps
+            itemCount: 65536
+          - id: preview-image
+            label: Print preview image
+            kind: image
+            format: JPEG
+            dimensions: 1024×576
+            fileSize: 124.3 KB
+sections:
+  project:
+    description: NASA Carbon Monitoring System visualization of modeled net ecosystem exchange—the balance of carbon dioxide absorbed and released by ecosystems—from 2000 to 2018.
+    projectUrl: https://svs.gsfc.nasa.gov/5047/
+    publicationDate: 30 November 2022
+    license: NASA media usage guidelines apply; the source requests credit to NASA's Scientific Visualization Studio and third-party rights may apply.
+  usage:
+    intent: Explain seasonal and interannual patterns in ecosystem-atmosphere carbon exchange and the role of modeled flux estimates in climate research.
+    targetAudience: null
+    recommendedInterpretation: Seasonal changes show vegetation absorbing more carbon during growing seasons and releasing more during fall and winter; unusual years can reflect drought and other climate variability.
+  data:
+    sources: GEOS-Carb CASA-GFED Monthly Fire Fuel NPP Rh NEE Fluxes, NASA SVS dataset ID 1164, DOI 10.5067/03147VMJE8J9.
+    collectionPeriod: 2000 to 2018
+    updateFrequency: null
+  analysis:
+    processing: CASA-GFED3 combines AVHRR and MODIS vegetation observations with MERRA-2 temperature and precipitation estimates to model monthly carbon flux.
+    codeUrl: null
+  encoding:
+    chartType: Animated global raster map
+    visualEncoding: Color represents modeled net ecosystem exchange while animation represents monthly and annual change.
+    interaction: Non-interactive video with downloadable WebM, MP4, preview images, and a production frame set.
+  limitations:
+    knownLimitations: Direct global measurement is not possible; the values are observationally informed model estimates and depend on CASA-GFED3 assumptions and inputs.
+    uncertainty: No quantitative uncertainty layer is shown in the published animation.

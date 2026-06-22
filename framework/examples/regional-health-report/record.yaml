@@ -1,6 +1,6 @@
 id: regional-health-report
 version: 0.2.0
-frameworkVersion: 0.3.0
+frameworkVersion: 0.4.0
 status: example
 work:
   type: static

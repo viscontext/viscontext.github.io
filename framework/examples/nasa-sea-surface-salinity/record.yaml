@@ -1,0 +1,104 @@
+id: nasa-sea-surface-salinity
+version: 0.1.0
+frameworkVersion: 0.4.0
+status: published
+work:
+  type: video
+  topic: climate
+  visualKind: animation
+  title: A Decade of Sea Surface Salinity
+  year: 2022
+  fictional: false
+  canonicalUrl: https://svs.gsfc.nasa.gov/5017/
+contributors:
+  - displayName: Alex Kekesi
+    role: Data visualizer
+    affiliation: Global Science and Technology, Inc.
+  - displayName: Mark SubbaRao
+    role: Data visualizer
+    affiliation: NASA/GSFC
+  - displayName: Nadya Vinogradova-Shiffer
+    role: Scientist
+    affiliation: NASA/HQ
+  - displayName: Jinbo Wang
+    role: Data provider
+    affiliation: NASA/JPL
+  - displayName: Laurence Schuler
+    role: Technical support
+    affiliation: ADNET Systems, Inc.
+  - displayName: Ian Jones
+    role: Technical support
+    affiliation: ADNET Systems, Inc.
+provenance:
+  mode: imported
+  provider: NASA Scientific Visualization Studio
+  externalId: "5017"
+  sourceUrl: https://svs.gsfc.nasa.gov/5017/
+  retrievedAt: 2026-06-22
+  sourceUpdatedAt: 2 February 2025, 12:16 AM EST
+  attribution: Please give credit for this item to NASA's Scientific Visualization Studio.
+  normalizationNotes:
+    - Manually normalized from the public NASA SVS record; the source page remains authoritative.
+    - Colorbars, overlays, composite videos, and frame sets are treated as media assets of one visualization.
+    - Context not stated by NASA is stored as null rather than inferred.
+visualizations:
+  totalCount: 1
+  listingMode: complete
+  items:
+    - id: salinity-animation
+      title: Global sea surface salinity, 2011–2021
+      visualKind: animation
+      description: Animated global sea-surface salinity record combining multiple satellite missions over ten years.
+      context:
+        chartType: Animated global raster map
+        visualEncoding: Orange and yellow represent higher salinity while blue and violet represent fresher surface water.
+      media:
+        selection: representative
+        items:
+          - id: high-resolution-video
+            label: High-resolution salinity animation
+            kind: video
+            format: H.265 MP4
+            dimensions: 4000×2000
+            fileSize: 88.0 MB
+          - id: eight-k-frames
+            label: 8K production frame set
+            kind: frame-set
+            dimensions: 8000×4000 at 60 fps
+            itemCount: 262144
+          - id: colorbar
+            label: Sea-surface salinity colorbar
+            kind: image
+            format: TIFF
+            dimensions: 2000×502
+            fileSize: 827.5 KB
+          - id: composite-video
+            label: Composite animation with overlays
+            kind: video
+            format: MP4
+            dimensions: 3840×2160
+            fileSize: 188.5 MB
+sections:
+  project:
+    description: NASA SVS animation combining satellite-derived products into an unbroken global view of sea-surface salinity from 2011 through 2021.
+    projectUrl: https://svs.gsfc.nasa.gov/5017/
+    publicationDate: 26 August 2022
+    license: NASA media usage guidelines apply; the source requests credit to NASA's Scientific Visualization Studio and third-party rights may apply.
+  usage:
+    intent: Show where ocean surface water is saltier or fresher and how salinity changes over a decade in response to evaporation, precipitation, rivers, and sea ice.
+    targetAudience: null
+    recommendedInterpretation: Read warm colors as higher salinity and cool colors as fresher water; spatial patterns reflect several interacting freshwater and evaporation processes.
+  data:
+    sources: OISSS_L4_multimission_7day_v1 from PODAAC, Comiso's Daily Sea Ice Concentration, and Natural Earth river data; NASA SVS dataset IDs 1156, 539, and 1159.
+    collectionPeriod: 1 September 2011 to 1 September 2021
+    updateFrequency: null
+  analysis:
+    processing: The OISSS product optimally interpolates observations from SMAP, Aquarius, and SMOS into a seven-day multi-mission sea-surface salinity record.
+    codeUrl: null
+  encoding:
+    chartType: Animated global raster map
+    visualEncoding: A warm-to-cool color scale represents high-to-low salinity, with date and legend overlays available as separate production assets.
+    interaction: Non-interactive animation with multiple video resolutions, frame sets, overlays, still images, and a Hyperwall package.
+  limitations:
+    knownLimitations: null
+    uncertainty: The public source page does not describe or visually encode uncertainty for the interpolated salinity product.

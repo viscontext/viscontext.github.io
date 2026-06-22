@@ -289,6 +289,13 @@ export function validateRecordData(context: CompilerContext, record: JsonObject)
     throw new FrameworkValidationError(`Record validation failed: ${details}`, errors);
   }
 
+  const work = record.work as JsonObject;
+  if (work.fictional === false && !record.provenance) {
+    throw new FrameworkValidationError(
+      "Imported real-world records must include source provenance.",
+    );
+  }
+
   const visualizations = record.visualizations as JsonObject;
   const totalCount = visualizations.totalCount as number;
   const listingMode = visualizations.listingMode as string;
@@ -307,6 +314,18 @@ export function validateRecordData(context: CompilerContext, record: JsonObject)
     throw new FrameworkValidationError(
       "A complete visualization listing must include totalCount items.",
     );
+  }
+
+  for (const item of items) {
+    const media = item.media as JsonObject | undefined;
+    if (!media) continue;
+    const mediaItems = media.items as JsonObject[];
+    const mediaIds = mediaItems.map((mediaItem) => String(mediaItem.id));
+    if (new Set(mediaIds).size !== mediaIds.length) {
+      throw new FrameworkValidationError(
+        `Media IDs must be unique within visualization ${String(item.id)}.`,
+      );
+    }
   }
 }
 
@@ -380,6 +399,7 @@ export async function generateProject(repositoryRoot = defaultRepositoryRoot): P
     version: record.version,
     frameworkVersion: record.frameworkVersion,
     status: record.status,
+    provenance: record.provenance ?? null,
     url: `/api/v1/records/${record.id}.json`,
   }));
 

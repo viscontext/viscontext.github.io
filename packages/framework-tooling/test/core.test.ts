@@ -15,11 +15,11 @@ import {
 } from "../src/core.js";
 
 describe("experimental framework compiler", () => {
-  it("validates the placeholder record", async () => {
+  it("validates fictional and imported catalog records", async () => {
     const context = await createCompilerContext();
     const records = await loadExampleRecords(context);
 
-    expect(records).toHaveLength(9);
+    expect(records).toHaveLength(13);
     expect(records.map((record) => record.id)).toContain("coastal-change");
     expect(context.framework.sections.map((section) => section.id)).toEqual([
       "project",
@@ -32,6 +32,28 @@ describe("experimental framework compiler", () => {
     const atlas = records.find((record) => record.id === "biodiversity-atlas");
     expect((atlas?.visualizations as JsonObject).totalCount).toBe(240);
     expect(((atlas?.visualizations as JsonObject).items as JsonObject[])).toHaveLength(8);
+    const methane = records.find((record) => record.id === "nasa-sources-of-methane");
+    expect((methane?.provenance as JsonObject).provider).toBe(
+      "NASA Scientific Visualization Studio",
+    );
+    const methaneVisualization = ((methane?.visualizations as JsonObject).items as JsonObject[])[0];
+    const methaneMedia = (methaneVisualization.media as JsonObject).items as JsonObject[];
+    expect(methaneMedia.find((item) => item.id === "methane-layer-frames")?.itemCount).toBe(
+      262144,
+    );
+  });
+
+  it("requires provenance for imported real-world records", async () => {
+    const context = await createCompilerContext();
+    const records = await loadExampleRecords(context);
+    const importedRecord = structuredClone(
+      records.find((record) => record.id === "owid-human-development-index"),
+    ) as JsonObject;
+    delete importedRecord.provenance;
+
+    expect(() => validateRecordData(context, importedRecord)).toThrow(
+      /must include source provenance/u,
+    );
   });
 
   it("reports invalid records with field paths", async () => {
@@ -55,6 +77,6 @@ describe("experimental framework compiler", () => {
     const generated = JSON.parse(await readFile(apiPath, "utf8")) as JsonObject;
 
     expect(generated.id).toBe("coastal-change");
-    expect(generated.frameworkVersion).toBe("0.3.0");
+    expect(generated.frameworkVersion).toBe("0.4.0");
   });
 });

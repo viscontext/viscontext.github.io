@@ -1,13 +1,13 @@
 $schema: https://json-schema.org/draft/2020-12/schema
-$id: https://viscontext.github.io/schemas/0.3.0/sections/limitations.schema.json
+$id: https://viscontext.github.io/schemas/0.4.0/sections/limitations.schema.json
 title: Limitations section
 type: object
 additionalProperties: false
 required: [knownLimitations, uncertainty]
 properties:
   knownLimitations:
-    type: string
+    type: [string, "null"]
     minLength: 1
   uncertainty:
-    type: string
+    type: [string, "null"]
     minLength: 1

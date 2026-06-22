@@ -1,14 +1,15 @@
 ---
 interface Props {
   compact?: boolean;
-  kind: "bars" | "dashboard" | "line" | "map" | "scatter" | "small-multiples";
+  fictional?: boolean;
+  kind: "animation" | "bars" | "dashboard" | "line" | "map" | "scatter" | "small-multiples";
   title: string;
 }
 
-const { compact = false, kind, title } = Astro.props;
+const { compact = false, fictional = true, kind, title } = Astro.props;
 ---
 
-<figure class:list={["project-visual", { compact }]} aria-label={`Placeholder visualization for ${title}`}>
+<figure class:list={["project-visual", { compact }]} aria-label={`Catalog schematic for ${title}`}>
   <svg viewBox="0 0 640 360" role="img" aria-hidden="true">
     <rect class="visual-background" x="0" y="0" width="640" height="360"></rect>
     {kind === "line" && (
@@ -55,6 +56,15 @@ const { compact = false, kind, title } = Astro.props;
         })}
       </g>
     )}
+    {kind === "animation" && (
+      <g class="animation-visual">
+        <circle cx="320" cy="180" r="116"></circle>
+        <path d="M206 170 C258 124 382 124 434 170 M213 222 C270 256 370 256 427 222"></path>
+        <path d="M320 64 C270 105 270 255 320 296 M320 64 C370 105 370 255 320 296"></path>
+        <path class="motion-path" d="M124 116 C180 56 246 58 276 94 M516 246 C464 304 395 302 366 270"></path>
+        <path class="play-mark" d="M298 144 L370 180 L298 216 Z"></path>
+      </g>
+    )}
   </svg>
-  <figcaption>{title} — fictional preview</figcaption>
+  <figcaption>{title} — {fictional ? "fictional preview" : "catalog schematic; open the source for the original"}</figcaption>
 </figure>

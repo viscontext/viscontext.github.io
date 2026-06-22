@@ -20,27 +20,53 @@ export interface ContextRecord {
   frameworkVersion: string;
   status: string;
   work: {
-    type: "static" | "interactive" | "dashboard" | "story";
+    type: "static" | "interactive" | "dashboard" | "story" | "video";
     topic: "cities" | "climate" | "economy" | "energy" | "environment" | "health" | "mobility" | "society";
-    visualKind: "bars" | "dashboard" | "line" | "map" | "scatter" | "small-multiples";
+    visualKind: "animation" | "bars" | "dashboard" | "line" | "map" | "scatter" | "small-multiples";
     title: string;
     year: number;
     fictional: boolean;
     canonicalUrl: string;
   };
-  contributors: Array<{ displayName: string; role: string }>;
+  contributors: Array<{ displayName: string; role: string; affiliation?: string }>;
+  provenance?: {
+    mode: "imported";
+    provider: string;
+    externalId: string;
+    sourceUrl: string;
+    metadataUrl?: string;
+    archivedUrl?: string;
+    retrievedAt: string;
+    sourceUpdatedAt?: string;
+    attribution: string;
+    normalizationNotes: string[];
+  };
   visualizations: {
     totalCount: number;
     listingMode: "complete" | "sampled";
     items: Array<{
       id: string;
       title: string;
-      visualKind: "bars" | "dashboard" | "line" | "map" | "scatter" | "small-multiples";
+      visualKind: "animation" | "bars" | "dashboard" | "line" | "map" | "scatter" | "small-multiples";
       description: string;
       context?: {
         chartType?: string;
         visualEncoding?: string;
         knownLimitations?: string;
+      };
+      media?: {
+        selection: "complete" | "representative";
+        items: Array<{
+          id: string;
+          label: string;
+          kind: "data" | "frame-set" | "image" | "interactive" | "metadata" | "video";
+          url?: string;
+          format?: string;
+          dimensions?: string;
+          fileSize?: string;
+          itemCount?: number;
+          description?: string;
+        }>;
       };
     }>;
   };

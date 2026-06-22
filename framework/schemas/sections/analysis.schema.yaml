@@ -1,13 +1,13 @@
 $schema: https://json-schema.org/draft/2020-12/schema
-$id: https://viscontext.github.io/schemas/0.3.0/sections/analysis.schema.json
+$id: https://viscontext.github.io/schemas/0.4.0/sections/analysis.schema.json
 title: Analysis section
 type: object
 additionalProperties: false
 required: [processing, codeUrl]
 properties:
   processing:
-    type: string
+    type: [string, "null"]
     minLength: 1
   codeUrl:
-    type: string
+    type: [string, "null"]
     format: uri
