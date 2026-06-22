@@ -1,5 +1,11 @@
 # Framework changelog
 
+## 0.3.0 — Visualization collections
+
+- Add single, complete multi-visualization, ordered-story, and sampled
+  large-collection project structures.
+- Add visualization-specific encoding and limitation notes.
+
 ## 0.2.0 — Experimental catalog fixture
 
 - Replace the single placeholder section with six provisional metadata sections.

@@ -50,12 +50,14 @@ const types = [...new Set(projects.map((record) => record.work.type))].sort();
       {projects.map((record) => {
         const author = record.contributors[0]?.displayName ?? "Unknown author";
         const description = String(record.sections.project?.description ?? "");
+        const visualizationCount = record.visualizations.totalCount;
+        const visualizationTitles = record.visualizations.items.map((item) => item.title).join(" ");
         return (
           <li
             class="project-card"
             data-topic={record.work.topic}
             data-type={record.work.type}
-            data-search={`${record.work.title} ${author} ${description}`.toLowerCase()}
+            data-search={`${record.work.title} ${author} ${description} ${visualizationTitles}`.toLowerCase()}
           >
             <a class="visual-link" href={`/records/${record.id}/`} tabindex="-1" aria-hidden="true">
               <ProjectVisual compact kind={record.work.visualKind} title={record.work.title} />
@@ -65,7 +67,10 @@ const types = [...new Set(projects.map((record) => record.work.type))].sort();
               <h3><a href={`/records/${record.id}/`}>{record.work.title}</a></h3>
               <p class="card-author">By {author}</p>
               <p>{description}</p>
-              <p class="context-count">{Object.values(record.sections).reduce((count, section) => count + Object.keys(section).length, 0)} context fields available</p>
+              <p class="context-count">
+                {visualizationCount} {visualizationCount === 1 ? "visualization" : "visualizations"}
+                {" · "}{Object.values(record.sections).reduce((count, section) => count + Object.keys(section).length, 0)} project context fields
+              </p>
             </div>
           </li>
         );

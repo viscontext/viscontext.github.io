@@ -1,0 +1,75 @@
+id: regional-health-report
+version: 0.2.0
+frameworkVersion: 0.3.0
+status: example
+work:
+  type: static
+  topic: health
+  visualKind: dashboard
+  title: Regional public health report
+  year: 2025
+  fictional: true
+  canonicalUrl: https://example.org/regional-health-report
+contributors:
+  - displayName: Public Health Evidence Unit
+    role: creator
+visualizations:
+  totalCount: 4
+  listingMode: complete
+  items:
+    - id: life-expectancy
+      title: Life expectancy by district
+      visualKind: map
+      description: District-level map of estimated life expectancy.
+      context:
+        chartType: Choropleth map
+        visualEncoding: Color lightness represents estimated life expectancy.
+        knownLimitations: District averages hide variation within districts.
+    - id: preventable-admissions
+      title: Preventable admissions over time
+      visualKind: line
+      description: Monthly rate of preventable hospital admissions.
+      context:
+        chartType: Multi-series line chart
+        visualEncoding: Position represents time and admission rate; color separates regions.
+        knownLimitations: Policy changes affect comparability across years.
+    - id: vaccination-coverage
+      title: Vaccination coverage by age group
+      visualKind: bars
+      description: Coverage estimates across six age groups.
+      context:
+        chartType: Grouped bar chart
+        visualEncoding: Bar length represents estimated coverage percentage.
+        knownLimitations: Records with unknown age were excluded.
+    - id: access-and-outcomes
+      title: Access and outcomes
+      visualKind: scatter
+      description: Comparison of primary-care access and selected health outcomes.
+      context:
+        chartType: Scatterplot
+        visualEncoding: Position maps access and outcome indicators; point size represents population.
+        knownLimitations: Association should not be interpreted as causation.
+sections:
+  project:
+    description: A fictional annual report containing four independently interpretable public-health visualizations.
+    projectUrl: https://example.org/regional-health-report
+    publicationDate: 18 April 2025
+    license: CC BY 4.0
+  usage:
+    intent: Provide a shared overview of selected regional health indicators.
+    targetAudience: Public-health teams, local government, and journalists.
+    recommendedInterpretation: Read project-level methods once, then consult the limitations attached to each visualization.
+  data:
+    sources: Fictional hospital records, population estimates, surveys, and vaccination registers.
+    collectionPeriod: 2015–2024
+    updateFrequency: Annual
+  analysis:
+    processing: Indicators were age-standardized where relevant and aggregated to common district boundaries.
+    codeUrl: https://example.org/regional-health-report/code
+  encoding:
+    chartType: Mixed collection of maps, lines, bars, and scatterplots
+    visualEncoding: Each visualization has its own encoding metadata listed in the project visualization index.
+    interaction: Static report; visualizations can be downloaded separately.
+  limitations:
+    knownLimitations: Shared methodology does not eliminate indicator-specific caveats.
+    uncertainty: Confidence intervals are available for some, but not all, visualizations.

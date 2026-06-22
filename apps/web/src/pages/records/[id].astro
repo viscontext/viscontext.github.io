@@ -41,9 +41,46 @@ const author = record.contributors[0]?.displayName ?? "Unknown author";
       </aside>
     </div>
 
+    {record.visualizations.totalCount > 1 && (
+      <section class="visualization-index" aria-labelledby="visualization-index-heading">
+        <div class="context-heading-row">
+          <div>
+            <h2 id="visualization-index-heading">Visualizations in this project</h2>
+            <p>
+              {record.visualizations.listingMode === "sampled"
+                ? `Showing ${record.visualizations.items.length} representative items from a collection of ${record.visualizations.totalCount}. A production index would be paginated.`
+                : `${record.visualizations.totalCount} visualizations are listed in project order.`}
+            </p>
+          </div>
+          <strong>{record.visualizations.totalCount} total</strong>
+        </div>
+        <ol class="visualization-grid">
+          {record.visualizations.items.map((visualization) => (
+            <li>
+              <ProjectVisual compact kind={visualization.visualKind} title={visualization.title} />
+              <div class="visualization-content">
+                <h3>{visualization.title}</h3>
+                <p>{visualization.description}</p>
+                {visualization.context && (
+                  <details>
+                    <summary>Visualization-specific context</summary>
+                    <dl>
+                      {visualization.context.chartType && <div><dt>Chart type</dt><dd>{visualization.context.chartType}</dd></div>}
+                      {visualization.context.visualEncoding && <div><dt>Visual encoding</dt><dd>{visualization.context.visualEncoding}</dd></div>}
+                      {visualization.context.knownLimitations && <div><dt>Limitations</dt><dd>{visualization.context.knownLimitations}</dd></div>}
+                    </dl>
+                  </details>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
     <section class="context-section" aria-labelledby="context-heading">
       <div class="context-heading-row">
-        <div><h2 id="context-heading">Project context</h2><p>{framework.presentation.record.frameworkNotice}</p></div>
+        <div><h2 id="context-heading">Shared project context</h2><p>{framework.presentation.record.frameworkNotice} These values apply across the project unless a visualization states otherwise.</p></div>
         <a href="/framework/">View framework fields</a>
       </div>
       <MetadataTable sections={framework.presentation.sections} values={record.sections} />

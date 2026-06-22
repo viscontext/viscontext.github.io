@@ -288,6 +288,26 @@ export function validateRecordData(context: CompilerContext, record: JsonObject)
       .join("; ");
     throw new FrameworkValidationError(`Record validation failed: ${details}`, errors);
   }
+
+  const visualizations = record.visualizations as JsonObject;
+  const totalCount = visualizations.totalCount as number;
+  const listingMode = visualizations.listingMode as string;
+  const items = visualizations.items as JsonObject[];
+  const itemIds = items.map((item) => String(item.id));
+
+  if (new Set(itemIds).size !== itemIds.length) {
+    throw new FrameworkValidationError("Visualization IDs must be unique within a project.");
+  }
+  if (totalCount < items.length) {
+    throw new FrameworkValidationError(
+      "visualizations.totalCount cannot be smaller than the number of listed items.",
+    );
+  }
+  if (listingMode === "complete" && totalCount !== items.length) {
+    throw new FrameworkValidationError(
+      "A complete visualization listing must include totalCount items.",
+    );
+  }
 }
 
 export async function loadExampleRecords(
@@ -355,6 +375,7 @@ export async function generateProject(repositoryRoot = defaultRepositoryRoot): P
 
   const recordSummaries = records.map((record) => ({
     ...(record.work as JsonObject),
+    visualizationCount: (record.visualizations as JsonObject).totalCount,
     id: record.id,
     version: record.version,
     frameworkVersion: record.frameworkVersion,

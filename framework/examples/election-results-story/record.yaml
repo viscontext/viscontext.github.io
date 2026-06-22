@@ -1,0 +1,67 @@
+id: election-results-story
+version: 0.2.0
+frameworkVersion: 0.3.0
+status: example
+work:
+  type: story
+  topic: society
+  visualKind: small-multiples
+  title: Election night results story
+  year: 2024
+  fictional: true
+  canonicalUrl: https://example.org/election-story
+contributors:
+  - displayName: Civic Newsroom Graphics Desk
+    role: creator
+visualizations:
+  totalCount: 6
+  listingMode: complete
+  items:
+    - id: national-result
+      title: National result overview
+      visualKind: bars
+      description: Opening summary of seats and vote share.
+    - id: regional-map
+      title: Regional result map
+      visualKind: map
+      description: Winning party and margin by electoral district.
+    - id: vote-shift
+      title: Vote shift since the previous election
+      visualKind: map
+      description: District-level change in leading-party vote share.
+    - id: turnout
+      title: Turnout distribution
+      visualKind: bars
+      description: Turnout by district compared with the previous election.
+    - id: demographics
+      title: Demographic patterns
+      visualKind: scatter
+      description: Exploratory association between district characteristics and vote share.
+    - id: historical-context
+      title: Historical seat totals
+      visualKind: line
+      description: Seat totals across the previous eight elections.
+sections:
+  project:
+    description: A fictional ordered visual story containing six visualizations that build one election-night narrative.
+    projectUrl: https://example.org/election-story
+    publicationDate: 9 November 2024
+    license: All rights reserved; metadata CC BY 4.0
+  usage:
+    intent: Explain the result from national summary through regional and historical context.
+    targetAudience: General news audiences.
+    recommendedInterpretation: Follow the stated sequence because later visualizations depend on definitions introduced earlier.
+  data:
+    sources: Fictional electoral commission results and district statistics.
+    collectionPeriod: Election night 2024 with historical results from 1996–2020
+    updateFrequency: Live during election night, then corrected and archived
+  analysis:
+    processing: Preliminary results were reconciled against district totals and later replaced by certified values.
+    codeUrl: https://example.org/election-story/code
+  encoding:
+    chartType: Ordered story combining bars, maps, scatterplots, and lines
+    visualEncoding: Party colors are shared across the story; other mappings are documented per visualization.
+    interaction: Scroll-driven sequence with optional district lookup.
+  limitations:
+    knownLimitations: Preliminary election-night values changed during publication and demographic comparisons are ecological.
+    uncertainty: Reporting completeness was displayed during live publication but is absent from the archived fake preview.

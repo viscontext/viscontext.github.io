@@ -1,6 +1,6 @@
 id: transport-reliability
 version: 0.2.0
-frameworkVersion: 0.2.0
+frameworkVersion: 0.3.0
 status: example
 work:
   type: interactive
@@ -13,6 +13,14 @@ work:
 contributors:
   - displayName: Civic Mobility Lab
     role: creator
+visualizations:
+  totalCount: 1
+  listingMode: complete
+  items:
+    - id: reliability-tracker
+      title: Transit reliability tracker
+      visualKind: bars
+      description: Interactive ranked bars and trend views treated as one coordinated visualization.
 sections:
   project:
     description: Interactive comparison of fictional delay and cancellation rates across transit lines.

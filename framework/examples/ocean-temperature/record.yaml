@@ -1,6 +1,6 @@
 id: ocean-temperature
 version: 0.2.0
-frameworkVersion: 0.2.0
+frameworkVersion: 0.3.0
 status: example
 work:
   type: story
@@ -13,6 +13,14 @@ work:
 contributors:
   - displayName: Marine Signals Group
     role: creator
+visualizations:
+  totalCount: 1
+  listingMode: complete
+  items:
+    - id: anomaly-story
+      title: Ocean anomaly visual story
+      visualKind: small-multiples
+      description: A coordinated scroll-based artifact treated as one visualization.
 sections:
   project:
     description: Scroll-based visual story about fictional monthly sea-surface temperature anomalies.

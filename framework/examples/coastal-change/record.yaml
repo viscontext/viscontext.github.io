@@ -1,6 +1,6 @@
 id: coastal-change
 version: 0.2.0
-frameworkVersion: 0.2.0
+frameworkVersion: 0.3.0
 status: example
 work:
   type: static
@@ -13,6 +13,14 @@ work:
 contributors:
   - displayName: North Sea Climate Lab
     role: creator
+visualizations:
+  totalCount: 1
+  listingMode: complete
+  items:
+    - id: shoreline-trends
+      title: Shoreline movement by region
+      visualKind: line
+      description: Multi-series shoreline movement chart for three coastal regions.
 sections:
   project:
     description: Shoreline movement across three fictional coastal monitoring regions.

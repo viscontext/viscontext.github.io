@@ -1,6 +1,6 @@
 id: housing-affordability
 version: 0.2.0
-frameworkVersion: 0.2.0
+frameworkVersion: 0.3.0
 status: example
 work:
   type: static
@@ -13,6 +13,14 @@ work:
 contributors:
   - displayName: Metropolitan Policy Studio
     role: creator
+visualizations:
+  totalCount: 1
+  listingMode: complete
+  items:
+    - id: affordability-scatterplot
+      title: Housing affordability and transit access
+      visualKind: scatter
+      description: District-level comparison of rent burden and public transport access.
 sections:
   project:
     description: Comparison of fictional housing costs and public transport access across metropolitan districts.

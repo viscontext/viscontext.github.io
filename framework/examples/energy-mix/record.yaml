@@ -1,6 +1,6 @@
 id: energy-mix
 version: 0.2.0
-frameworkVersion: 0.2.0
+frameworkVersion: 0.3.0
 status: example
 work:
   type: dashboard
@@ -13,6 +13,14 @@ work:
 contributors:
   - displayName: Energy Data Commons
     role: creator
+visualizations:
+  totalCount: 1
+  listingMode: complete
+  items:
+    - id: energy-dashboard
+      title: Energy mix dashboard
+      visualKind: dashboard
+      description: Coordinated dashboard views intended to be interpreted as one visualization artifact.
 sections:
   project:
     description: Dashboard comparing fictional electricity generation sources across European countries.

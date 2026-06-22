@@ -5,8 +5,9 @@ and inspecting structured context about visualizations and visual stories. The
 final names for the platform, its records, and their sections are intentionally
 unresolved while the conceptual framework is being researched.
 
-The project is currently a functional catalog prototype. It includes six fake
-visualization projects, reader-facing context tables, and a local-only author
+The project is currently a functional catalog prototype. It includes nine fake
+visualization projects—including multi-visualization, ordered-story, and large
+sampled collections—reader-facing context tables, and a local-only author
 submission form built from a provisional framework.
 
 ## Project documents

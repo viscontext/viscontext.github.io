@@ -19,7 +19,7 @@ describe("experimental framework compiler", () => {
     const context = await createCompilerContext();
     const records = await loadExampleRecords(context);
 
-    expect(records).toHaveLength(6);
+    expect(records).toHaveLength(9);
     expect(records.map((record) => record.id)).toContain("coastal-change");
     expect(context.framework.sections.map((section) => section.id)).toEqual([
       "project",
@@ -29,6 +29,9 @@ describe("experimental framework compiler", () => {
       "encoding",
       "limitations",
     ]);
+    const atlas = records.find((record) => record.id === "biodiversity-atlas");
+    expect((atlas?.visualizations as JsonObject).totalCount).toBe(240);
+    expect(((atlas?.visualizations as JsonObject).items as JsonObject[])).toHaveLength(8);
   });
 
   it("reports invalid records with field paths", async () => {
@@ -52,6 +55,6 @@ describe("experimental framework compiler", () => {
     const generated = JSON.parse(await readFile(apiPath, "utf8")) as JsonObject;
 
     expect(generated.id).toBe("coastal-change");
-    expect(generated.frameworkVersion).toBe("0.2.0");
+    expect(generated.frameworkVersion).toBe("0.3.0");
   });
 });

@@ -1,0 +1,78 @@
+id: biodiversity-atlas
+version: 0.2.0
+frameworkVersion: 0.3.0
+status: example
+work:
+  type: interactive
+  topic: environment
+  visualKind: map
+  title: Global biodiversity indicator atlas
+  year: 2025
+  fictional: true
+  canonicalUrl: https://example.org/biodiversity-atlas
+contributors:
+  - displayName: Open Biodiversity Consortium
+    role: creator
+visualizations:
+  totalCount: 240
+  listingMode: sampled
+  items:
+    - id: species-richness
+      title: Species richness
+      visualKind: map
+      description: Global grid map of modeled terrestrial species richness.
+      context:
+        chartType: Raster map
+        knownLimitations: Sampling effort varies substantially by region.
+    - id: habitat-intactness
+      title: Habitat intactness
+      visualKind: map
+      description: Country and ecoregion views of a modeled habitat-intactness indicator.
+    - id: protected-area-coverage
+      title: Protected-area coverage
+      visualKind: bars
+      description: Ranked comparison of protected land and marine area shares.
+    - id: freshwater-trends
+      title: Freshwater population trends
+      visualKind: line
+      description: Regional time series for a freshwater population index.
+    - id: threatened-species
+      title: Threatened species by taxonomic group
+      visualKind: bars
+      description: Comparison of assessed and threatened species counts.
+    - id: observation-density
+      title: Observation density
+      visualKind: map
+      description: Map exposing geographic variation in source observation coverage.
+    - id: pressure-response
+      title: Environmental pressure and response
+      visualKind: scatter
+      description: Country comparison of pressure indicators and policy responses.
+    - id: indicator-dashboard
+      title: National indicator dashboard
+      visualKind: dashboard
+      description: Coordinated summary for a selected country.
+sections:
+  project:
+    description: A fictional large atlas containing 240 maps, charts, and country dashboards organized through a sampled project index.
+    projectUrl: https://example.org/biodiversity-atlas
+    publicationDate: 30 May 2025
+    license: CC BY 4.0 metadata; mixed source-data licenses
+  usage:
+    intent: Provide a broad entry point into biodiversity indicators and source coverage.
+    targetAudience: Researchers, policy teams, educators, and conservation organizations.
+    recommendedInterpretation: Start with the indicator definition and coverage view before comparing places.
+  data:
+    sources: Fictional observation networks, remote sensing products, assessments, and national statistics.
+    collectionPeriod: 1970–2025, varying by indicator
+    updateFrequency: Mixed; monthly to every five years
+  analysis:
+    processing: Source-specific pipelines produce normalized indicator datasets linked from each visualization.
+    codeUrl: https://example.org/biodiversity-atlas/code
+  encoding:
+    chartType: Large mixed collection of maps, charts, and dashboards
+    visualEncoding: Shared palettes and scales are used where indicators are comparable; otherwise each item documents its own encoding.
+    interaction: Search, topic filters, geographic navigation, saved views, and item-level downloads.
+  limitations:
+    knownLimitations: Coverage, update timing, and model assumptions differ across the 240 visualizations.
+    uncertainty: Every item has an uncertainty field; some also include spatial confidence layers.

@@ -628,7 +628,9 @@ The current prototype includes:
   files;
 - a compiler that validates framework invariants and records;
 - deterministic canonical JSON and a versioned static API;
-- a raw searchable and filterable catalog with six fake visualization projects;
+- a raw searchable and filterable catalog with nine fake visualization projects,
+  including single, multi-visualization, ordered-story, and very large sampled
+  collections;
 - generic project pages pairing a visualization preview with a row-column
   context metadata table;
 - an author upload form with browser-local draft saving and submission preview;

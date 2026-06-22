@@ -1,6 +1,6 @@
 id: city-tree-canopy
 version: 0.2.0
-frameworkVersion: 0.2.0
+frameworkVersion: 0.3.0
 status: example
 work:
   type: interactive
@@ -13,6 +13,14 @@ work:
 contributors:
   - displayName: Open City Observatory
     role: creator
+visualizations:
+  totalCount: 1
+  listingMode: complete
+  items:
+    - id: canopy-map
+      title: Neighborhood canopy map
+      visualKind: map
+      description: Interactive neighborhood-level map of estimated tree canopy coverage.
 sections:
   project:
     description: Neighborhood-level exploration of estimated urban tree canopy coverage.

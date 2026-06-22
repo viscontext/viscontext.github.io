@@ -26,6 +26,10 @@ import { framework } from "../../lib/data";
           <select name="type" required><option value="">Choose one</option><option>Static</option><option>Interactive</option><option>Dashboard</option><option>Visual story</option></select>
         </label>
         <label>Topic <input name="topic" type="text" placeholder="e.g. climate, health, economy" /></label>
+        <label>Number of visualizations <input name="visualizationCount" type="number" min="1" value="1" required /></label>
+        <label>Collection structure
+          <select name="collectionStructure" required><option value="single">Single visualization</option><option value="collection">Unordered collection</option><option value="story">Ordered story</option><option value="dashboard">Coordinated dashboard views</option></select>
+        </label>
         <label class="full-width">Short description <textarea name="description" rows="3" required></textarea></label>
       </div>
     </fieldset>
@@ -69,7 +73,7 @@ import { framework } from "../../lib/data";
   <dialog id="submission-preview">
     <form method="dialog"><button class="dialog-close" type="submit" value="close" aria-label="Close preview">×</button></form>
     <h2>Submission preview</h2>
-    <dl><div><dt>Project</dt><dd id="preview-title"></dd></div><div><dt>Author</dt><dd id="preview-author"></dd></div><div><dt>Context responses</dt><dd id="preview-count"></dd></div></dl>
+    <dl><div><dt>Project</dt><dd id="preview-title"></dd></div><div><dt>Author</dt><dd id="preview-author"></dd></div><div><dt>Visualizations</dt><dd id="preview-visualizations"></dd></div><div><dt>Context responses</dt><dd id="preview-count"></dd></div></dl>
     <p>This is only a local preview. Publishing will be connected after login and backend work.</p>
   </dialog>
 
@@ -87,6 +91,7 @@ import { framework } from "../../lib/data";
     const preview = requiredElement<HTMLDialogElement>('#submission-preview');
     const previewTitle = requiredElement<HTMLElement>('#preview-title');
     const previewAuthor = requiredElement<HTMLElement>('#preview-author');
+    const previewVisualizations = requiredElement<HTMLElement>('#preview-visualizations');
     const previewCount = requiredElement<HTMLElement>('#preview-count');
     const storageKey = 'viscontext-upload-draft-v1';
 
@@ -120,8 +125,10 @@ import { framework } from "../../lib/data";
       const data = new FormData(form);
       const title = data.get('title');
       const author = data.get('author');
+      const visualizationCount = data.get('visualizationCount');
       previewTitle.textContent = typeof title === 'string' && title ? title : 'Untitled project';
       previewAuthor.textContent = typeof author === 'string' && author ? author : 'Not provided';
+      previewVisualizations.textContent = typeof visualizationCount === 'string' ? visualizationCount : '1';
       const answered = serializableEntries().filter(([name, value]) => name.startsWith('context.') && value.trim()).length;
       previewCount.textContent = `${answered} ${answered === 1 ? 'field' : 'fields'} answered`;
       preview.showModal();

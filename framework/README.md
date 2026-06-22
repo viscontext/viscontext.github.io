@@ -3,7 +3,7 @@
 This directory is the language-neutral research artifact behind VisContext.
 It contains no website components, routes, CSS, or database assumptions.
 
-The current `0.2.0` framework is a deliberately provisional catalog fixture.
+The current `0.3.0` framework is a deliberately provisional catalog fixture.
 Its six sections and fake records test whether terminology, sections, fields,
 and presentation guidance can change without requiring changes to the consuming
 website. They are not a proposed final taxonomy.
