@@ -1,523 +1,614 @@
 # VisContext product and implementation plan
 
-Status: initial proposal, 22 June 2026
+Status: revised proposal, 22 June 2026
 
-This document turns the current research and platform concept into an
-incremental delivery plan. It is intentionally a draft: the taxonomy should be
-tested with authors and readers before the platform hardens it into a database
-or user interface.
+**VisContext is a temporary project name.** The research contribution includes
+discovering the conceptual framework, its structure, and its vocabulary. The
+software must therefore treat names, sections, fields, and ordering as data—not
+as assumptions hard-coded into the website.
+
+This revision also adopts a backend-free core. The framework and public records
+live in Git, the website is generated as static files, and GitHub Pages can host
+the complete public reading experience without a paid database or application
+server.
 
 ## 1. Product objective
 
-VisContext will let people publish and inspect structured context about a
-visualization or visual story. It should help:
+The project will provide an open way to publish and inspect structured context
+about a visualization or visual story. It should help:
 
 - authors disclose provenance, intent, methods, design decisions, uncertainty,
   limitations, and appropriate uses;
 - readers understand and critically assess a visual without requiring expert
   knowledge of visualization research;
-- researchers study which contextual information affects interpretation and
-  trust;
-- later, reviewers and fact-checkers attach scoped assessments and evidence
-  without turning the platform into an unsupported binary truth score.
+- researchers develop and evaluate a new conceptual framework for this
+  contextual information;
+- later, reviewers attach scoped assessments and evidence without turning the
+  platform into an unsupported binary truth score.
 
-The first product is not a social network and not a fact-checking system. It is
-a publishing and inspection tool for structured visualization metadata.
+The first product is not a social network, database service, or fact-checking
+system. It is a framework, a small collection of example records, and a public
+website that renders them.
 
-## 2. Product principles
+## 2. What is stable and what is deliberately unstable
+
+### Stable architectural concepts
+
+Use neutral internal identifiers for concepts that the implementation needs:
+
+- `framework`: a versioned definition of allowed record structures;
+- `record`: one structured metadata document about a visual work;
+- `section`: a modular group of fields inside a record;
+- `field`: one defined metadata element;
+- `work`: the visualization or visual story being described;
+- `recordVersion`: an immutable published revision;
+- `frameworkVersion`: the framework version against which a record validates.
+
+These are machine-facing names, not proposed final research terminology.
+
+### Deliberately unstable research concepts
+
+- project and platform name;
+- sheet, card, data card, metadata record, or another artifact name;
+- names, definitions, number, and order of sections;
+- required and optional fields;
+- relationships between sections;
+- field types and answer states;
+- completeness and review concepts;
+- which structures generalize across media, domains, and audiences.
+
+The website must continue to build when these concepts are renamed, reordered,
+added, or removed through framework files.
+
+## 3. Terminology strategy
+
+Use **VisContext** as the temporary platform name and **context record** as the
+temporary public name for the structured artifact. Use **section** for a module.
+These choices have no conceptual status.
+
+All public terms belong in one versioned terminology file:
+
+```yaml
+project:
+  name: VisContext
+  description: Structured context for visual works
+
+terms:
+  record:
+    singular: context record
+    plural: context records
+  section:
+    singular: section
+    plural: sections
+  work:
+    singular: visual work
+    plural: visual works
+```
+
+Components refer to identifiers such as `terms.record.singular`; they do not
+contain repeated strings such as “Visualization Sheet.” A future rename should
+normally change this file, documentation, and URLs only where deliberately
+chosen. Stable API property names should not be renamed for branding reasons.
+
+## 4. Product and engineering principles
 
 The platform should preserve the five principles in the research proposal:
 
-1. **Flexible:** describe individual charts, interactive visualizations,
-   dashboards, maps, videos, and multi-visual stories.
-2. **Modular:** cards are self-contained modules that can be included when
-   relevant.
-3. **Extensible:** schemas and card types are versioned and can evolve without
-   invalidating existing published sheets.
+1. **Flexible:** describe individual charts, interactives, dashboards, maps,
+   videos, and multi-visual stories.
+2. **Modular:** sections are self-contained and can be included when relevant.
+3. **Extensible:** framework versions can add or reorganize concepts without
+   invalidating previously published records.
 4. **Accessible:** information supports overview and detail, keyboard and screen
    reader use, and plain-language explanations.
-5. **Content-aware rather than format-bound:** fields can support text, choices,
-   links, citations, images, tables, code references, and constrained embedded
-   media. Arbitrary HTML is not accepted.
+5. **Format-independent:** fields can support text, choices, links, citations,
+   images, tables, and code references without making the framework dependent
+   on one website.
 
-Additional engineering principles:
+Additional principles:
 
-- Published records are citable and immutable. Corrections create a new
-  version; they do not silently rewrite history.
-- Claims, evidence, identity, completeness, and independent review are separate
-  concepts in both the data model and interface.
-- Public data can be exported in a documented, machine-readable format.
-- The source code, schema, migrations, and decision records live in this
-  repository. Managed infrastructure must remain replaceable.
-- Accessibility, privacy, abuse prevention, and data governance are product
-  requirements, not final-phase polish.
+- The conceptual framework is a standalone research artifact.
+- The website depends on the framework; the framework never depends on the
+  website or a JavaScript UI component.
+- Human authoring syntax and canonical exchange format are separate concerns.
+- Published versions are citable and immutable. Corrections add versions.
+- Claims, evidence, identity, completeness, and review remain separate.
+- Public records are available as documented machine-readable files.
+- A database is an optional storage adapter, not part of the framework.
+- Accessibility, privacy, and governance are product requirements.
 
-## 3. Shared vocabulary
+## 5. Framework/application boundary
 
-Consistent names are important because several current terms overlap.
+The repository should contain three cleanly separated layers:
 
-| Term | Meaning |
-| --- | --- |
-| **Work** | The thing being documented: either a visualization or a visual story. It has a stable identity and URL. |
-| **Visualization** | An individual visual work, static or interactive. |
-| **Visual story** | A narrative work containing or referring to one or more visualizations. |
-| **Visualization Sheet** | The complete structured documentation associated with a work. |
-| **Card** | A modular section within a sheet, such as Data, Usage, or Visual Encoding. |
-| **Draft** | The mutable authoring state of a sheet. |
-| **Published version** | An immutable snapshot of a sheet, including its schema version and publication metadata. |
-| **Contributor** | A person or organization associated with a work or sheet in a stated role. |
-| **Source** | A citation or external resource supporting a metadata entry or claim. |
-| **Review** | A scoped assessment made by an identified reviewer under a stated process. |
+```mermaid
+flowchart LR
+  F["Framework: YAML schemas, terminology, examples"]
+  T["Framework tooling: load, validate, normalize"]
+  J["Generated canonical JSON"]
+  W["Static website and browser editor"]
+  A["Versioned static data API"]
 
-Use **Visualization Sheet** for the whole artifact and **Card** only for one of
-its modules. “Visualization Card” should not refer to both.
+  F --> T
+  T --> J
+  J --> W
+  J --> A
+```
 
-## 4. Scope of the first usable release
+### Framework
 
-### Included
+The framework is a language-neutral collection of files. It defines semantics,
+not components, CSS, routes, or database tables. It can be copied, cited,
+archived, or implemented by another team without using the VisContext website.
 
-- public browse, basic search, and sheet detail pages;
-- one stable record for each visualization or visual story;
-- modular cards for Project, Usage, Data, Analysis, Visual Encoding,
-  Interaction, and Uncertainty and Limitations;
-- author sign-in and ownership;
-- create, save, preview, and publish a sheet;
-- an image or external canonical URL for the documented work;
-- immutable publication history and change notes;
-- source links and citations;
-- JSON export of every published version;
-- clear labels for creator-authored and third-party-submitted records;
-- accessible responsive interfaces.
+### Framework tooling
 
-### Explicitly deferred
+A small TypeScript command-line tool loads YAML or JSON, validates it, resolves
+references, checks framework-specific invariants, and emits normalized JSON.
+Only this layer knows about source file formats.
 
-- public comments and discussion;
-- crowdsourced fact-checking or expert verification;
-- badges that imply truth, quality, or trustworthiness;
-- educational activities and learning management features;
-- arbitrary executable embeds;
-- automated AI-generated assessments;
-- video hosting or a general-purpose media pipeline;
-- DOI minting, ORCID synchronization, C2PA signing, and federation;
-- native mobile applications.
+### Website
 
-These are deferred because each adds substantial moderation, governance,
-security, or research-design requirements. The underlying model will leave room
-for them.
+The website reads normalized output through a `RecordRepository` interface. Its
+initial implementation reads generated files at build time. A future database
+or remote API implementation can satisfy the same interface without changing
+the framework or page components.
 
-## 5. Recommended technology stack
+## 6. File formats and schema strategy
 
-Versions should be pinned when each implementation slice starts, then updated by
-automated dependency pull requests. The architecture should not rely on an
-unreleased framework feature.
+### Recommended division of responsibilities
 
-| Concern | Choice | Reason |
+- **YAML:** human-authored framework configuration and example records;
+- **JSON Schema Draft 2020-12:** formal structural validation;
+- **JSON:** canonical generated representation and public data API;
+- **Markdown:** long-form explanations where plain strings become unwieldy;
+- **TypeScript:** validation tooling and website implementation only.
+
+YAML is not the data model. It is the first authoring notation. YAML and JSON
+both parse into the same data structure, so another loader can support TOML or a
+visual editor later without redesigning the framework.
+
+JSON Schema describes structural validity, but it should not carry every
+editorial concern. Keep separate framework metadata for:
+
+- display order and grouping;
+- help text and examples;
+- recommended input control;
+- research rationale;
+- requirement level and applicability guidance;
+- terminology and translations.
+
+This prevents a UI redesign from appearing to be a semantic schema revision.
+
+### Proposed framework directory
+
+```text
+framework/
+  README.md
+  CHANGELOG.md
+  framework.yaml
+  terminology.yaml
+  schemas/
+    record.schema.yaml
+    common/
+    sections/
+  presentation/
+    default.yaml
+  examples/
+    placeholder/
+      record.yaml
+```
+
+The first `framework.yaml` should contain one placeholder structure only. It is
+not the preliminary “correct taxonomy.” Its purpose is to exercise iteration:
+
+```yaml
+id: viscontext-framework
+version: 0.1.0
+status: experimental
+recordSchema: ./schemas/record.schema.yaml
+terminology: ./terminology.yaml
+presentation: ./presentation/default.yaml
+sections:
+  - id: overview
+    schema: ./schemas/sections/overview.schema.yaml
+```
+
+### Schema evolution rules
+
+- Framework versions use semantic versioning after `1.0.0`; before then, every
+  version is explicitly experimental.
+- Fields and sections have stable machine IDs independent of labels.
+- Published records retain their original `frameworkVersion`.
+- Old framework versions remain readable and archived in Git.
+- A migration creates a new record version; it never rewrites old content.
+- CI validates every example against its declared framework version.
+- Valid and invalid fixtures document intended edge cases.
+- Unknown, not applicable, not disclosed, and empty are different states only
+  where the framework explicitly defines them.
+
+## 7. Recommended technology stack
+
+| Concern | Initial choice | Reason |
 | --- | --- | --- |
-| Language | TypeScript | One typed language across browser, server, schemas, and tests lowers coordination cost. |
-| Web application | Next.js App Router with React | Supports accessible server-rendered public pages, interactive authoring, route handlers, metadata, and incremental caching in one application. |
-| Styling and components | Tailwind CSS plus a small repository-owned accessible component layer | Fast iteration without locking the product into a large visual design system. Prefer native controls and audited headless primitives where needed. |
-| Canonical metadata definition | JSON Schema Draft 2020-12 | Open, language-independent validation; supports modular schemas and reuse outside this application. |
-| Form handling | React Hook Form with a small custom field registry | Gives good validation and authoring ergonomics while allowing research-specific help, examples, conditional fields, and accessibility. Avoid a generic schema form UI as the permanent product interface. |
-| Schema validation | Ajv on client and server | Uses the same committed JSON Schemas at both trust boundaries. Server validation remains authoritative. |
-| Database | PostgreSQL | Strong constraints and relational links for authorship and versions, JSONB for evolving sheet content, and adequate built-in full-text search for the initial scale. |
-| Backend services | Supabase, initially managed | Provides PostgreSQL, authentication, object storage, backups, and row-level security with a local development stack and versioned SQL migrations. It can be self-hosted or replaced later. |
-| Database access | SQL migrations plus the Supabase TypeScript client | Keeps authorization in PostgreSQL Row Level Security and avoids duplicating the data model in an ORM migration layer. Generate database types in CI. |
-| Search | PostgreSQL full-text search with GIN indexes | Sufficient for the initial catalog; add a dedicated search service only after measured relevance or scale problems. |
-| Public API | Next.js route handlers described with OpenAPI 3.1 | Makes published sheets and versions retrievable by stable URL. JSON Schema components can be reused in the API description. |
-| Tests | Vitest, Testing Library, Playwright, axe-core, and pgTAP for database policies | Covers schema logic, UI behavior, complete authoring flows, accessibility regressions, and authorization boundaries. |
-| CI | GitHub Actions | Runs formatting, linting, type checks, schema checks, database tests, application tests, and production builds on every change. |
-| Hosting | Node-compatible application host plus an EU-region Supabase project | Server rendering is important for public, citable records. Start with Vercel for operational simplicity but avoid Vercel-only persistence or business logic. |
-| Monitoring | Structured application logs and privacy-preserving error reporting | Start with operational failures; add product analytics only with an explicit research and privacy plan. |
-
-Why not use GitHub Pages as the application host: it serves static files only.
-It can host project documentation or an initial static demonstration, but it
-cannot provide server-rendered records, secure server operations, or the full
-authoring workflow. The repository name does not require the final application
-to run on GitHub Pages.
+| Framework source | YAML plus JSON Schema Draft 2020-12 | YAML is approachable for iterative editing; JSON Schema is an open, implementation-independent contract. |
+| Canonical output | Generated JSON | Universally consumable and directly publishable as static API files. |
+| Framework tooling | TypeScript CLI with a YAML parser and Ajv | Small, testable boundary between human files and all consumers. |
+| Website | Astro in static-output mode | Designed for content-heavy static sites, generates one page per record, and deploys directly to GitHub Pages. |
+| Interactive editor | React islands only where stateful interaction is needed | Keeps public reading pages mostly HTML while allowing a schema-driven browser editor later. |
+| Styling | Plain CSS variables and repository-owned accessible components | Makes future rebranding and terminology changes cheap and avoids a large design-system dependency. |
+| Search | Pagefind | Generates an in-browser search index from static HTML with no search server. |
+| Validation | Ajv in the CLI, build, tests, and browser editor | One validation contract at every boundary. |
+| Public API | Versioned static JSON files | Requires no running server and is generated from the same validated source as the pages. |
+| Persistence | Git repository | Reviewable history, branching, attribution, rollback, and no database bill. |
+| Drafts | Local files, Git branches/forks, and browser local storage | Drafts stay private to the author until intentionally submitted. |
+| Publishing | Pull request merged to `main` | CI validates the framework or record and the merge triggers deployment. |
+| CI and deployment | GitHub Actions and GitHub Pages | Fits this public repository and has no separate hosting service to operate. |
+| Tests | Vitest, Playwright, and axe-core | Covers tooling, generated pages, browser editor behavior, and accessibility. |
 
 Relevant primary documentation:
 
-- [Next.js App Router](https://nextjs.org/docs/app)
-- [Supabase platform overview](https://supabase.com/docs/)
-- [Supabase local development and migrations](https://supabase.com/docs/guides/cli/local-development)
-- [Supabase Row Level Security](https://supabase.com/docs/guides/database/postgres/row-level-security)
-- [PostgreSQL full-text search through Supabase](https://supabase.com/docs/guides/database/full-text-search)
+- [Astro deployment to GitHub Pages](https://docs.astro.build/en/guides/deploy/github/)
+- [Astro React integration](https://docs.astro.build/en/guides/integrations-guide/react/)
+- [GitHub Pages documentation](https://docs.github.com/en/pages)
+- [GitHub Pages limits](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits)
+- [Pagefind static search](https://pagefind.app/)
 - [JSON Schema Draft 2020-12](https://json-schema.org/draft/2020-12)
-- [OpenAPI 3.1](https://spec.openapis.org/oas/v3.1.1.html)
 - [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
 - [C2PA specifications](https://spec.c2pa.org/specifications/specifications/2.3/index.html)
 
-## 6. Information architecture
+### GitHub Pages constraints
 
-The public navigation for the first release should stay small:
+GitHub Pages is appropriate for the first non-commercial research platform, but
+it is not unlimited storage. Current published limits include a recommended
+1 GB source repository, a 1 GB published site, a 10-minute deployment timeout,
+and a soft 100 GB monthly bandwidth limit. Therefore:
 
-- **Explore:** browse and search published works;
-- **About:** explain the framework, terminology, and limits;
-- **Create:** start or continue a sheet after authentication;
-- **Profile:** manage the user's own sheets and account.
+- store metadata and small optimized previews in Git;
+- reference original visualizations, videos, datasets, and large media by URL;
+- do not use Git LFS as an implicit media delivery system;
+- monitor build time, site size, broken links, and bandwidth;
+- preserve the ability to deploy the generated `dist/` directory to another
+  static host without changing the application.
 
-A published sheet page should support two reading depths:
+## 8. Static API and storage boundary
 
-1. A summary with the visual, title, authorship status, purpose, last update,
-   major limitations, and available cards.
-2. Expandable or directly linked card sections with field-level sources,
-   definitions, and interpretation guidance.
+The build emits HTML and a versioned static data API:
 
-Each field needs a human-readable label, short help text, optional example,
-expected input type, requirement level, and stable machine identifier. Do not
-expose internal taxonomy jargon without a plain-language explanation.
+```text
+/api/v1/framework/index.json
+/api/v1/framework/0.1.0.json
+/api/v1/records/index.json
+/api/v1/records/{record-id}.json
+/api/v1/records/{record-id}/versions/{record-version}.json
+```
 
-## 7. Metadata and schema strategy
+API version and framework version are independent:
 
-The taxonomy is still research output, so it must not be hard-coded into
-database columns or page components.
+- `api/v1` describes URL and response conventions;
+- `frameworkVersion` describes the conceptual metadata structure;
+- `recordVersion` identifies a revision of one record.
 
-### Canonical representation
+The framework compiler emits these files from repository content. The website
+does not define a second API model. A later live API can return the same objects.
 
-Keep JSON Schemas in the repository. A sheet manifest references modular card
-schemas. A separate UI configuration controls ordering, grouping, help text, and
-widgets without changing validation semantics.
+Use an application boundary similar to:
 
-An illustrative published payload:
-
-```json
-{
-  "schemaVersion": "0.1.0",
-  "work": {
-    "type": "visualization",
-    "title": "Example climate visualization",
-    "language": "en"
-  },
-  "cards": {
-    "project": {},
-    "usage": {},
-    "data": [],
-    "analysis": {},
-    "visualEncoding": {},
-    "interaction": {},
-    "limitations": {}
-  }
+```ts
+interface RecordRepository {
+  list(): Promise<RecordSummary[]>;
+  get(recordId: string, version?: string): Promise<CanonicalRecord>;
 }
 ```
 
-### Rules
+The initial `GeneratedFileRecordRepository` reads build output. A future
+`HttpRecordRepository` or `DatabaseRecordRepository` can be added without
+changing record rendering.
 
-- Use semantic versions for the public schema.
-- Give every field a stable identifier independent of its displayed label.
-- Mark fields as required only when a sheet would be misleading without them.
-- Allow `notApplicable`, `unknown`, and `notDisclosed` where their meanings are
-  genuinely distinct; never encode them as an empty string.
-- Store language tags for translatable user content from the beginning, even if
-  the first interface is English-only.
-- Keep citations and supporting URLs attached to the field or claim they
-  support, not only in a page-level bibliography.
-- Commit valid and invalid fixtures for every card schema.
-- Validate on input and again on publication.
-- Published snapshots retain their original schema version. A migration creates
-  a new draft; it never mutates an old version.
+## 9. Repository-backed records and versioning
 
-### Content types
+Public records can use this structure:
 
-Start with constrained types: short text, long Markdown text, choice, multiple
-choice, date or date range, URL, citation, person or organization reference,
-image reference, table, code repository reference, and structured scale or axis
-descriptions. Render Markdown through an allowlist sanitizer. Do not accept raw
-HTML, scripts, or arbitrary iframes.
-
-## 8. Core data model
-
-Use relational tables for identity, authorization, relationships, and discovery;
-use a JSONB snapshot for the evolving sheet body. Do not build an entity-
-attribute-value table for every metadata field.
-
-```mermaid
-erDiagram
-  PROFILE ||--o{ WORK : creates
-  WORK ||--o{ WORK_RELATION : parent
-  WORK ||--o{ WORK_RELATION : child
-  WORK ||--|| SHEET : documents
-  SHEET ||--|| SHEET_DRAFT : edits
-  SHEET ||--o{ SHEET_VERSION : publishes
-  SHEET ||--o{ SHEET_COLLABORATOR : grants
-  PROFILE ||--o{ SHEET_COLLABORATOR : receives
-  WORK ||--o{ ASSET : includes
-  SHEET_VERSION ||--o{ REVIEW : assessed_later
+```text
+records/
+  placeholder-record/
+    record.yaml
+    versions/
+      0.1.0.yaml
 ```
 
-Initial tables:
+`record.yaml` contains stable identity and the current published version.
+Version files are immutable snapshots. Updating a record adds a version file and
+changes the pointer. CI should reject modification or deletion of a published
+version except through an explicit administrative process.
 
-- `profiles`: public identity fields linked to the authentication provider;
-- `works`: stable identity, type, slug, canonical source URL, submitter, claim
-  status, visibility, and timestamps;
-- `work_relations`: typed links such as `story_contains_visualization`,
-  `is_version_of`, or `is_derived_from`;
-- `sheets`: stable sheet identity and current published version pointer;
-- `sheet_drafts`: one mutable JSONB document per sheet, schema version, and an
-  optimistic locking revision;
-- `sheet_versions`: immutable JSONB document, sequential version, schema version,
-  content hash, publisher, publication time, and change note;
-- `sheet_collaborators`: role-based write access;
-- `assets`: storage key, media type, checksum, alt text, source, and rights data.
+Git supplies history and review, but a GitHub account or commit does not prove
+that a contributor created the visualization. Submission origin and creator
+claims remain explicit record fields.
 
-Organizations, comments, moderation cases, reviews, endorsements, and badge
-evidence should be added only when their workflows are designed.
+Small preview images may live beside a record. Original media stays at its
+canonical source and includes rights, source, checksum where available, alt
+text, and a long description.
 
-The content hash detects whether a snapshot changed. It does not prove that the
-content or uploader is authentic. Cryptographically bound media provenance is a
-later C2PA integration, not something to simulate with a database hash.
+## 10. Authoring without a backend
 
-## 9. Identity, claims, and trust signals
+There are three incremental authoring modes.
 
-The platform must not collapse several different questions into “verified.”
+### Mode A — Repository authoring
 
-Track these dimensions separately:
+Researchers edit YAML, run local validation, and submit changes through Git.
+This is sufficient for framework development and the first examples.
 
-- **Submission origin:** creator-submitted or third-party-submitted.
-- **Identity status:** email confirmed, organization-linked, or externally
-  identified through a future process.
-- **Record completeness:** which applicable fields have responses.
-- **Evidence coverage:** which claims have citations or supporting artifacts.
-- **Review status:** who reviewed what, under which rubric, on which version, and
-  when.
-- **Disputes and corrections:** visible status and resolution history.
+### Mode B — Browser editor with local output
 
-The first release may show a neutral completeness indicator. It must not label a
-record truthful, reliable, safe, or high quality. Any later badge must have
-clickable criteria, scope, evidence, issuer, date, and expiration or supersession
-rules.
+A schema-driven editor runs entirely in the browser. It validates a record,
+saves an unfinished draft in local storage, and downloads canonical YAML or
+JSON. It does not require an account or transmit private drafts.
 
-Third-party submissions need an explicit `unclaimed` state, prominent source
-attribution, a creator claim process, and a report mechanism before public launch.
+### Mode C — Repository publishing workflow
 
-## 10. Security, privacy, accessibility, and operations
+The contributor uploads the generated file through GitHub or submits a pull
+request from a fork. Maintainers and CI review it before publication. This adds
+no custom backend, but it creates friction for people unfamiliar with GitHub.
 
-### Security
+A browser cannot securely publish shared data, authenticate authors, keep
+private cloud drafts, or moderate submissions without relying on some external
+stateful service. If GitHub-based publishing proves too difficult for target
+authors, later options are:
 
-- Enable Row Level Security on every exposed table and test anonymous, owner,
-  collaborator, moderator, and service-role boundaries.
-- Treat server-side validation as authoritative even when the client validates.
-- Restrict upload MIME types and sizes, verify file signatures, remove dangerous
-  metadata where appropriate, and generate display derivatives.
-- Sanitize Markdown and URLs; block executable uploads and arbitrary embeds.
-- Add rate limits, email verification, bot protection, audit events for
-  publication and role changes, and secure headers before opening registration.
-- Keep secrets out of the repository and expose only the intentionally public
-  Supabase client key.
+1. a small serverless gateway that creates pull requests;
+2. a free-tier database/authentication service behind the repository interface;
+3. a funded managed backend.
 
-### Privacy and governance
+That decision should follow author testing. It should not be embedded in the
+framework.
 
-- Collect the minimum personal data needed for attribution and account use.
-- Define controller, processors, retention periods, export, deletion, moderation,
-  and research-consent boundaries before pilot participants create accounts.
-- Choose EU data residency for the first hosted environment.
-- Separate operational account data from research study data and consent.
-- Back up the database and storage, and test restore procedures before beta.
+## 11. Placeholder framework and first example
 
-### Accessibility
+Increment 0 should contain only enough structure to test the pipeline. Use one
+temporary `overview` section with fields such as:
 
-Target WCAG 2.2 AA. Include keyboard operation, visible focus, semantic headings,
-form labels and instructions, accessible validation summaries, sufficient
-contrast, reduced-motion support, media alternatives, alt text, and a meaningful
-non-visual description of every uploaded visualization. Automated axe checks are
-necessary but do not replace keyboard and screen-reader testing.
+- title;
+- short description;
+- visual or canonical source URL;
+- contributor display name;
+- intended use;
+- one known limitation.
 
-### Operations
+These fields are placeholders, not a claim about the future taxonomy. The
+example should use clearly fictional content or a properly licensed visual,
+state that it exercises the software only, and carry framework version `0.1.0`.
 
-Maintain local, preview, staging, and production environments. Database changes
-are SQL migrations reviewed in Git. Production migrations run separately from
-the web deployment and must be backward compatible during rollout.
+The important test is whether a researcher can:
 
-## 11. Incremental delivery plan
+1. rename the artifact through `terminology.yaml`;
+2. add, remove, or reorder a section through `framework.yaml`;
+3. change a field through a section schema;
+4. update the example;
+5. run one command and see validation, generated JSON, and the website update.
 
-Each increment ends in a deployable vertical slice with a clear exit condition.
-Do not start community features while the schema and authoring workflow are still
-unstable.
+No website component should require editing for these ordinary framework
+changes.
 
-### Increment 0 — Schema and read-only exemplar
+## 12. Identity, evidence, and trust signals
 
-Goal: test the conceptual model without infrastructure.
+The platform must not collapse several questions into “verified.” Track these
+dimensions separately when the framework is ready to define them:
 
-Deliver:
+- submission origin: creator-submitted or third-party-submitted;
+- identity status: declared, GitHub-associated, organization-linked, or checked
+  under a documented future process;
+- record completeness: applicable fields with responses;
+- evidence coverage: claims with citations or supporting artifacts;
+- review status: who reviewed what, under which rubric and framework version;
+- disputes and corrections: visible state and resolution history.
 
-- scaffold the Next.js TypeScript application;
-- add the first JSON Schema (`0.1.0`) and UI configuration;
-- create one realistic, complete example and several edge-case fixtures;
-- render a responsive read-only sheet from the fixture;
-- explain submission origin and the difference between completeness and review;
-- add schema validation, unit tests, accessibility checks, and CI;
-- deploy a preview.
+The first release should not display a truth or quality badge. Any later signal
+must expose its criteria, scope, evidence, issuer, date, and supersession rules.
 
-Exit condition: researchers can change a schema or fixture in Git, CI validates
-it, and non-project readers can navigate and understand the rendered example.
+## 13. Security, privacy, and accessibility
 
-### Increment 1 — Public catalog backed by PostgreSQL
+The backend-free design removes stored passwords, account profiles, and private
+server data from the first release. It does not remove all risks.
 
-Goal: validate stable records, relationships, and discovery.
+- Treat every record and Markdown value as untrusted input during the build.
+- Sanitize rendered Markdown and validate URLs.
+- Do not allow raw HTML, scripts, executable uploads, or arbitrary iframes.
+- Pin GitHub Action dependencies and minimize workflow permissions.
+- Require pull-request review and passing validation before publication.
+- Do not put sensitive or private research data in Git history.
+- Document how corrections, takedowns, and contributor removal requests work.
+- Target WCAG 2.2 AA, including keyboard operation, visible focus, semantic
+  headings, accessible validation summaries, sufficient contrast, reduced
+  motion, and text alternatives for visuals.
+- Test generated pages with automated tools and manual keyboard and screen-reader
+  checks.
 
-Deliver:
+If user accounts, analytics, or research instrumentation are later added, a
+separate privacy and data-governance review becomes mandatory.
 
-- local Supabase project and committed migrations;
-- `works`, `work_relations`, `sheets`, `sheet_versions`, and `assets` tables;
-- public read policies and seeded example records;
-- explore, search, filter, detail, and version pages;
-- server-rendered metadata and stable slugs;
-- JSON download for published versions.
+## 14. Incremental delivery plan
 
-Exit condition: at least 10 diverse research fixtures—including a static chart,
-map, dashboard, interactive, and visual story—can be imported, browsed, searched,
-and exported without schema exceptions.
+Each increment ends in a deployable vertical slice. The conceptual framework,
+not user-account infrastructure, is the first risk to test.
 
-### Increment 2 — Author accounts and draft workflow
-
-Goal: let invited authors publish their own sheets safely.
+### Increment 0 — Framework pipeline and one placeholder
 
 Deliver:
 
-- passwordless authentication and profiles;
-- owner and collaborator Row Level Security policies;
-- create, autosave, resume, preview, and validation-summary flows;
-- card-by-card authoring with conditional questions and examples;
-- publish action producing an immutable version and content hash;
-- basic image upload with alt text and rights fields;
-- end-to-end tests for authorization and publishing.
+- establish `framework/`, tooling, generated-output, and website boundaries;
+- add central terminology and framework manifests;
+- add one experimental section schema and one placeholder record;
+- validate YAML against JSON Schema and emit canonical JSON;
+- render the record generically in Astro;
+- publish the static API files;
+- add unit, build, accessibility smoke tests, and CI;
+- deploy to GitHub Pages from `main`.
 
-Exit condition: invited pilot authors can complete and publish sheets without
-developer assistance, and cannot read or modify another author's private draft.
+Exit condition: terminology, section order, and placeholder fields can change in
+framework files without editing page components.
 
-### Increment 3 — Versioning, citations, and portability
+### Increment 1 — Framework workbench
 
-Goal: make sheets maintainable and citable over time.
-
-Deliver:
-
-- change notes, version comparison, correction, and withdrawal states;
-- field-level citations and link-health metadata;
-- schema migration from an old draft to the current schema;
-- complete JSON import and export, plus an OpenAPI-described read API;
-- print stylesheet and a stable citation format;
-- backup and restore exercise.
-
-Exit condition: a published sheet can be corrected without losing its old URL or
-history, and another implementation can consume its exported representation.
-
-### Increment 4 — Third-party submissions and governance
-
-Goal: support contextualization by people other than the original author.
-
-Deliver only after policy and moderation design:
-
-- unclaimed third-party records with source attribution;
-- creator claim and conflict workflow;
-- report, moderation queue, audit log, and appeals policy;
-- organization roles and delegated maintainers;
-- terms, privacy notice, acceptable-use policy, and retention schedule.
-
-Exit condition: impersonation, disputed ownership, harmful content, and takedown
-requests have documented and tested handling paths.
-
-### Increment 5 — Discussion and scoped review
-
-Goal: study public scrutiny and expert assessment without creating a generic
-trust score.
+Goal: make conceptual iteration fast and visible.
 
 Deliver:
 
-- comments or questions attached to a specific sheet version and card;
-- moderation controls, notifications, and abuse prevention;
-- structured reviews with reviewer identity, expertise, rubric, evidence, scope,
-  date, and status;
-- transparent, separately rendered completeness, evidence, and review signals;
-- research instrumentation approved under the relevant ethics and privacy plan.
+- framework reference pages generated from the schemas;
+- valid and invalid fixtures with readable validation errors;
+- visual comparison of two framework versions;
+- a local watch command for schema, example, API, and site regeneration;
+- several deliberately different research examples only when requested;
+- an architecture decision record for versioning rules.
 
-Exit condition: users can understand exactly what was reviewed and can inspect
-the supporting evidence and process.
+Exit condition: researchers can propose a framework change in a pull request and
+inspect its generated documentation and examples before merging.
 
-### Increment 6 — Integrations and education
+### Increment 2 — Public static catalog
 
-Potential later work:
+Goal: validate records, relationships, and discovery without a database.
 
-- embeddable sheet summaries and criteria-based labels;
-- ORCID and organization identity integrations;
-- DOI or archival deposit workflows;
-- C2PA credential inspection and, where justified, signing;
-- learning activities tied to real records;
-- notifications, multilingual interface, federation, and bulk institutional
-  import.
+Deliver:
 
-Each is a separate product decision, not an assumed part of the core platform.
+- record manifest and immutable version-file conventions;
+- explore, detail, version, and framework pages;
+- Pagefind search and static filters;
+- stable URLs, metadata, sitemap, and JSON downloads;
+- broken-link, site-size, and historical-version checks;
+- representative records added through reviewed pull requests.
 
-## 12. Research and product validation
+Exit condition: at least 10 diverse examples can be browsed, searched, linked,
+validated, and exported within GitHub Pages limits.
 
-Technology cannot answer whether the taxonomy is useful. Each increment should
-include evaluation with representative authors and readers.
+### Increment 3 — Local browser editor
+
+Goal: test schema-driven authoring with non-technical participants.
+
+Deliver:
+
+- generic fields generated from framework presentation metadata;
+- accessible validation, conditional guidance, preview, and progress states;
+- local autosave with explicit privacy messaging;
+- YAML and JSON import/export;
+- generated contribution instructions or pull-request package;
+- author usability study focused on taxonomy gaps and terminology.
+
+Exit condition: invited authors can complete and export a valid record without
+editing YAML or receiving developer assistance.
+
+### Increment 4 — Publishing and governance
+
+Goal: accept external records without operating a custom backend.
+
+Deliver:
+
+- contribution templates and GitHub pull-request workflow;
+- creator-submitted and third-party-submitted states;
+- maintainers' moderation, correction, dispute, and appeals procedures;
+- media, licensing, citation, and takedown policies;
+- optional browser handoff to GitHub if it can be secure and usable.
+
+Exit condition: target contributors can publish at an acceptable success rate,
+and problematic submissions have documented handling paths.
+
+### Increment 5 — Reassess persistence
+
+Use evidence from Increment 4 to decide among:
+
+- continuing with repository-backed publishing;
+- adding a minimal serverless pull-request gateway;
+- adding a database/authentication adapter;
+- funding a managed service.
+
+Only then consider comments, organization accounts, notifications, private cloud
+drafts, structured reviews, or fact-checking workflows.
+
+## 15. Research and product validation
 
 Useful measures include:
 
-- time and abandonment by card and field;
+- effort required to change the framework itself;
+- frequency of website changes caused by framework changes;
 - fields repeatedly marked unknown, not applicable, or not disclosed;
+- disagreements over terminology, grouping, and missing concepts;
+- author time and abandonment by section and field;
 - reader success locating provenance, intended use, and limitations;
-- change in interpretation after reading a sheet;
-- ability to distinguish creator claims, sourced facts, and reviewer findings;
-- disagreements over terminology and missing card types;
+- change in interpretation after reading a record;
+- ability to distinguish creator claims, sourced facts, and review findings;
 - accessibility task completion with assistive technologies;
-- search success across domains and media types.
+- contribution success for participants without GitHub experience.
 
 Do not optimize for raw field completion. A concise, honest “unknown” can be more
 useful than a filled field with low-quality text.
 
-## 13. Repository and delivery conventions
+## 16. Repository structure
 
-Start as one application, not a monorepo:
+The clean separation justifies a small workspace from the beginning:
 
 ```text
-app/                    Next.js routes and layouts
-components/             shared accessible UI
-features/               product workflows by domain
-schemas/                JSON Schemas, UI configuration, fixtures
-lib/                    database, validation, security, and utility code
-public/                 static public assets
-supabase/migrations/    reviewed SQL migrations
-tests/                  cross-feature and end-to-end tests
-docs/                   product, architecture, and decision records
+apps/
+  web/                    Astro website; consumes generated JSON only
+framework/                language-neutral conceptual framework
+records/                  versioned public record source files
+packages/
+  framework-tooling/      loader, validator, normalizer, generator
+generated/                ignored local build output
+tests/                    cross-layer fixtures and integration tests
+docs/
+  decisions/              architecture decision records
+  implementation-plan.md
+.github/workflows/        validation and GitHub Pages deployment
 ```
 
-Extract a separate schema package only when a second real consumer needs it.
+Dependencies flow in one direction:
 
-Use short architecture decision records under `docs/decisions/` for choices that
-are costly to reverse. Protect `main`, require green CI, use small commits, and
-deploy production from `main`. Database migrations and schema changes require
-fixtures and backward-compatibility notes.
+```text
+framework + records -> framework-tooling -> generated JSON -> web
+```
 
-## 14. Decisions required before public beta
+The web application must not import internal tooling modules or read raw YAML.
+The framework must not import anything from `apps/web` or `packages/`.
 
-These do not block Increment 0, but they need named owners and written outcomes:
+## 17. Decisions and questions not to overlook
 
-1. Final public terminology: Sheet versus Card and the product name.
-2. Minimum required metadata and the meaning of each non-answer state.
-3. Creator-submitted versus third-party submission policy.
-4. Governance, moderation authority, dispute, and appeals process.
-5. Software license. AGPL-3.0 favors network copyleft; Apache-2.0 favors broad
-   reuse. This is a governance decision, not merely a dependency choice.
-6. Default license for public metadata and how uploaded media retain separate
-   rights information.
-7. Data controller, hosting region, processors, retention, and research consent.
-8. Stable public domain and archival strategy.
-9. What, if anything, a badge is allowed to claim.
-10. Pilot participants and success criteria for moving between increments.
+Only the first question materially affects the post-prototype architecture.
+None block Increment 0.
 
-## 15. Next implementation slice
+1. **Author publishing path:** Is a GitHub pull request acceptable for pilots,
+   or must non-technical authors publish directly from the browser? A direct
+   shared save requires some backend or third-party identity/persistence.
+2. **Zero cost versus zero backend:** Is the requirement no monthly bill, no
+   managed vendor, or no server-side component at all? These are different.
+3. **Media ownership:** Will the platform host visuals or only metadata and
+   optimized previews? Repository-backed hosting strongly favors the latter.
+4. **Expected scale:** Approximate record count, update frequency, media volume,
+   and traffic determine how long GitHub Pages remains appropriate.
+5. **Public contribution policy:** Who may submit third-party records, and who
+   resolves ownership disputes and takedowns?
+6. **Framework governance:** Who approves taxonomy changes, and when does an
+   experimental version become stable?
+7. **Stable identifiers:** Should records eventually receive DOI-like persistent
+   identifiers, or are project URLs and archived releases enough initially?
+8. **Licensing:** Software, framework/specification, record metadata, and linked
+   media need separate explicit licenses.
+9. **Languages:** Should the framework support multilingual labels and values
+   immediately, even if the initial website is English-only?
+10. **Research boundary:** Which usage data, if any, may be collected, and under
+    what consent and ethics process?
+
+## 18. Next implementation slice
 
 The next change should implement only Increment 0:
 
-1. scaffold the web application and CI;
-2. encode one small `0.1.0` schema with Project, Usage, Data, Visual Encoding,
-   and Limitations cards;
-3. add one complete climate-visualization fixture and invalid fixtures;
-4. build one public, accessible sheet page from that fixture;
-5. validate the same payload in tests and at render time;
-6. deploy a preview and collect taxonomy and reading-flow feedback.
+1. scaffold the workspace and Astro static site;
+2. add `framework.yaml`, `terminology.yaml`, and one small schema;
+3. add one placeholder YAML record;
+4. build a validator and canonical JSON generator;
+5. render the generated record without hard-coded section knowledge;
+6. publish versioned static JSON beside the HTML;
+7. add CI and GitHub Pages deployment.
 
-No database, authentication, comments, badges, or upload system belongs in this
-slice. That keeps the first engineering work focused on the riskiest assumption:
-whether the metadata model can describe real visualizations and be understood by
-readers.
+No database, authentication, comments, badges, uploads, or production taxonomy
+belongs in this slice. The success criterion is replaceability: changing the
+temporary vocabulary or placeholder structure should be an ordinary data change,
+not an application rewrite.
