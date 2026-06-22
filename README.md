@@ -17,5 +17,7 @@ The first implementation slice will be deliberately small: a schema-driven,
 read-only placeholder record rendered from repository fixtures. The framework
 will be maintained separately from the website, using human-editable YAML,
 JSON Schema validation, and generated JSON. Authentication, databases,
-comments, and verification will be considered only after the information model
-has been tested with representative visualization examples.
+comments, and verification will be implemented only after the information model
+has been tested with representative visualization examples. The eventual
+platform will include authenticated accounts, persistent drafts, direct browser
+submission, and media upload.

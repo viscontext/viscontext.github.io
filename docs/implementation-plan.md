@@ -7,10 +7,12 @@ discovering the conceptual framework, its structure, and its vocabulary. The
 software must therefore treat names, sections, fields, and ordering as data—not
 as assumptions hard-coded into the website.
 
-This revision also adopts a backend-free core. The framework and public records
-live in Git, the website is generated as static files, and GitHub Pages can host
-the complete public reading experience without a paid database or application
-server.
+The first delivery phase uses a backend-free core. The framework and initial
+public records live in Git, the website is generated as static files, and GitHub
+Pages can host the public reading experience without a paid database or
+application server. This is an implementation sequence, not the final platform
+boundary: authenticated accounts, persistent drafts, direct submission, and
+media upload are required later capabilities.
 
 ## 1. Product objective
 
@@ -114,7 +116,8 @@ Additional principles:
 - Published versions are citable and immutable. Corrections add versions.
 - Claims, evidence, identity, completeness, and review remain separate.
 - Public records are available as documented machine-readable files.
-- A database is an optional storage adapter, not part of the framework.
+- A database is never part of the conceptual framework. The production platform
+  will add authentication and persistence behind application adapters.
 - Accessibility, privacy, and governance are product requirements.
 
 ## 5. Framework/application boundary
@@ -240,7 +243,8 @@ sections:
 | Search | Pagefind | Generates an in-browser search index from static HTML with no search server. |
 | Validation | Ajv in the CLI, build, tests, and browser editor | One validation contract at every boundary. |
 | Public API | Versioned static JSON files | Requires no running server and is generated from the same validated source as the pages. |
-| Persistence | Git repository | Reviewable history, branching, attribution, rollback, and no database bill. |
+| Initial persistence | Git repository | Reviewable history, branching, attribution, rollback, and no database bill while the framework is unstable. |
+| Production identity and persistence | Provider not selected yet; accessed through application adapters | Authenticated accounts, private drafts, direct submission, authorization, and uploads are required, but should not constrain framework development. |
 | Drafts | Local files, Git branches/forks, and browser local storage | Drafts stay private to the author until intentionally submitted. |
 | Publishing | Pull request merged to `main` | CI validates the framework or record and the merge triggers deployment. |
 | CI and deployment | GitHub Actions and GitHub Pages | Fits this public repository and has no separate hosting service to operate. |
@@ -330,7 +334,7 @@ Small preview images may live beside a record. Original media stays at its
 canonical source and includes rights, source, checksum where available, alt
 text, and a long description.
 
-## 10. Authoring without a backend
+## 10. Authoring before the authenticated backend
 
 There are three incremental authoring modes.
 
@@ -345,23 +349,27 @@ A schema-driven editor runs entirely in the browser. It validates a record,
 saves an unfinished draft in local storage, and downloads canonical YAML or
 JSON. It does not require an account or transmit private drafts.
 
-### Mode C — Repository publishing workflow
+### Mode C — Interim repository publishing workflow
 
 The contributor uploads the generated file through GitHub or submits a pull
 request from a fork. Maintainers and CI review it before publication. This adds
-no custom backend, but it creates friction for people unfamiliar with GitHub.
+no custom backend, but it is an interim research workflow and not the intended
+experience for general authors.
 
 A browser cannot securely publish shared data, authenticate authors, keep
-private cloud drafts, or moderate submissions without relying on some external
-stateful service. If GitHub-based publishing proves too difficult for target
-authors, later options are:
+private cloud drafts, or moderate submissions without relying on an external
+stateful service. The production platform will therefore need one. Candidate
+implementation patterns include:
 
-1. a small serverless gateway that creates pull requests;
-2. a free-tier database/authentication service behind the repository interface;
-3. a funded managed backend.
+1. authentication plus a small service that creates reviewed repository changes,
+   with object storage for uploads;
+2. an open-source database, authentication, and object-storage stack behind the
+   application interfaces;
+3. a managed or institutionally hosted backend using the same interfaces.
 
-That decision should follow author testing. It should not be embedded in the
-framework.
+Provider selection can follow framework and authoring tests. The required
+capabilities and interfaces should be designed before provider selection, and
+must never be embedded in the framework.
 
 ## 11. Placeholder framework and first example
 
@@ -408,8 +416,8 @@ must expose its criteria, scope, evidence, issuer, date, and supersession rules.
 
 ## 13. Security, privacy, and accessibility
 
-The backend-free design removes stored passwords, account profiles, and private
-server data from the first release. It does not remove all risks.
+The backend-free first increment has no stored passwords, account profiles, or
+private server data. It does not remove all risks.
 
 - Treat every record and Markdown value as untrusted input during the build.
 - Sanitize rendered Markdown and validate URLs.
@@ -424,8 +432,8 @@ server data from the first release. It does not remove all risks.
 - Test generated pages with automated tools and manual keyboard and screen-reader
   checks.
 
-If user accounts, analytics, or research instrumentation are later added, a
-separate privacy and data-governance review becomes mandatory.
+Before user accounts and uploads are added, a separate security, privacy, media
+moderation, retention, backup, and data-governance review is mandatory.
 
 ## 14. Incremental delivery plan
 
@@ -496,9 +504,9 @@ Deliver:
 Exit condition: invited authors can complete and export a valid record without
 editing YAML or receiving developer assistance.
 
-### Increment 4 — Publishing and governance
+### Increment 4 — Interim publishing and governance
 
-Goal: accept external records without operating a custom backend.
+Goal: test external contributions before operating the authenticated backend.
 
 Deliver:
 
@@ -506,22 +514,38 @@ Deliver:
 - creator-submitted and third-party-submitted states;
 - maintainers' moderation, correction, dispute, and appeals procedures;
 - media, licensing, citation, and takedown policies;
-- optional browser handoff to GitHub if it can be secure and usable.
+- browser handoff to GitHub where it is secure and usable for pilot users.
 
 Exit condition: target contributors can publish at an acceptable success rate,
 and problematic submissions have documented handling paths.
 
-### Increment 5 — Reassess persistence
+### Increment 5 — Authenticated publishing and uploads
 
-Use evidence from Increment 4 to decide among:
+Goal: provide the intended author experience while preserving framework
+independence.
 
-- continuing with repository-backed publishing;
-- adding a minimal serverless pull-request gateway;
-- adding a database/authentication adapter;
-- funding a managed service.
+Deliver:
 
-Only then consider comments, organization accounts, notifications, private cloud
-drafts, structured reviews, or fact-checking workflows.
+- select an identity, database, and object-storage deployment based on cost,
+  portability, privacy, and operational ownership;
+- login, account recovery, profiles, and role-based authorization;
+- persistent private drafts and collaborators;
+- direct browser submission and publication;
+- constrained media upload with file validation, quotas, rights fields, alt text,
+  and deletion procedures;
+- immutable publication versions, audit events, backup, and restore;
+- an adapter that either writes accepted records into the repository and
+  triggers a static rebuild or serves the same canonical objects dynamically;
+- security, privacy, moderation, and end-to-end authorization tests.
+
+Exit condition: an invited non-technical author can sign in, create a private
+draft, upload supported media, and publish a valid record without using GitHub.
+
+### Increment 6 — Community and review features
+
+Only after authenticated publishing is stable, consider comments, organization
+accounts, notifications, structured reviews, educational activities, and
+fact-checking workflows.
 
 ## 15. Research and product validation
 
@@ -571,14 +595,14 @@ The framework must not import anything from `apps/web` or `packages/`.
 
 ## 17. Decisions and questions not to overlook
 
-Only the first question materially affects the post-prototype architecture.
-None block Increment 0.
+None of these decisions block Increment 0.
 
-1. **Author publishing path:** Is a GitHub pull request acceptable for pilots,
-   or must non-technical authors publish directly from the browser? A direct
-   shared save requires some backend or third-party identity/persistence.
-2. **Zero cost versus zero backend:** Is the requirement no monthly bill, no
-   managed vendor, or no server-side component at all? These are different.
+1. **Backend ownership and budget:** Who can operate the required authentication,
+   database, and object storage, and is a free tier sufficient or must it be
+   institutionally self-hosted?
+2. **Identity model:** Which login methods are appropriate, and how are a user
+   account, a declared visualization author, and a verified identity kept
+   conceptually separate?
 3. **Media ownership:** Will the platform host visuals or only metadata and
    optimized previews? Repository-backed hosting strongly favors the latter.
 4. **Expected scale:** Approximate record count, update frequency, media volume,
@@ -609,6 +633,7 @@ The next change should implement only Increment 0:
 7. add CI and GitHub Pages deployment.
 
 No database, authentication, comments, badges, uploads, or production taxonomy
-belongs in this slice. The success criterion is replaceability: changing the
-temporary vocabulary or placeholder structure should be an ordinary data change,
-not an application rewrite.
+belongs in this slice. Those platform capabilities are deferred, not discarded.
+The immediate success criterion is replaceability: changing the temporary
+vocabulary or placeholder structure should be an ordinary data change, not an
+application rewrite.
