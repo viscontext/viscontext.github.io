@@ -1,0 +1,30 @@
+---
+import type { PresentationSection } from "../lib/data";
+
+interface Props {
+  sections: PresentationSection[];
+  values: Record<string, Record<string, unknown>>;
+}
+
+const { sections, values } = Astro.props;
+---
+
+<table class="metadata-table">
+  <caption>Context metadata</caption>
+  <thead>
+    <tr><th scope="col">Section</th><th scope="col">Field</th><th scope="col">Value</th></tr>
+  </thead>
+  <tbody>
+    {sections.flatMap((section) => section.fields.map((field, fieldIndex) => (
+      <tr>
+        {fieldIndex === 0 && <th scope="rowgroup" rowspan={section.fields.length}>{section.label}</th>}
+        <th scope="row"><span>{field.label}</span><small>{field.help}</small></th>
+        <td>
+          {field.valueType === "url" && typeof values[section.id]?.[field.id] === "string" ? (
+            <a href={String(values[section.id]?.[field.id])}>{String(values[section.id]?.[field.id])}</a>
+          ) : String(values[section.id]?.[field.id] ?? "Not provided")}
+        </td>
+      </tr>
+    )))}
+  </tbody>
+</table>

@@ -1,6 +1,6 @@
 $schema: https://json-schema.org/draft/2020-12/schema
-$id: https://viscontext.github.io/schemas/0.1.0/record.schema.json
-title: Experimental context record
+$id: https://viscontext.github.io/schemas/0.2.0/record.schema.json
+title: Experimental visualization project context record
 type: object
 additionalProperties: false
 required:
@@ -19,7 +19,7 @@ properties:
     type: string
     pattern: ^0\.[0-9]+\.[0-9]+$
   frameworkVersion:
-    const: 0.1.0
+    const: 0.2.0
   status:
     enum:
       - example
@@ -30,19 +30,44 @@ properties:
     additionalProperties: false
     required:
       - type
+      - topic
+      - visualKind
       - title
+      - year
       - fictional
+      - canonicalUrl
     properties:
       type:
         enum:
-          - visualization
-          - visual-story
+          - static
+          - interactive
+          - dashboard
+          - story
+      topic:
+        enum:
+          - cities
+          - climate
+          - economy
+          - energy
+          - mobility
+      visualKind:
+        enum:
+          - bars
+          - dashboard
+          - line
+          - map
+          - scatter
+          - small-multiples
       title:
         type: string
         minLength: 1
         maxLength: 160
+      year:
+        type: integer
+        minimum: 1900
+        maximum: 2100
       fictional:
-        type: boolean
+        const: true
       canonicalUrl:
         type: string
         format: uri
@@ -67,7 +92,22 @@ properties:
     type: object
     additionalProperties: false
     required:
-      - overview
+      - project
+      - usage
+      - data
+      - analysis
+      - encoding
+      - limitations
     properties:
-      overview:
-        $ref: https://viscontext.github.io/schemas/0.1.0/sections/overview.schema.json
+      project:
+        $ref: https://viscontext.github.io/schemas/0.2.0/sections/project.schema.json
+      usage:
+        $ref: https://viscontext.github.io/schemas/0.2.0/sections/usage.schema.json
+      data:
+        $ref: https://viscontext.github.io/schemas/0.2.0/sections/data.schema.json
+      analysis:
+        $ref: https://viscontext.github.io/schemas/0.2.0/sections/analysis.schema.json
+      encoding:
+        $ref: https://viscontext.github.io/schemas/0.2.0/sections/encoding.schema.json
+      limitations:
+        $ref: https://viscontext.github.io/schemas/0.2.0/sections/limitations.schema.json

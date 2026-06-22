@@ -1,0 +1,39 @@
+id: housing-affordability
+version: 0.2.0
+frameworkVersion: 0.2.0
+status: example
+work:
+  type: static
+  topic: economy
+  visualKind: scatter
+  title: Housing affordability and transit access
+  year: 2023
+  fictional: true
+  canonicalUrl: https://example.org/housing-transit
+contributors:
+  - displayName: Metropolitan Policy Studio
+    role: creator
+sections:
+  project:
+    description: Comparison of fictional housing costs and public transport access across metropolitan districts.
+    projectUrl: https://example.org/housing-transit
+    publicationDate: 17 June 2023
+    license: CC BY-NC 4.0
+  usage:
+    intent: Prompt investigation of districts where housing cost and transport access diverge.
+    targetAudience: Housing researchers and urban policy teams.
+    recommendedInterpretation: Position indicates association, not evidence that transport access causes housing prices.
+  data:
+    sources: Fictional rent listings, household income estimates, and transit schedules.
+    collectionPeriod: "2022"
+    updateFrequency: One-off study
+  analysis:
+    processing: Median rent was divided by estimated median disposable income; transit access combines stop density and frequency.
+    codeUrl: https://example.org/housing-transit/code
+  encoding:
+    chartType: Scatterplot
+    visualEncoding: Horizontal position represents transit access; vertical position represents rent-to-income ratio; point size represents population.
+    interaction: None; labels identify selected outliers.
+  limitations:
+    knownLimitations: Listing prices may not represent existing tenants and district medians hide within-district inequality.
+    uncertainty: Income estimates have sampling uncertainty that is not drawn.

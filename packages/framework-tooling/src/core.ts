@@ -296,10 +296,22 @@ export async function loadExampleRecords(
 ): Promise<JsonObject[]> {
   const examplesDirectory = path.join(repositoryRoot, "framework", "examples");
   const entries = await fs.readdir(examplesDirectory, { withFileTypes: true });
-  const recordPaths = entries
+  const candidates = entries
     .filter((entry) => entry.isDirectory())
     .map((entry) => path.join(examplesDirectory, entry.name, "record.yaml"))
     .sort();
+  const recordPaths = (
+    await Promise.all(
+      candidates.map(async (candidate) => {
+        try {
+          await fs.access(candidate);
+          return candidate;
+        } catch {
+          return undefined;
+        }
+      }),
+    )
+  ).filter((candidate): candidate is string => Boolean(candidate));
 
   const records = await Promise.all(recordPaths.map(readYaml));
   for (const record of records) validateRecordData(context, record);
@@ -342,10 +354,10 @@ export async function generateProject(repositoryRoot = defaultRepositoryRoot): P
   });
 
   const recordSummaries = records.map((record) => ({
+    ...(record.work as JsonObject),
     id: record.id,
     version: record.version,
     frameworkVersion: record.frameworkVersion,
-    title: (record.work as JsonObject).title,
     status: record.status,
     url: `/api/v1/records/${record.id}.json`,
   }));

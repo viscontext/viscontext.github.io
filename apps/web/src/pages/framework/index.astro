@@ -1,64 +1,40 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { framework, terminology } from "../../lib/data";
+import { framework } from "../../lib/data";
 ---
 
-<BaseLayout title="Experimental framework" description="The replaceable framework behind VisContext.">
-  <header class="page-hero shell narrow-hero">
-    <p class="eyebrow"><span></span> Framework {framework.version} · {framework.status}</p>
-    <h1>Temporary<br /><em>by design.</em></h1>
-    <p>
-      The terminology and structure are part of the research contribution. This
-      first version proves that they can change without rewriting the website.
-    </p>
+<BaseLayout title="Context framework" description="Experimental metadata framework used by the repository.">
+  <header class="page-heading shell simple-heading">
+    <div>
+      <p class="prototype-label">Experimental framework {framework.version}</p>
+      <h1>Context metadata framework</h1>
+      <p>This table is a temporary fixture. The sections, fields, names, and requirements are not final.</p>
+    </div>
+    <a class="button secondary" href={`/api/v1/framework/${framework.version}.json`}>Download JSON</a>
   </header>
 
-  <section class="architecture shell">
-    <p class="section-kicker">One-way dependency</p>
-    <div class="flow" role="img" aria-label="Framework data flows from human-authored YAML through JSON Schema validation into canonical JSON consumed by the website and API.">
-      <div><span>01</span><strong>YAML</strong><small>Human authoring</small></div>
-      <i aria-hidden="true">→</i>
-      <div><span>02</span><strong>JSON Schema</strong><small>Validation</small></div>
-      <i aria-hidden="true">→</i>
-      <div><span>03</span><strong>Canonical JSON</strong><small>Exchange</small></div>
-      <i aria-hidden="true">→</i>
-      <div><span>04</span><strong>Website + API</strong><small>Consumers</small></div>
-    </div>
-  </section>
+  <section class="framework-content shell">
+    <h2>Current fields</h2>
+    <table class="framework-table">
+      <thead><tr><th scope="col">Section</th><th scope="col">Field ID</th><th scope="col">Display label</th><th scope="col">Question / guidance</th><th scope="col">Type</th></tr></thead>
+      <tbody>
+        {framework.presentation.sections.flatMap((section) => section.fields.map((field, index) => (
+          <tr>
+            {index === 0 && <th scope="rowgroup" rowspan={section.fields.length}>{section.label}</th>}
+            <td><code>{field.id}</code></td><td>{field.label}</td><td>{field.help}</td><td>{field.valueType}</td>
+          </tr>
+        )))}
+      </tbody>
+    </table>
 
-  <section class="framework-details">
-    <div class="shell framework-grid">
-      <div>
-        <p class="section-kicker">Current experiment</p>
-        <h2>{framework.sections.length} provisional {terminology.terms.section.singular}</h2>
-        <p>
-          This is intentionally not a proposed taxonomy. It is the smallest useful
-          structure for testing validation, generation, rendering, and renaming.
-        </p>
-      </div>
-      <div class="section-register">
-        {framework.presentation.sections.map((section, index) => (
-          <article>
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <div>
-              <h3>{section.label}</h3>
-              <p>{section.description}</p>
-              <small>{section.fields.length} placeholder fields</small>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="api-callout shell">
-    <div>
-      <p class="section-kicker">Machine-readable</p>
-      <h2>Use the same framework without this website.</h2>
-    </div>
-    <div class="api-link-block">
-      <code>/api/v1/framework/{framework.version}.json</code>
-      <a href={`/api/v1/framework/${framework.version}.json`}>Open framework JSON <span aria-hidden="true">↗</span></a>
+    <div class="framework-notes">
+      <h2>Implementation boundary</h2>
+      <p>The framework is stored separately from the website in YAML and JSON Schema. The catalog consumes generated JSON, so this structure can be replaced without rewriting project pages.</p>
+      <ul>
+        <li><code>framework/framework.yaml</code> registers sections.</li>
+        <li><code>framework/presentation/default.yaml</code> defines labels and guidance.</li>
+        <li><code>framework/schemas/</code> defines structural validation.</li>
+      </ul>
     </div>
   </section>
 </BaseLayout>

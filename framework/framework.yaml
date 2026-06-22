@@ -1,9 +1,19 @@
 id: viscontext-framework
-version: 0.1.0
+version: 0.2.0
 status: experimental
 recordSchema: ./schemas/record.schema.yaml
 terminology: ./terminology.yaml
 presentation: ./presentation/default.yaml
 sections:
-  - id: overview
-    schema: ./schemas/sections/overview.schema.yaml
+  - id: project
+    schema: ./schemas/sections/project.schema.yaml
+  - id: usage
+    schema: ./schemas/sections/usage.schema.yaml
+  - id: data
+    schema: ./schemas/sections/data.schema.yaml
+  - id: analysis
+    schema: ./schemas/sections/analysis.schema.yaml
+  - id: encoding
+    schema: ./schemas/sections/encoding.schema.yaml
+  - id: limitations
+    schema: ./schemas/sections/limitations.schema.yaml

@@ -20,10 +20,13 @@ export interface ContextRecord {
   frameworkVersion: string;
   status: string;
   work: {
-    type: string;
+    type: "static" | "interactive" | "dashboard" | "story";
+    topic: "cities" | "climate" | "economy" | "energy" | "mobility";
+    visualKind: "bars" | "dashboard" | "line" | "map" | "scatter" | "small-multiples";
     title: string;
+    year: number;
     fictional: boolean;
-    canonicalUrl?: string;
+    canonicalUrl: string;
   };
   contributors: Array<{ displayName: string; role: string }>;
   sections: Record<string, Record<string, unknown>>;

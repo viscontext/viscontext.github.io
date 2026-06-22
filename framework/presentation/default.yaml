@@ -1,24 +1,96 @@
 record:
-  eyebrow: Experimental context record
-  frameworkNotice: This structure is provisional and exists to test the framework pipeline.
+  eyebrow: Visualization project context
+  frameworkNotice: The context framework and its fields are provisional and will change during the research project.
 sections:
-  - id: overview
-    label: Overview
-    description: A deliberately small set of placeholder fields for the first framework experiment.
+  - id: project
+    label: Project
+    description: Basic publication and ownership information.
     fields:
       - id: description
-        label: Short description
-        help: What does the visual present?
+        label: Description
+        help: What does the visualization project contain?
         valueType: text
-      - id: visualUrl
-        label: Visual source
-        help: Where can the visual work be found?
+      - id: projectUrl
+        label: Project URL
+        help: Where is the original project published?
         valueType: url
-      - id: intendedUse
-        label: Intended use
-        help: What is this visual intended to help people understand or do?
+      - id: publicationDate
+        label: Publication date
+        help: When was this version first published?
         valueType: text
-      - id: knownLimitation
-        label: Known limitation
-        help: What important constraint should a reader know first?
+      - id: license
+        label: License
+        help: Under what terms may the project be reused?
+        valueType: text
+  - id: usage
+    label: Usage
+    description: Intended audience, purpose, and interpretation.
+    fields:
+      - id: intent
+        label: Intent
+        help: What is this project intended to help people understand or do?
+        valueType: text
+      - id: targetAudience
+        label: Target audience
+        help: Who was the visualization made for?
+        valueType: text
+      - id: recommendedInterpretation
+        label: Recommended interpretation
+        help: How should the main visual pattern be read?
+        valueType: text
+  - id: data
+    label: Data
+    description: Sources, coverage, and update information.
+    fields:
+      - id: sources
+        label: Data sources
+        help: Which sources provide the underlying data?
+        valueType: text
+      - id: collectionPeriod
+        label: Collection period
+        help: Which time period does the data cover?
+        valueType: text
+      - id: updateFrequency
+        label: Update frequency
+        help: How often is the data updated?
+        valueType: text
+  - id: analysis
+    label: Analysis
+    description: Processing and computational choices.
+    fields:
+      - id: processing
+        label: Processing
+        help: What cleaning, filtering, or transformation was performed?
+        valueType: text
+      - id: codeUrl
+        label: Code
+        help: Where can the analysis code be inspected?
+        valueType: url
+  - id: encoding
+    label: Visual encoding
+    description: Chart, mapping, and interaction decisions.
+    fields:
+      - id: chartType
+        label: Chart type
+        help: What visualization forms are used?
+        valueType: text
+      - id: visualEncoding
+        label: Visual encoding
+        help: How are values mapped to position, color, size, or shape?
+        valueType: text
+      - id: interaction
+        label: Interaction
+        help: What can readers select, filter, or navigate?
+        valueType: text
+  - id: limitations
+    label: Limitations
+    description: Known constraints and uncertainty.
+    fields:
+      - id: knownLimitations
+        label: Known limitations
+        help: What important constraints should readers know?
+        valueType: text
+      - id: uncertainty
+        label: Uncertainty
+        help: How is uncertainty represented or omitted?
         valueType: text

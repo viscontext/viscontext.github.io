@@ -1,0 +1,132 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { framework } from "../../lib/data";
+---
+
+<BaseLayout title="Upload project" description="Draft a visualization project submission.">
+  <header class="page-heading shell simple-heading">
+    <div>
+      <p class="prototype-label">Author workflow prototype</p>
+      <h1>Upload a visualization project</h1>
+      <p>Enter project details and context metadata. Login and server publishing are not connected yet.</p>
+    </div>
+  </header>
+
+  <div class="shell upload-notice" role="note">
+    <strong>Prototype behavior:</strong> “Save draft” stores text in this browser only. Selected files are not uploaded or saved.
+  </div>
+
+  <form class="upload-form shell" id="upload-form">
+    <fieldset>
+      <legend>1. Project details</legend>
+      <div class="form-grid">
+        <label>Project title <input name="title" type="text" required /></label>
+        <label>Author or organization <input name="author" type="text" required /></label>
+        <label>Project format
+          <select name="type" required><option value="">Choose one</option><option>Static</option><option>Interactive</option><option>Dashboard</option><option>Visual story</option></select>
+        </label>
+        <label>Topic <input name="topic" type="text" placeholder="e.g. climate, health, economy" /></label>
+        <label class="full-width">Short description <textarea name="description" rows="3" required></textarea></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>2. Visualization</legend>
+      <div class="form-grid">
+        <label>Original project URL <input name="projectUrl" type="url" placeholder="https://" /></label>
+        <label>Visualization image <input name="visualFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" /></label>
+        <label class="full-width">Text alternative <textarea name="altText" rows="3" placeholder="Describe the important visual content and pattern"></textarea></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>3. Context metadata <small>framework {framework.version}</small></legend>
+      <p class="field-intro">These fields are generated from the experimental context framework.</p>
+      {framework.presentation.sections.map((section) => (
+        <section class="form-section" aria-labelledby={`form-${section.id}`}>
+          <h2 id={`form-${section.id}`}>{section.label}</h2>
+          <p>{section.description}</p>
+          <div class="context-form-table">
+            {section.fields.map((field) => (
+              <label>
+                <span>{field.label}<small>{field.help}</small></span>
+                {field.valueType === "url" ? <input type="url" name={`context.${section.id}.${field.id}`} placeholder="https://" /> : <textarea name={`context.${section.id}.${field.id}`} rows="2"></textarea>}
+              </label>
+            ))}
+          </div>
+        </section>
+      ))}
+    </fieldset>
+
+    <div class="form-actions">
+      <button class="button" type="button" id="save-draft">Save draft locally</button>
+      <button class="button secondary" type="submit">Preview submission</button>
+      <button class="text-button" type="reset" id="clear-draft">Clear form</button>
+      <span id="draft-status" role="status" aria-live="polite"></span>
+    </div>
+  </form>
+
+  <dialog id="submission-preview">
+    <form method="dialog"><button class="dialog-close" type="submit" value="close" aria-label="Close preview">×</button></form>
+    <h2>Submission preview</h2>
+    <dl><div><dt>Project</dt><dd id="preview-title"></dd></div><div><dt>Author</dt><dd id="preview-author"></dd></div><div><dt>Context responses</dt><dd id="preview-count"></dd></div></dl>
+    <p>This is only a local preview. Publishing will be connected after login and backend work.</p>
+  </dialog>
+
+  <script>
+    function requiredElement<T extends Element>(selector: string): T {
+      const element = document.querySelector<T>(selector);
+      if (!element) throw new Error(`Missing upload element: ${selector}`);
+      return element;
+    }
+
+    const form = requiredElement<HTMLFormElement>('#upload-form');
+    const saveButton = requiredElement<HTMLButtonElement>('#save-draft');
+    const clearButton = requiredElement<HTMLButtonElement>('#clear-draft');
+    const status = requiredElement<HTMLElement>('#draft-status');
+    const preview = requiredElement<HTMLDialogElement>('#submission-preview');
+    const previewTitle = requiredElement<HTMLElement>('#preview-title');
+    const previewAuthor = requiredElement<HTMLElement>('#preview-author');
+    const previewCount = requiredElement<HTMLElement>('#preview-count');
+    const storageKey = 'viscontext-upload-draft-v1';
+
+    function serializableEntries(): Array<[string, string]> {
+      return [...new FormData(form).entries()]
+        .filter((entry): entry is [string, string] => typeof entry[1] === 'string');
+    }
+
+    function restoreDraft() {
+      const stored = localStorage.getItem(storageKey);
+      if (!stored) return;
+      for (const [name, value] of JSON.parse(stored)) {
+        const field = form.elements.namedItem(name);
+        if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement) field.value = value;
+      }
+      status.textContent = 'Local draft restored.';
+    }
+
+    saveButton.addEventListener('click', () => {
+      localStorage.setItem(storageKey, JSON.stringify(serializableEntries()));
+      status.textContent = `Draft saved locally at ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.`;
+    });
+
+    clearButton.addEventListener('click', () => {
+      localStorage.removeItem(storageKey);
+      status.textContent = 'Local draft cleared.';
+    });
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const title = data.get('title');
+      const author = data.get('author');
+      previewTitle.textContent = typeof title === 'string' && title ? title : 'Untitled project';
+      previewAuthor.textContent = typeof author === 'string' && author ? author : 'Not provided';
+      const answered = serializableEntries().filter(([name, value]) => name.startsWith('context.') && value.trim()).length;
+      previewCount.textContent = `${answered} ${answered === 1 ? 'field' : 'fields'} answered`;
+      preview.showModal();
+    });
+
+    restoreDraft();
+  </script>
+</BaseLayout>

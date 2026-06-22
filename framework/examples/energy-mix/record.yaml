@@ -1,0 +1,39 @@
+id: energy-mix
+version: 0.2.0
+frameworkVersion: 0.2.0
+status: example
+work:
+  type: dashboard
+  topic: energy
+  visualKind: dashboard
+  title: European energy mix monitor
+  year: 2025
+  fictional: true
+  canonicalUrl: https://example.org/energy-mix
+contributors:
+  - displayName: Energy Data Commons
+    role: creator
+sections:
+  project:
+    description: Dashboard comparing fictional electricity generation sources across European countries.
+    projectUrl: https://example.org/energy-mix
+    publicationDate: 8 January 2025
+    license: MIT for code; CC BY 4.0 for metadata
+  usage:
+    intent: Support high-level comparison of national electricity mixes.
+    targetAudience: Policy researchers, educators, and the general public.
+    recommendedInterpretation: Compare shares within a selected period; totals and shares answer different questions.
+  data:
+    sources: Fictional transmission-system reports.
+    collectionPeriod: January 2020–May 2025
+    updateFrequency: Monthly
+  analysis:
+    processing: Generation categories were harmonized and missing monthly values linearly interpolated.
+    codeUrl: https://example.org/energy-mix/code
+  encoding:
+    chartType: Dashboard with stacked bars and small multiples
+    visualEncoding: Bar length represents generated electricity; color identifies generation source.
+    interaction: Country, period, source, and absolute-versus-share controls.
+  limitations:
+    knownLimitations: Imported electricity is assigned to the reporting country and does not reflect origin mix.
+    uncertainty: Interpolated values are marked in detail views only.

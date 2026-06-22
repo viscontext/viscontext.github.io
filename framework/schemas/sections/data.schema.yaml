@@ -1,0 +1,16 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://viscontext.github.io/schemas/0.2.0/sections/data.schema.json
+title: Data section
+type: object
+additionalProperties: false
+required: [sources, collectionPeriod, updateFrequency]
+properties:
+  sources:
+    type: string
+    minLength: 1
+  collectionPeriod:
+    type: string
+    minLength: 1
+  updateFrequency:
+    type: string
+    minLength: 1

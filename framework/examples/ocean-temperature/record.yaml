@@ -1,0 +1,39 @@
+id: ocean-temperature
+version: 0.2.0
+frameworkVersion: 0.2.0
+status: example
+work:
+  type: story
+  topic: climate
+  visualKind: small-multiples
+  title: Ocean temperature anomaly story
+  year: 2024
+  fictional: true
+  canonicalUrl: https://example.org/ocean-temperature
+contributors:
+  - displayName: Marine Signals Group
+    role: creator
+sections:
+  project:
+    description: Scroll-based visual story about fictional monthly sea-surface temperature anomalies.
+    projectUrl: https://example.org/ocean-temperature
+    publicationDate: 26 August 2024
+    license: CC BY 4.0
+  usage:
+    intent: Explain how anomaly patterns differ across ocean basins and seasons.
+    targetAudience: General audiences and science communicators.
+    recommendedInterpretation: Compare each basin against its own historical monthly baseline.
+  data:
+    sources: Fictional gridded sea-surface temperature product.
+    collectionPeriod: 1981–2024
+    updateFrequency: Monthly
+  analysis:
+    processing: Monthly anomalies use a 1991–2020 basin-specific climatology and area weighting.
+    codeUrl: https://example.org/ocean-temperature/code
+  encoding:
+    chartType: Annotated small multiples and maps
+    visualEncoding: Position represents time; color represents anomaly direction and magnitude.
+    interaction: Scrolling advances annotations; readers can pause and inspect individual basins.
+  limitations:
+    knownLimitations: Basin averages conceal local marine heatwaves and near-coastal measurement gaps.
+    uncertainty: Data coverage is shown on maps but not in the summary small multiples.

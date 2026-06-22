@@ -5,8 +5,9 @@ and inspecting structured context about visualizations and visual stories. The
 final names for the platform, its records, and their sections are intentionally
 unresolved while the conceptual framework is being researched.
 
-The project is currently in its experimental framework phase. Increment 0
-implements one provisional section and one fictional record end to end.
+The project is currently a functional catalog prototype. It includes six fake
+visualization projects, reader-facing context tables, and a local-only author
+submission form built from a provisional framework.
 
 ## Project documents
 
@@ -41,9 +42,6 @@ framework + examples -> framework tooling -> canonical JSON -> website + static 
 
 ## Current direction
 
-The current implementation is deliberately small: a schema-driven, read-only
-placeholder record rendered from repository fixtures. Authentication,
-databases, comments, and verification will be implemented only after the
-information model has been tested with representative visualization examples.
-The eventual platform will include authenticated accounts, persistent drafts,
-direct browser submission, and media upload.
+The current implementation tests two flows: readers browse, filter, and inspect
+project context; authors draft a project submission and preview it locally.
+Authentication, server persistence, and real media upload remain deferred.

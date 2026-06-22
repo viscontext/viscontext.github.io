@@ -1,0 +1,39 @@
+id: coastal-change
+version: 0.2.0
+frameworkVersion: 0.2.0
+status: example
+work:
+  type: static
+  topic: climate
+  visualKind: line
+  title: Coastal change, 1990–2025
+  year: 2025
+  fictional: true
+  canonicalUrl: https://example.org/coastal-change
+contributors:
+  - displayName: North Sea Climate Lab
+    role: creator
+sections:
+  project:
+    description: Shoreline movement across three fictional coastal monitoring regions.
+    projectUrl: https://example.org/coastal-change
+    publicationDate: 12 March 2025
+    license: CC BY 4.0
+  usage:
+    intent: Support discussion of long-term shoreline change.
+    targetAudience: Coastal planners, journalists, and residents.
+    recommendedInterpretation: Compare direction and broad trend; do not treat individual yearly values as forecasts.
+  data:
+    sources: Fictional regional shoreline surveys and satellite observations.
+    collectionPeriod: 1990–2025
+    updateFrequency: Annual
+  analysis:
+    processing: Annual observations were aligned to a shared baseline and smoothed with a three-year rolling mean.
+    codeUrl: https://example.org/coastal-change/code
+  encoding:
+    chartType: Multi-series line chart
+    visualEncoding: Horizontal position represents year; vertical position represents shoreline movement in metres; color separates regions.
+    interaction: None; this is a static visualization.
+  limitations:
+    knownLimitations: Regional averages hide local variation and short-term storm effects.
+    uncertainty: Measurement intervals are omitted from the placeholder chart.

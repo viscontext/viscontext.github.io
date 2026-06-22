@@ -19,9 +19,16 @@ describe("experimental framework compiler", () => {
     const context = await createCompilerContext();
     const records = await loadExampleRecords(context);
 
-    expect(records).toHaveLength(1);
-    expect(records[0]?.id).toBe("placeholder-record");
-    expect(context.framework.sections.map((section) => section.id)).toEqual(["overview"]);
+    expect(records).toHaveLength(6);
+    expect(records.map((record) => record.id)).toContain("coastal-change");
+    expect(context.framework.sections.map((section) => section.id)).toEqual([
+      "project",
+      "usage",
+      "data",
+      "analysis",
+      "encoding",
+      "limitations",
+    ]);
   });
 
   it("reports invalid records with field paths", async () => {
@@ -40,11 +47,11 @@ describe("experimental framework compiler", () => {
     await generateProject();
     const apiPath = path.join(
       defaultRepositoryRoot,
-      "generated/public/api/v1/records/placeholder-record.json",
+      "generated/public/api/v1/records/coastal-change.json",
     );
     const generated = JSON.parse(await readFile(apiPath, "utf8")) as JsonObject;
 
-    expect(generated.id).toBe("placeholder-record");
-    expect(generated.frameworkVersion).toBe("0.1.0");
+    expect(generated.id).toBe("coastal-change");
+    expect(generated.frameworkVersion).toBe("0.2.0");
   });
 });

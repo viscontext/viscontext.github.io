@@ -1,0 +1,39 @@
+id: city-tree-canopy
+version: 0.2.0
+frameworkVersion: 0.2.0
+status: example
+work:
+  type: interactive
+  topic: cities
+  visualKind: map
+  title: City tree canopy explorer
+  year: 2024
+  fictional: true
+  canonicalUrl: https://example.org/tree-canopy
+contributors:
+  - displayName: Open City Observatory
+    role: creator
+sections:
+  project:
+    description: Neighborhood-level exploration of estimated urban tree canopy coverage.
+    projectUrl: https://example.org/tree-canopy
+    publicationDate: 4 October 2024
+    license: CC BY-SA 4.0
+  usage:
+    intent: Help local teams identify broad differences in canopy coverage.
+    targetAudience: City planners, community groups, and students.
+    recommendedInterpretation: Use the map to locate broad spatial patterns before consulting local survey data.
+  data:
+    sources: Fictional aerial imagery classifications and neighborhood boundaries.
+    collectionPeriod: Summer 2023
+    updateFrequency: Every three years
+  analysis:
+    processing: Raster classifications were aggregated to neighborhood polygons and low-confidence pixels removed.
+    codeUrl: https://example.org/tree-canopy/code
+  encoding:
+    chartType: Choropleth map
+    visualEncoding: Darker green indicates a larger estimated share of canopy coverage.
+    interaction: Readers can pan, zoom, select neighborhoods, and filter by land-use class.
+  limitations:
+    knownLimitations: Neighborhood averages do not show whether canopy is publicly accessible.
+    uncertainty: Classification confidence is available in tooltips but not visible in the default map.

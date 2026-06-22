@@ -1,6 +1,6 @@
 project:
   name: VisContext
-  description: Structured context for visual works
+  description: Open repository for visualization projects and their context
 terms:
   record:
     singular: context record
@@ -9,5 +9,5 @@ terms:
     singular: section
     plural: sections
   work:
-    singular: visual work
-    plural: visual works
+    singular: visualization project
+    plural: visualization projects

@@ -1,6 +1,6 @@
 # VisContext product and implementation plan
 
-Status: Increment 0 implemented, 22 June 2026
+Status: raw catalog and author-flow prototype implemented, 22 June 2026
 
 **VisContext is a temporary project name.** The research contribution includes
 discovering the conceptual framework, its structure, and its vocabulary. The
@@ -622,18 +622,21 @@ None of these decisions block Increment 0.
 
 ## 18. Current implementation and next slice
 
-Increment 0 now includes:
+The current prototype includes:
 
 - the independent framework, terminology, presentation, schema, and example
   files;
 - a compiler that validates framework invariants and records;
 - deterministic canonical JSON and a versioned static API;
-- generic Astro framework and record pages;
-- one fictional placeholder visual and record;
+- a raw searchable and filterable catalog with six fake visualization projects;
+- generic project pages pairing a visualization preview with a row-column
+  context metadata table;
+- an author upload form with browser-local draft saving and submission preview;
+- a plain framework field table for inspecting the provisional structure;
 - unit tests, type checks, HTML accessibility validation, and dependency audit;
 - pinned CI and GitHub Pages deployment workflows.
 
-The next slice is Increment 1, the framework workbench. It should generate field
-reference documentation, improve validation feedback, show framework-version
-differences, and make local schema iteration visible in one command. Production
-taxonomy work, authentication, uploads, comments, and badges remain deferred.
+The next work should remain functional and user-flow driven: iterate on catalog
+browsing, project detail organization, and author submission requirements before
+adding visual polish. Production taxonomy work, authentication, real uploads,
+comments, and badges remain deferred.

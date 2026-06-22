@@ -1,78 +1,109 @@
 ---
-import PlaceholderVisual from "../components/PlaceholderVisual.astro";
+import ProjectVisual from "../components/ProjectVisual.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { framework, records, terminology } from "../lib/data";
+import { records } from "../lib/data";
 
-const example = records[0];
-if (!example) throw new Error("The generated site bundle contains no example record.");
+const projects = [...records].sort((a, b) => a.work.title.localeCompare(b.work.title));
+const topics = [...new Set(projects.map((record) => record.work.topic))].sort();
+const types = [...new Set(projects.map((record) => record.work.type))].sort();
 ---
 
-<BaseLayout>
-  <section class="hero shell">
-    <div class="hero-copy">
-      <p class="eyebrow"><span></span> Experimental framework · {framework.version}</p>
-      <h1>Every visual has<br /><em>a context.</em></h1>
-      <p class="hero-intro">
-        An open framework for describing how visual works are made, what they mean,
-        and where their limits begin.
-      </p>
-      <div class="hero-actions">
-        <a class="button button-primary" href={`/records/${example.id}/`}>Inspect the example <span aria-hidden="true">↗</span></a>
-        <a class="button button-secondary" href="/framework/">Explore the framework</a>
-      </div>
+<BaseLayout title="Visualization project repository" description="Browse visualization projects and inspect their context metadata.">
+  <header class="page-heading shell">
+    <div>
+      <p class="prototype-label">Functional prototype · fake project data</p>
+      <h1>Visualization project repository</h1>
+      <p>Browse visualization projects and inspect the context metadata provided alongside them.</p>
     </div>
-    <div class="hero-visual-wrap">
-      <div class="visual-index" aria-hidden="true">EXAMPLE / 001</div>
-      <PlaceholderVisual />
+    <a class="button" href="/upload/">Upload a project</a>
+  </header>
+
+  <section class="catalog shell" aria-labelledby="catalog-title">
+    <h2 id="catalog-title" class="visually-hidden">Project catalog</h2>
+    <div class="catalog-controls" role="search">
+      <label>
+        Search projects
+        <input id="catalog-search" type="search" placeholder="Title, author, or description" autocomplete="off" />
+      </label>
+      <label>
+        Topic
+        <select id="topic-filter">
+          <option value="">All topics</option>
+          {topics.map((topic) => <option value={topic}>{topic}</option>)}
+        </select>
+      </label>
+      <label>
+        Format
+        <select id="type-filter">
+          <option value="">All formats</option>
+          {types.map((type) => <option value={type}>{type}</option>)}
+        </select>
+      </label>
     </div>
+
+    <div class="catalog-summary">
+      <strong id="result-count">{projects.length} projects</strong>
+      <span>Each project includes visualization context supplied as structured metadata.</span>
+    </div>
+
+    <ul class="project-grid" id="project-grid">
+      {projects.map((record) => {
+        const author = record.contributors[0]?.displayName ?? "Unknown author";
+        const description = String(record.sections.project?.description ?? "");
+        return (
+          <li
+            class="project-card"
+            data-topic={record.work.topic}
+            data-type={record.work.type}
+            data-search={`${record.work.title} ${author} ${description}`.toLowerCase()}
+          >
+            <a class="visual-link" href={`/records/${record.id}/`} tabindex="-1" aria-hidden="true">
+              <ProjectVisual compact kind={record.work.visualKind} title={record.work.title} />
+            </a>
+            <div class="card-content">
+              <div class="card-tags"><span>{record.work.topic}</span><span>{record.work.type}</span><span>{record.work.year}</span></div>
+              <h3><a href={`/records/${record.id}/`}>{record.work.title}</a></h3>
+              <p class="card-author">By {author}</p>
+              <p>{description}</p>
+              <p class="context-count">{Object.values(record.sections).reduce((count, section) => count + Object.keys(section).length, 0)} context fields available</p>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+    <p id="empty-state" class="empty-state" hidden>No projects match the current filters.</p>
   </section>
 
-  <section class="manifesto">
-    <div class="shell manifesto-grid">
-      <p class="section-kicker">Why context?</p>
-      <blockquote>
-        A visualization rarely speaks for itself. Its data, intent, design choices,
-        and limitations shape what a reader can reasonably conclude.
-      </blockquote>
-      <p class="manifesto-note">
-        {terminology.project.name} is a temporary name. The framework, terminology,
-        and interface are designed to change independently.
-      </p>
-    </div>
-  </section>
+  <script>
+    function requiredElement<T extends Element>(selector: string): T {
+      const element = document.querySelector<T>(selector);
+      if (!element) throw new Error(`Missing catalog element: ${selector}`);
+      return element;
+    }
 
-  <section class="principles shell">
-    <div class="section-title-row">
-      <p class="section-kicker">Built to evolve</p>
-      <p>Three boundaries keep an unsettled research framework replaceable.</p>
-    </div>
-    <div class="principle-grid">
-      <article>
-        <span>01</span>
-        <h2>Framework first</h2>
-        <p>Terminology, sections, and fields live outside the website in versioned, human-readable files.</p>
-      </article>
-      <article>
-        <span>02</span>
-        <h2>One canonical form</h2>
-        <p>YAML is for authoring. JSON Schema validates it. Generated JSON supplies every consumer.</p>
-      </article>
-      <article>
-        <span>03</span>
-        <h2>Open by construction</h2>
-        <p>The same validated material becomes accessible pages and a versioned static data API.</p>
-      </article>
-    </div>
-  </section>
+    const search = requiredElement<HTMLInputElement>('#catalog-search');
+    const topic = requiredElement<HTMLSelectElement>('#topic-filter');
+    const type = requiredElement<HTMLSelectElement>('#type-filter');
+    const cards = [...document.querySelectorAll<HTMLElement>('.project-card')];
+    const count = requiredElement<HTMLElement>('#result-count');
+    const empty = requiredElement<HTMLElement>('#empty-state');
 
-  <section class="example-band">
-    <div class="shell example-grid">
-      <div>
-        <p class="eyebrow eyebrow-light"><span></span> One provisional {terminology.terms.record.singular}</p>
-        <h2>{example.work.title}</h2>
-      </div>
-      <p>{String(example.sections.overview?.description)}</p>
-      <a class="circle-link" href={`/records/${example.id}/`} aria-label={`Open ${example.work.title}`}><span aria-hidden="true">↗</span></a>
-    </div>
-  </section>
+    function updateCatalog() {
+      const query = search.value.trim().toLowerCase();
+      let visible = 0;
+      for (const card of cards) {
+        const matchesSearch = !query || (card.dataset.search ?? '').includes(query);
+        const matchesTopic = !topic.value || card.dataset.topic === topic.value;
+        const matchesType = !type.value || card.dataset.type === type.value;
+        card.hidden = !(matchesSearch && matchesTopic && matchesType);
+        if (!card.hidden) visible += 1;
+      }
+      count.textContent = `${visible} ${visible === 1 ? 'project' : 'projects'}`;
+      empty.hidden = visible !== 0;
+    }
+
+    search.addEventListener('input', updateCatalog);
+    topic.addEventListener('change', updateCatalog);
+    type.addEventListener('change', updateCatalog);
+  </script>
 </BaseLayout>

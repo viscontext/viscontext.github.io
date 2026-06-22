@@ -4,15 +4,12 @@ import { terminology } from "../lib/data";
 
 <header class="site-header">
   <a class="skip-link" href="#main-content">Skip to content</a>
-  <div class="shell header-inner">
-    <a class="wordmark" href="/" aria-label={`${terminology.project.name} home`}>
-      <span class="wordmark-mark" aria-hidden="true"><i></i><i></i><i></i></span>
-      <span>{terminology.project.name}</span>
-    </a>
+  <div class="shell header-row">
+    <a class="site-name" href="/">{terminology.project.name} repository <small>working title</small></a>
     <nav aria-label="Primary navigation">
-      <a href="/framework/">Framework</a>
-      <a href="/records/placeholder-record/">Example record</a>
-      <a href="/api/v1/records/index.json">Data API</a>
+      <a href="/">Browse</a>
+      <a href="/upload/">Upload project</a>
+      <a href="/framework/">Context framework</a>
     </nav>
   </div>
 </header>

@@ -1,0 +1,39 @@
+id: transport-reliability
+version: 0.2.0
+frameworkVersion: 0.2.0
+status: example
+work:
+  type: interactive
+  topic: mobility
+  visualKind: bars
+  title: Public transport reliability tracker
+  year: 2025
+  fictional: true
+  canonicalUrl: https://example.org/transport-reliability
+contributors:
+  - displayName: Civic Mobility Lab
+    role: creator
+sections:
+  project:
+    description: Interactive comparison of fictional delay and cancellation rates across transit lines.
+    projectUrl: https://example.org/transport-reliability
+    publicationDate: 2 May 2025
+    license: CC0 metadata; Apache-2.0 code
+  usage:
+    intent: Help riders and analysts inspect recurring reliability patterns.
+    targetAudience: Transit riders, operators, and local journalists.
+    recommendedInterpretation: Compare lines over similar periods and check the number of scheduled services.
+  data:
+    sources: Fictional vehicle-location feeds and published schedules.
+    collectionPeriod: January 2024–April 2025
+    updateFrequency: Weekly
+  analysis:
+    processing: Observed arrivals were matched to schedules; services with missing identifiers were excluded.
+    codeUrl: https://example.org/transport-reliability/code
+  encoding:
+    chartType: Ranked bars with weekly trend lines
+    visualEncoding: Bar length represents delayed-service share; color separates delay and cancellation categories.
+    interaction: Readers can choose route, weekday, time window, and reliability threshold.
+  limitations:
+    knownLimitations: Missing location feeds can make disrupted service appear absent rather than delayed.
+    uncertainty: Matching quality is summarized per route but not included in rankings.
