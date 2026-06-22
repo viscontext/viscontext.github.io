@@ -1,0 +1,84 @@
+id: ipcc-wgi-spm-1
+version: 0.1.0
+frameworkVersion: 0.4.0
+status: published
+work:
+  type: static
+  topic: climate
+  visualKind: line
+  title: IPCC AR6 WGI SPM.1 — Global Temperature Change
+  year: 2021
+  fictional: false
+  canonicalUrl: https://www.ipcc.ch/report/ar6/wg1/figures/summary-for-policymakers/figure-spm-1/
+contributors:
+  - displayName: IPCC Working Group I
+    role: Publisher and assessment body
+  - displayName: AR6 WGI Summary for Policymakers author team
+    role: Scientific assessment and figure authorship
+provenance:
+  mode: imported
+  provider: Intergovernmental Panel on Climate Change (IPCC)
+  externalId: ar6-wgi-spm-1
+  sourceUrl: https://www.ipcc.ch/report/ar6/wg1/figures/summary-for-policymakers/figure-spm-1/
+  metadataUrl: https://catalogue.ceda.ac.uk/uuid/0b2759059ad6474098e40dad73e0a8ec
+  retrievedAt: 2026-06-22
+  attribution: "Figure SPM.1 in IPCC, 2021: Summary for Policymakers. In Climate Change 2021: The Physical Science Basis. Cambridge University Press, pp. 3–32, doi:10.1017/9781009157896.001."
+  normalizationNotes:
+    - Normalized from the official IPCC figure page, caption, citation panel, dataset catalogue, and IPCC copyright policy.
+    - The composed figure is represented as two panel-level visualizations because the panels use different evidence and temporal resolutions.
+visualizations:
+  totalCount: 2
+  listingMode: complete
+  items:
+    - id: temperature-history
+      title: Panel A — Long-term global temperature history
+      visualKind: line
+      description: Paleoclimate reconstructions for years 1–2000 and direct observations for 1850–2020, shown relative to the 1850–1900 baseline and decadally averaged.
+      context:
+        chartType: Long-run line chart with reconstruction uncertainty
+        visualEncoding: Grey and black lines distinguish reconstructed and observed temperature; shading and an interval bar show very likely ranges and historical warm-period context.
+        knownLimitations: Reconstruction and instrumental records have different coverage and uncertainty, and decadal averaging suppresses annual variability.
+      media:
+        selection: complete
+        items:
+          - id: complete-figure
+            label: Complete two-panel figure
+            kind: image
+            format: PNG
+            url: https://www.ipcc.ch/report/ar6/wg1/downloads/figures/IPCC_AR6_WGI_SPM_Figure_1.png
+          - id: figure-dataset
+            label: Figure dataset catalogue
+            kind: data
+            url: https://catalogue.ceda.ac.uk/uuid/0b2759059ad6474098e40dad73e0a8ec
+    - id: observed-and-simulated-warming
+      title: Panel B — Observed and simulated recent warming
+      visualKind: line
+      description: Observed annual global surface temperature change from 1850–2020 compared with CMIP6 simulations using human-plus-natural drivers and natural-only drivers.
+      context:
+        chartType: Comparative observed and ensemble-model time series
+        visualEncoding: Black observations are compared with brown human-plus-natural and green natural-only ensemble means; colored shading shows very likely simulation ranges.
+        knownLimitations: Multi-model means and ranges summarize model ensembles and do not represent every structural or observational uncertainty separately.
+sections:
+  project:
+    description: Two-panel IPCC AR6 Working Group I synthesis figure comparing long-term temperature history, direct observations, and climate-model simulations to communicate the causes of recent warming.
+    projectUrl: https://www.ipcc.ch/report/ar6/wg1/figures/summary-for-policymakers/figure-spm-1/
+    publicationDate: "2021"
+    license: IPCC copyright policy permits limited unchanged reproduction for personal non-commercial use with full source acknowledgment; other use requires permission.
+  usage:
+    intent: Communicate how recent global warming compares with long-term climate history and why natural drivers alone cannot reproduce observed recent warming.
+    targetAudience: Policymakers and general readers of the AR6 Working Group I Summary for Policymakers, as well as researchers, educators, and communicators.
+    recommendedInterpretation: Read Panel A for historical context and Panel B for attribution evidence; compare observations with both model-driver ensembles and retain the uncertainty ranges.
+  data:
+    sources: Paleoclimate archives, direct global surface-temperature observations, and CMIP6 simulations with human and natural forcings or natural-only forcings.
+    collectionPeriod: Paleoclimate reconstruction years 1–2000; instrumental observations and model comparison 1850–2020
+    updateFrequency: Static figure from the 2021 AR6 Working Group I assessment.
+  analysis:
+    processing: Values are expressed relative to 1850–1900; Panel A is decadally averaged, Panel B uses annual observations and multi-model averages, and uncertainty is summarized using assessed very likely ranges.
+    codeUrl: null
+  encoding:
+    chartType: Two-panel line figure with historical reconstruction, observations, model ensembles, interval bars, and uncertainty bands
+    visualEncoding: Time and temperature position form the primary encoding; source and forcing assumptions use color and line identity, while shaded intervals encode assessed uncertainty.
+    interaction: Static figure with separate downloadable PNG and linked figure dataset.
+  limitations:
+    knownLimitations: The panels combine evidence with different temporal resolution, coverage, and uncertainty; the 1850–1900 baseline and ensemble summaries are essential to interpretation.
+    uncertainty: Grey and colored shading, plus an interval bar, encode very likely ranges for reconstructions and model simulations.

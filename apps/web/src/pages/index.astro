@@ -6,6 +6,7 @@ import { records } from "../lib/data";
 const projects = [...records].sort((a, b) => a.work.title.localeCompare(b.work.title));
 const topics = [...new Set(projects.map((record) => record.work.topic))].sort();
 const types = [...new Set(projects.map((record) => record.work.type))].sort();
+const providers = [...new Set(projects.flatMap((record) => record.provenance ? [record.provenance.provider] : []))].sort();
 ---
 
 <BaseLayout title="Visualization project repository" description="Browse visualization projects and inspect their context metadata.">
@@ -47,6 +48,13 @@ const types = [...new Set(projects.map((record) => record.work.type))].sort();
           <option value="fictional">Fictional examples</option>
         </select>
       </label>
+      <label>
+        Source platform
+        <select id="provider-filter">
+          <option value="">All platforms</option>
+          {providers.map((provider) => <option value={provider}>{provider}</option>)}
+        </select>
+      </label>
     </div>
 
     <div class="catalog-summary">
@@ -68,6 +76,7 @@ const types = [...new Set(projects.map((record) => record.work.type))].sort();
             data-topic={record.work.topic}
             data-type={record.work.type}
             data-origin={origin}
+            data-provider={provider}
             data-search={`${record.work.title} ${author} ${provider} ${description} ${visualizationTitles}`.toLowerCase()}
           >
             <a class="visual-link" href={`/records/${record.id}/`} tabindex="-1" aria-hidden="true">
@@ -101,6 +110,7 @@ const types = [...new Set(projects.map((record) => record.work.type))].sort();
     const topic = requiredElement<HTMLSelectElement>('#topic-filter');
     const type = requiredElement<HTMLSelectElement>('#type-filter');
     const origin = requiredElement<HTMLSelectElement>('#origin-filter');
+    const provider = requiredElement<HTMLSelectElement>('#provider-filter');
     const cards = [...document.querySelectorAll<HTMLElement>('.project-card')];
     const count = requiredElement<HTMLElement>('#result-count');
     const empty = requiredElement<HTMLElement>('#empty-state');
@@ -113,7 +123,8 @@ const types = [...new Set(projects.map((record) => record.work.type))].sort();
         const matchesTopic = !topic.value || card.dataset.topic === topic.value;
         const matchesType = !type.value || card.dataset.type === type.value;
         const matchesOrigin = !origin.value || card.dataset.origin === origin.value;
-        card.hidden = !(matchesSearch && matchesTopic && matchesType && matchesOrigin);
+        const matchesProvider = !provider.value || card.dataset.provider === provider.value;
+        card.hidden = !(matchesSearch && matchesTopic && matchesType && matchesOrigin && matchesProvider);
         if (!card.hidden) visible += 1;
       }
       count.textContent = `${visible} ${visible === 1 ? 'project' : 'projects'}`;
@@ -124,5 +135,6 @@ const types = [...new Set(projects.map((record) => record.work.type))].sort();
     topic.addEventListener('change', updateCatalog);
     type.addEventListener('change', updateCatalog);
     origin.addEventListener('change', updateCatalog);
+    provider.addEventListener('change', updateCatalog);
   </script>
 </BaseLayout>

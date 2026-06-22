@@ -1,0 +1,71 @@
+id: ipcc-wgii-spm-2
+version: 0.1.0
+frameworkVersion: 0.4.0
+status: published
+work:
+  type: static
+  topic: climate
+  visualKind: small-multiples
+  title: IPCC AR6 WGII Figure SPM.2 — Observed Climate Impacts
+  year: 2022
+  fictional: false
+  canonicalUrl: https://www.ipcc.ch/report/ar6/wg2/figures/summary-for-policymakers/figure-spm-2/
+contributors:
+  - displayName: IPCC Working Group II
+    role: Publisher and assessment body
+  - displayName: AR6 WGII Summary for Policymakers author team
+    role: Scientific assessment and figure authorship
+provenance:
+  mode: imported
+  provider: Intergovernmental Panel on Climate Change (IPCC)
+  externalId: ar6-wgii-spm-2
+  sourceUrl: https://www.ipcc.ch/report/ar6/wg2/figures/summary-for-policymakers/figure-spm-2/
+  retrievedAt: 2026-06-22
+  attribution: "Figure SPM.2 in IPCC, 2022: Summary for Policymakers. In Climate Change 2022: Impacts, Adaptation and Vulnerability. Cambridge University Press, pp. 3–33, doi:10.1017/9781009325844.001."
+  normalizationNotes:
+    - Normalized from the official IPCC figure page, caption, citation panel, and IPCC copyright policy.
+    - The source page provides no separate downloadable figure-data catalogue, so data and processing fields preserve only information stated in the figure caption.
+visualizations:
+  totalCount: 1
+  listingMode: complete
+  items:
+    - id: observed-attributed-impacts
+      title: Observed impacts attributed to climate change
+      visualKind: small-multiples
+      description: Global and regional synthesis of observed impacts on ecosystems and human systems attributed to climate change.
+      context:
+        chartType: Confidence-coded global and regional evidence-synthesis matrix
+        visualEncoding: Impact categories and regions organize the assessments, while confidence levels communicate uncertainty in attribution to climate change.
+        knownLimitations: Regional assessments often draw on smaller and more limited studies than global syntheses and describe regions as wholes rather than individual countries.
+      media:
+        selection: complete
+        items:
+          - id: complete-figure
+            label: Complete figure
+            kind: image
+            format: PNG
+            url: https://www.ipcc.ch/report/ar6/wg2/downloads/figures/IPCC_AR6_WGII_Figure_SPM_002.png
+sections:
+  project:
+    description: IPCC AR6 Working Group II synthesis figure summarizing observed global and regional impacts on ecosystems and human systems that are attributed to climate change.
+    projectUrl: https://www.ipcc.ch/report/ar6/wg2/figures/summary-for-policymakers/figure-spm-2/
+    publicationDate: "2022"
+    license: IPCC copyright policy permits limited unchanged reproduction for personal non-commercial use with full source acknowledgment; other use requires permission.
+  usage:
+    intent: Summarize where assessed evidence identifies climate-change impacts on ecosystems and human systems and communicate confidence in attribution.
+    targetAudience: Policymakers and general readers of the AR6 Working Group II Summary for Policymakers, as well as adaptation practitioners, researchers, educators, and communicators.
+    recommendedInterpretation: Read each impact assessment together with its geographic scope and confidence level; do not interpret a regional result as a country-specific finding.
+  data:
+    sources: Assessed literature on observed ecosystem and human-system impacts, including large studies, multi-species analyses, meta-analyses, reviews, and regional studies.
+    collectionPeriod: null
+    updateFrequency: Static figure from the 2022 AR6 Working Group II assessment.
+  analysis:
+    processing: IPCC authors synthesize assessed evidence at global and regional levels and assign confidence to attribution of observed impacts to climate change.
+    codeUrl: null
+  encoding:
+    chartType: Global and regional evidence-synthesis matrix with impact categories and confidence assessments
+    visualEncoding: Grouping and labels organize ecosystem and human-system impacts by scale and region; confidence levels encode strength of attribution evidence.
+    interaction: Static figure available as a downloadable PNG.
+  limitations:
+    knownLimitations: Global assessments can reach higher confidence because they draw on broader evidence; regional studies may be smaller, have limited data, and assess whole regions rather than countries.
+    uncertainty: Confidence levels explicitly represent uncertainty in attributing observed impacts to climate change.

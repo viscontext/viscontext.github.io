@@ -1,0 +1,85 @@
+id: owid-renewable-electricity-share
+version: 0.1.0
+frameworkVersion: 0.4.0
+status: published
+work:
+  type: interactive
+  topic: energy
+  visualKind: line
+  title: Share of Electricity Production from Renewables
+  year: 2026
+  fictional: false
+  canonicalUrl: https://ourworldindata.org/grapher/share-electricity-renewables
+contributors:
+  - displayName: Our World in Data
+    role: Publisher and data processor
+  - displayName: Ember
+    role: Original data provider
+  - displayName: Energy Institute
+    role: Original data provider
+provenance:
+  mode: imported
+  provider: Our World in Data
+  externalId: share-electricity-renewables
+  sourceUrl: https://ourworldindata.org/grapher/share-electricity-renewables
+  metadataUrl: https://ourworldindata.org/grapher/share-electricity-renewables.metadata.json?v=1&csvType=full&useColumnShortNames=false
+  retrievedAt: 2026-06-22
+  sourceUpdatedAt: Indicator metadata last updated 24 April 2026
+  attribution: Ember (2026); Energy Institute, Statistical Review of World Energy (2025) – with major processing by Our World in Data.
+  normalizationNotes:
+    - Normalized from the OWID chart metadata JSON and public chart page.
+    - The time series joins providers at different dates, exposing source-transition context that a chart-level citation alone can hide.
+    - Context not supplied by OWID is stored as null rather than inferred.
+visualizations:
+  totalCount: 1
+  listingMode: complete
+  items:
+    - id: renewable-electricity-chart
+      title: Renewable share of electricity production, 1985–2025
+      visualKind: line
+      description: Interactive country and regional comparison of renewable electricity as a percentage of total electricity production.
+      context:
+        chartType: Interactive time-series line chart, choropleth map, and data table
+        visualEncoding: Renewable percentage is represented by vertical position over time or geographic color.
+        knownLimitations: Ember supplies later years while Energy Institute data supplies earlier years, with the transition occurring earlier for European countries.
+      media:
+        selection: representative
+        items:
+          - id: live-chart
+            label: Live interactive chart
+            kind: interactive
+            url: https://ourworldindata.org/grapher/share-electricity-renewables
+          - id: metadata-json
+            label: Chart metadata
+            kind: metadata
+            format: JSON
+            url: https://ourworldindata.org/grapher/share-electricity-renewables.metadata.json?v=1&csvType=full&useColumnShortNames=false
+          - id: full-data
+            label: Full chart data
+            kind: data
+            format: CSV
+            url: https://ourworldindata.org/grapher/share-electricity-renewables.csv?v=1&csvType=full&useColumnShortNames=false
+sections:
+  project:
+    description: Our World in Data chart comparing the percentage of electricity generated from solar, wind, hydropower, bioenergy, geothermal, wave, and tidal sources.
+    projectUrl: https://ourworldindata.org/grapher/share-electricity-renewables
+    publicationDate: Indicator metadata updated 24 April 2026
+    license: OWID-produced visualization and text are CC BY; Ember and Energy Institute data remain subject to their original terms.
+  usage:
+    intent: Compare how strongly countries and regions rely on renewable sources for electricity production and how those shares change over time.
+    targetAudience: null
+    recommendedInterpretation: Read percentages as renewable generation divided by total electricity production, not as renewable energy's share of all energy consumption.
+  data:
+    sources: Ember Yearly Electricity Data and Energy Institute Statistical Review of World Energy, with major processing by Our World in Data.
+    collectionPeriod: 1985 to 2025
+    updateFrequency: The metadata lists annual updates, with the next update expected 24 April 2027.
+  analysis:
+    processing: Ember supplies data from 2000 onward globally and from 1990 onward for European countries including Turkey; Energy Institute data supplies earlier observations.
+    codeUrl: null
+  encoding:
+    chartType: Interactive line chart, choropleth map, and data table
+    visualEncoding: Renewable shares are represented by line position or map color on a percentage scale.
+    interaction: Readers can select places and years, switch views, inspect values, and download data and metadata.
+  limitations:
+    knownLimitations: The series combines providers across time; renewable electricity share is not equivalent to renewable share of total primary or final energy.
+    uncertainty: The chart metadata does not specify or encode quantitative uncertainty intervals.

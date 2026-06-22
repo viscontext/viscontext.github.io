@@ -19,7 +19,7 @@ describe("experimental framework compiler", () => {
     const context = await createCompilerContext();
     const records = await loadExampleRecords(context);
 
-    expect(records).toHaveLength(13);
+    expect(records).toHaveLength(20);
     expect(records.map((record) => record.id)).toContain("coastal-change");
     expect(context.framework.sections.map((section) => section.id)).toEqual([
       "project",
@@ -41,6 +41,16 @@ describe("experimental framework compiler", () => {
     expect(methaneMedia.find((item) => item.id === "methane-layer-frames")?.itemCount).toBe(
       262144,
     );
+    const coBenefitsAtlas = records.find((record) => record.id === "uk-co-benefits-atlas");
+    expect((coBenefitsAtlas?.visualizations as JsonObject).totalCount).toBe(5);
+    expect(coBenefitsAtlas?.contributors).toHaveLength(10);
+    const ipccAtlas = records.find((record) => record.id === "ipcc-wgi-interactive-atlas");
+    expect((ipccAtlas?.provenance as JsonObject).provider).toBe(
+      "Intergovernmental Panel on Climate Change (IPCC)",
+    );
+    expect((ipccAtlas?.visualizations as JsonObject).totalCount).toBe(2);
+    const ipccSpm = records.find((record) => record.id === "ipcc-wgi-spm-1");
+    expect((ipccSpm?.visualizations as JsonObject).totalCount).toBe(2);
   });
 
   it("requires provenance for imported real-world records", async () => {

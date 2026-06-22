@@ -1,0 +1,128 @@
+id: uk-co-benefits-atlas
+version: 0.1.0
+frameworkVersion: 0.4.0
+status: published
+work:
+  type: interactive
+  topic: climate
+  visualKind: dashboard
+  title: The UK Co-Benefits Atlas
+  year: 2025
+  fictional: false
+  canonicalUrl: https://ukcobenefitsatlas.net/
+contributors:
+  - displayName: Sian Phillips
+    role: Visualization researcher
+    affiliation: University of Edinburgh
+  - displayName: Jinrui Wang
+    role: Visualization researcher
+    affiliation: University of Edinburgh
+  - displayName: Alexis Pister
+    role: Visualization researcher
+    affiliation: University of Edinburgh
+  - displayName: Uta Hinrichs
+    role: Visualization researcher
+    affiliation: University of Edinburgh
+  - displayName: Benjamin Bach
+    role: Visualization researcher
+    affiliation: Inria Bordeaux and University of Edinburgh
+  - displayName: Andrew Sudmant
+    role: Co-benefits modeling researcher
+    affiliation: University of Edinburgh
+  - displayName: Ruaidhri Higgins-Lavery
+    role: Co-benefits modeling researcher
+    affiliation: University of Edinburgh
+  - displayName: Sarah Bissett
+    role: Co-benefits modeling researcher
+    affiliation: University of Edinburgh
+  - displayName: Sean Field
+    role: Co-benefits modeling researcher
+    affiliation: University of St Andrews
+  - displayName: Clare Wharmby
+    role: Co-benefits modeling researcher
+    affiliation: University of Edinburgh
+provenance:
+  mode: imported
+  provider: UK Co-Benefits Atlas
+  externalId: uk-cobenefits-atlas
+  sourceUrl: https://ukcobenefitsatlas.net/about
+  retrievedAt: 2026-06-22
+  sourceUpdatedAt: Atlas last updated 28 May 2026
+  attribution: "Phillips, S.; Wang, J.; Pister, A.; Higgins-Lavery, R.; Bissett, S.; Wharmby, C.; Field, S.; Hinrichs, U.; Sudmant, A.; Bach, B. (2025). The UK Co-Benefits Atlas: An Interactive Visualisation Atlas to Understand the Impacts of Achieving Climate Action Targets."
+  normalizationNotes:
+    - Normalized from the live Atlas, its About page, its public source repository, and the University of Edinburgh launch article.
+    - The five listed visualizations are interface families; they generate many place-, benefit-, and factor-specific report instances.
+    - Counts are source-reported and can change as the Atlas adds geographies, indicators, and report pages.
+    - Context not stated by the project is stored as null rather than inferred.
+visualizations:
+  totalCount: 5
+  listingMode: complete
+  items:
+    - id: co-benefit-reports
+      title: Co-benefit report pages
+      visualKind: small-multiples
+      description: Eleven report families show the spatial and temporal distribution of each modeled co-benefit and its relationship with socioeconomic factors.
+      context:
+        chartType: Coordinated maps, trends, and comparison charts
+        visualEncoding: Spatial color, temporal position, and comparative position expose how each benefit varies across places and time.
+        knownLimitations: A report family generates many views; the item is not a single fixed chart.
+    - id: location-reports
+      title: Location report pages
+      visualKind: dashboard
+      description: Generated reports cover 1,109 locations and compare local benefit totals, temporal distributions, and socioeconomic relationships.
+      context:
+        chartType: Parametric local-area dashboards
+        visualEncoding: Coordinated maps and charts are regenerated for the selected geography.
+    - id: socioeconomic-factor-reports
+      title: Socioeconomic factor report pages
+      visualKind: scatter
+      description: Seventeen factor reports relate socioeconomic distributions to modeled co-benefits.
+      context:
+        chartType: Maps and relationship plots
+        visualEncoding: Factor values are mapped spatially and compared with benefit estimates through position and color.
+    - id: interactive-data-zone-map
+      title: Interactive data-zone map
+      visualKind: map
+      description: Exploratory map for comparing co-benefits and socioeconomic factors across 46,426 UK data zones and higher-level areas.
+      context:
+        chartType: Multilayer interactive choropleth map
+        visualEncoding: Geographic color represents the selected benefit or factor, with boundaries and details changing by geography level.
+        knownLimitations: Small-area estimates are model outputs rather than direct measurements for each data zone.
+      media:
+        selection: complete
+        items:
+          - id: live-map
+            label: Live interactive map
+            kind: interactive
+            url: https://ukcobenefitsatlas.net/map
+    - id: nation-reports
+      title: Nation report pages
+      visualKind: dashboard
+      description: Nation-level reports summarize modeled co-benefits and their temporal distributions.
+      context:
+        chartType: National summary dashboards
+        visualEncoding: Summary values and temporal charts aggregate modeled outcomes to nation level.
+sections:
+  project:
+    description: Interactive visualization atlas showing how the benefits and potential costs of UK net-zero interventions vary across benefits, communities, socioeconomic factors, data zones, and nations.
+    projectUrl: https://ukcobenefitsatlas.net/
+    publicationDate: 25 June 2025
+    license: No explicit reuse license is stated on the Atlas; its source repository is public but declares no software license.
+  usage:
+    intent: Support just and sustainable net-zero decisions by showing how, when, where, and for whom social, economic, and environmental co-benefits emerge.
+    targetAudience: Businesses seeking net-zero opportunities; communities and policymakers with net-zero mandates; and researchers and analysts studying socioeconomic co-benefits.
+    recommendedInterpretation: Treat values as modeled outcomes under climate-action scenarios, compare benefits with potential hassle costs, and inspect local context before prioritizing interventions.
+  data:
+    sources: Climate Change Committee Seventh Carbon Budget scenarios combined with localized demographics, air quality, transport, housing-efficiency, and socioeconomic data for 46,426 UK data zones.
+    collectionPeriod: Forward-looking Seventh Carbon Budget interventions with societal benefits modeled over approximately twenty years.
+    updateFrequency: No update policy is stated; the live Atlas reports its latest update date.
+  analysis:
+    processing: The CO-BENS team models eleven co-benefits for more than one thousand possible climate interventions, incorporating local context to estimate where and when benefits and costs emerge.
+    codeUrl: https://github.com/Edinburgh-Futures-Institute/CoBenefits
+  encoding:
+    chartType: Interactive atlas combining choropleth maps, generated dashboards, temporal charts, relationship plots, and explanatory narratives
+    visualEncoding: Benefits, costs, and socioeconomic factors are encoded through geographic color, temporal position, comparative position, and coordinated summary values.
+    interaction: Readers can select benefit and factor layers, search places, change geography levels, and navigate generated benefit, location, factor, and nation reports.
+  limitations:
+    knownLimitations: Values are modeled estimates dependent on intervention scenarios and local input data; the Atlas also identifies hassle costs and behavioral barriers that can offset benefits.
+    uncertainty: The reviewed overview pages do not describe a consistent quantitative uncertainty encoding across all generated reports.

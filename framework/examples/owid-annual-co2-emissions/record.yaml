@@ -1,0 +1,83 @@
+id: owid-annual-co2-emissions
+version: 0.1.0
+frameworkVersion: 0.4.0
+status: published
+work:
+  type: interactive
+  topic: climate
+  visualKind: line
+  title: Annual CO₂ Emissions
+  year: 2025
+  fictional: false
+  canonicalUrl: https://ourworldindata.org/grapher/annual-co2-emissions-per-country
+contributors:
+  - displayName: Our World in Data
+    role: Publisher and data processor
+  - displayName: Global Carbon Project
+    role: Original data provider
+provenance:
+  mode: imported
+  provider: Our World in Data
+  externalId: annual-co2-emissions-per-country
+  sourceUrl: https://ourworldindata.org/grapher/annual-co2-emissions-per-country
+  metadataUrl: https://ourworldindata.org/grapher/annual-co2-emissions-per-country.metadata.json?v=1&csvType=full&useColumnShortNames=false
+  retrievedAt: 2026-06-22
+  sourceUpdatedAt: Indicator metadata last updated 13 November 2025
+  attribution: Global Carbon Budget (2025) – with major processing by Our World in Data.
+  normalizationNotes:
+    - Normalized from the OWID chart metadata JSON and public chart page.
+    - The chart can update after this record was retrieved; its source metadata remains authoritative.
+    - Context not supplied by OWID is stored as null rather than inferred.
+visualizations:
+  totalCount: 1
+  listingMode: complete
+  items:
+    - id: annual-co2-chart
+      title: Annual territorial CO₂ emissions, 1750–2024
+      visualKind: line
+      description: Interactive country and regional comparison of annual fossil-fuel and industrial carbon-dioxide emissions.
+      context:
+        chartType: Interactive time-series line chart, choropleth map, and data table
+        visualEncoding: Annual tonnes of CO₂ are represented by vertical position over time or geographic color.
+        knownLimitations: Land-use change is excluded; country values are territorial rather than consumption-based; international aviation and shipping appear only in the global total.
+      media:
+        selection: representative
+        items:
+          - id: live-chart
+            label: Live interactive chart
+            kind: interactive
+            url: https://ourworldindata.org/grapher/annual-co2-emissions-per-country
+          - id: metadata-json
+            label: Chart metadata
+            kind: metadata
+            format: JSON
+            url: https://ourworldindata.org/grapher/annual-co2-emissions-per-country.metadata.json?v=1&csvType=full&useColumnShortNames=false
+          - id: full-data
+            label: Full chart data
+            kind: data
+            format: CSV
+            url: https://ourworldindata.org/grapher/annual-co2-emissions-per-country.csv?v=1&csvType=full&useColumnShortNames=false
+sections:
+  project:
+    description: Our World in Data chart comparing annual territorial carbon-dioxide emissions from fossil fuels and industry across countries, regions, and the world.
+    projectUrl: https://ourworldindata.org/grapher/annual-co2-emissions-per-country
+    publicationDate: Indicator metadata updated 13 November 2025
+    license: OWID-produced visualization and text are CC BY; Global Carbon Budget data and other third-party material remain subject to their original terms.
+  usage:
+    intent: Support comparison of the scale and historical development of fossil-fuel and industrial CO₂ emissions.
+    targetAudience: null
+    recommendedInterpretation: Compare territorial annual totals while accounting for country size, trade, excluded land-use emissions, and separately reported international transport.
+  data:
+    sources: Global Carbon Budget 2025, original dataset Global Carbon Budget v15, with major processing by Our World in Data.
+    collectionPeriod: 1750 to 2024
+    updateFrequency: The metadata lists annual updates, with the next update expected 13 November 2026.
+  analysis:
+    processing: OWID converts tonnes of carbon to tonnes of CO₂ using a factor of 3.664 and assigns the 1991 Kuwaiti oil-fire emissions to Kuwait.
+    codeUrl: null
+  encoding:
+    chartType: Interactive line chart, choropleth map, and data table
+    visualEncoding: Emission totals are represented by line position or map color; country and time selections control the visible subset.
+    interaction: Readers can select places and years, switch chart views, inspect values, and download subsets, complete data, and metadata.
+  limitations:
+    knownLimitations: Values exclude land-use change and use territorial accounting; imported-goods emissions are assigned to the producing country, while international aviation and shipping are excluded from national totals.
+    uncertainty: The chart metadata does not specify or encode quantitative uncertainty intervals.

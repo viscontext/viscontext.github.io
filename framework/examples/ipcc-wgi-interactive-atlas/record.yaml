@@ -1,0 +1,93 @@
+id: ipcc-wgi-interactive-atlas
+version: 0.1.0
+frameworkVersion: 0.4.0
+status: published
+work:
+  type: interactive
+  topic: climate
+  visualKind: dashboard
+  title: IPCC WGI Interactive Atlas
+  year: 2021
+  fictional: false
+  canonicalUrl: https://interactive-atlas.ipcc.ch/
+contributors:
+  - displayName: IPCC Working Group I
+    role: Publisher and assessment body
+  - displayName: AR6 WGI Atlas author team
+    role: Scientific assessment and Atlas authorship
+  - displayName: IPCC WGI Interactive Atlas development team
+    role: Data processing and interactive visualization
+provenance:
+  mode: imported
+  provider: Intergovernmental Panel on Climate Change (IPCC)
+  externalId: ar6-wgi-interactive-atlas
+  sourceUrl: https://interactive-atlas.ipcc.ch/license
+  metadataUrl: https://ipcc-browser.ipcc-data.org/browser/dataset/6171/0
+  retrievedAt: 2026-06-22
+  attribution: "Gutiérrez, J.M., R.G. Jones, G.T. Narisma, L.M. Alves, M. Amjad, I.V. Gorodetskaya, M. Grose, N.A.B. Klutse, S. Krakovska, J. Li, D. Martínez-Castro, L.O. Mearns, S.H. Mernild, T. Ngo-Duc, B. van den Hurk, and J.-H. Yoon, 2021: Atlas. In Climate Change 2021: The Physical Science Basis. Cambridge University Press, doi:10.1017/9781009157896.021."
+  normalizationNotes:
+    - Normalized from the live Interactive Atlas documentation, license page, Atlas chapter citation, IPCC-DDC catalogue, and public source repository.
+    - The two listed visualizations are application components that generate many variable-, dataset-, region-, period-, scenario-, and warming-level-specific views.
+    - Exported graphics and downloadable underlying data have different reuse terms.
+visualizations:
+  totalCount: 2
+  listingMode: complete
+  items:
+    - id: regional-information
+      title: Regional information explorer
+      visualKind: dashboard
+      description: Flexible maps and regionally aggregated time series, scatter plots, tables, annual cycles, and climate stripes for observed and projected climate change.
+      context:
+        chartType: Coordinated maps, time series, scatter plots, tables, annual-cycle plots, and climate stripes
+        visualEncoding: Climate values, changes, trends, and robustness are encoded through geographic color, temporal position, comparison position, bands, hatching, and tabular summaries.
+        knownLimitations: Analysis uses predefined region sets and time-averaging periods even though seasons, baselines, periods, scenarios, and warming levels are configurable.
+      media:
+        selection: representative
+        items:
+          - id: live-atlas
+            label: Live Interactive Atlas
+            kind: interactive
+            url: https://interactive-atlas.ipcc.ch/
+          - id: atlas-dataset
+            label: Harmonized Atlas dataset catalogue
+            kind: data
+            url: https://ipcc-browser.ipcc-data.org/browser/dataset/6171/0
+    - id: regional-synthesis
+      title: Regional synthesis explorer
+      visualKind: map
+      description: Qualitative synthesis of historical trends and projected changes in climatic impact-drivers across IPCC sub-continental reference regions.
+      context:
+        chartType: Interactive regional synthesis maps and assessment summaries
+        visualEncoding: Region, direction of change, assessment category, and confidence are combined to summarize climatic impact-drivers.
+        knownLimitations: Synthesis values represent assessments for predefined regions and can conceal variation at finer spatial scales.
+      media:
+        selection: complete
+        items:
+          - id: regional-synthesis-viewer
+            label: Regional synthesis viewer
+            kind: interactive
+            url: https://interactive-atlas.ipcc.ch/regional-synthesis
+sections:
+  project:
+    description: Interactive companion to IPCC AR6 Working Group I for flexible global and regional exploration of observed and projected climate information and climatic impact-drivers.
+    projectUrl: https://interactive-atlas.ipcc.ch/
+    publicationDate: "2021"
+    license: Exported PNG and PDF figures are IPCC property under the IPCC copyright policy; downloadable NetCDF and GeoTIFF data and final harmonized datasets are available under CC BY 4.0.
+  usage:
+    intent: Extend the Working Group I assessment with configurable regional climate analysis for policymakers, researchers, practitioners, and users in different regions and sectors.
+    targetAudience: Policymakers, climate researchers, regional analysts, impact and adaptation practitioners, educators, and sectoral users.
+    recommendedInterpretation: Select the scientific question, dataset, variable, region, baseline, scenario or warming level first; then inspect ensemble spread, robustness, provenance, and scale before using a displayed pattern.
+  data:
+    sources: Global and regional observations plus CMIP5, CMIP6, and CORDEX projections for atmospheric and oceanic variables, extreme indices, climatic impact-drivers, population density, and greenhouse-gas concentrations under SSPs.
+    collectionPeriod: Historical observations and simulations together with future periods and warming levels used in AR6 WGI; coverage varies by variable and source dataset.
+    updateFrequency: No recurring update policy is stated; the Atlas is tied to the AR6 Working Group I assessment and maintains an errata log.
+  analysis:
+    processing: Sources undergo harmonization of grids, units, resolutions, and monthly values; workflows include re-gridding, aggregation, bias adjustment, index calculation, regional averaging, and METACLIP semantic provenance generation.
+    codeUrl: https://github.com/IPCC-WG1/Atlas
+  encoding:
+    chartType: Interactive climate atlas combining maps, time series, scatter plots, tables, annual cycles, stripes, and regional synthesis views
+    visualEncoding: Spatial, temporal, scenario, warming-level, ensemble, and confidence dimensions are expressed through coordinated geography, position, color, bands, hatching, and assessment categories.
+    interaction: Users can select datasets, variables, indices, seasons, baselines, periods, scenarios, warming levels, regions, and output formats; maps can be exported as graphics and GIS data.
+  limitations:
+    knownLimitations: Functionality and granularity remain constrained by predefined regions and averaging periods; model and observational coverage varies, and complex processing can make complete end-to-end provenance difficult to inspect.
+    uncertainty: The Atlas provides robustness representations, ensemble ranges, assessment confidence, and semantic provenance, but uncertainty treatment varies by product and data source.

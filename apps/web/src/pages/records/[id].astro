@@ -112,15 +112,16 @@ const formatCount = (count: number) => new Intl.NumberFormat("en").format(count)
                   <div class="media-assets">
                     <h4>Source media <small>({visualization.media.selection})</small></h4>
                     <ul>
-                      {visualization.media.items.map((asset) => (
-                        <li>
-                          <div>{asset.url ? <a href={asset.url}>{asset.label}</a> : <strong>{asset.label}</strong>}<span>{asset.kind}</span></div>
-                          <p>
-                            {[asset.format, asset.dimensions, asset.fileSize, asset.itemCount ? `${formatCount(asset.itemCount)} items` : undefined].filter(Boolean).join(" · ")}
-                          </p>
-                          {asset.description && <p>{asset.description}</p>}
-                        </li>
-                      ))}
+                      {visualization.media.items.map((asset) => {
+                        const details = [asset.format, asset.dimensions, asset.fileSize, asset.itemCount ? `${formatCount(asset.itemCount)} items` : undefined].filter(Boolean).join(" · ");
+                        return (
+                          <li>
+                            <div>{asset.url ? <a href={asset.url}>{asset.label}</a> : <strong>{asset.label}</strong>}<span>{asset.kind}</span></div>
+                            {details && <p>{details}</p>}
+                            {asset.description && <p>{asset.description}</p>}
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 )}

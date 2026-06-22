@@ -1,0 +1,89 @@
+id: owid-life-expectancy
+version: 0.1.0
+frameworkVersion: 0.4.0
+status: published
+work:
+  type: interactive
+  topic: health
+  visualKind: line
+  title: Life Expectancy
+  year: 2025
+  fictional: false
+  canonicalUrl: https://ourworldindata.org/grapher/life-expectancy
+contributors:
+  - displayName: Our World in Data
+    role: Publisher, compiler, and data processor
+  - displayName: Human Mortality Database
+    role: Original data provider
+  - displayName: United Nations World Population Prospects
+    role: Original data provider
+  - displayName: Zijdeman et al.
+    role: Original data provider
+  - displayName: James C. Riley
+    role: Original data provider
+provenance:
+  mode: imported
+  provider: Our World in Data
+  externalId: life-expectancy
+  sourceUrl: https://ourworldindata.org/grapher/life-expectancy
+  metadataUrl: https://ourworldindata.org/grapher/life-expectancy.metadata.json?v=1&csvType=full&useColumnShortNames=false
+  retrievedAt: 2026-06-22
+  sourceUpdatedAt: Indicator metadata last updated 22 October 2025
+  attribution: Riley (2005); Zijdeman et al. (2015); Human Mortality Database (2025); UN World Population Prospects (2024) – with major processing by Our World in Data.
+  normalizationNotes:
+    - Normalized from the OWID chart metadata JSON and public chart page.
+    - The long-run series is a compilation with explicit source priority and temporal transitions rather than one homogeneous dataset.
+    - Context not supplied by OWID is stored as null rather than inferred.
+visualizations:
+  totalCount: 1
+  listingMode: complete
+  items:
+    - id: life-expectancy-chart
+      title: Period life expectancy at birth, 1543–2023
+      visualKind: line
+      description: Interactive long-run comparison of period life expectancy for countries, regions, and the world.
+      context:
+        chartType: Interactive time-series line chart, choropleth map, and data table
+        visualEncoding: Expected years of life are represented by vertical position over time or geographic color.
+        knownLimitations: Period life expectancy applies one year's age-specific mortality rates to a hypothetical lifetime and is not the eventual lifespan of the birth cohort.
+      media:
+        selection: representative
+        items:
+          - id: live-chart
+            label: Live interactive chart
+            kind: interactive
+            url: https://ourworldindata.org/grapher/life-expectancy
+          - id: metadata-json
+            label: Chart metadata
+            kind: metadata
+            format: JSON
+            url: https://ourworldindata.org/grapher/life-expectancy.metadata.json?v=1&csvType=full&useColumnShortNames=false
+          - id: full-data
+            label: Full chart data
+            kind: data
+            format: CSV
+            url: https://ourworldindata.org/grapher/life-expectancy.csv?v=1&csvType=full&useColumnShortNames=false
+sections:
+  project:
+    description: Our World in Data long-run chart compiling country, regional, and global period life-expectancy estimates from several historical and contemporary sources.
+    projectUrl: https://ourworldindata.org/grapher/life-expectancy
+    publicationDate: Indicator metadata updated 22 October 2025
+    license: OWID-produced visualization and text are CC BY; each underlying dataset remains subject to its original terms.
+  usage:
+    intent: Show long-run improvements and setbacks in mortality conditions and compare period life expectancy across places and time.
+    targetAudience: null
+    recommendedInterpretation: Treat values as a summary of mortality rates observed in a particular year, not a prediction of how long a real birth cohort will eventually live.
+  data:
+    sources: Human Mortality Database and Zijdeman et al. for pre-1950 country observations, Riley for pre-1950 regional estimates, and UN World Population Prospects from 1950 onward.
+    collectionPeriod: 1543 to 2023, with coverage varying substantially by place and historical period
+    updateFrequency: The metadata lists annual updates, with the next update expected 22 October 2026.
+  analysis:
+    processing: OWID combines several sources, prioritizes Human Mortality Database where pre-1950 country sources overlap, uses Riley for early regional estimates, and switches to UN estimates from 1950 onward.
+    codeUrl: null
+  encoding:
+    chartType: Interactive line chart, choropleth map, and data table
+    visualEncoding: Life expectancy in years is represented by line position or map color; selected countries and regions form comparison series.
+    interaction: Readers can select places and years, switch views, inspect source-specific points, and download data and metadata.
+  limitations:
+    knownLimitations: Historical coverage is uneven, multiple sources are stitched across time, and period life expectancy differs conceptually from cohort lifespan.
+    uncertainty: The chart metadata does not provide a single quantitative uncertainty interval across the compiled source series.

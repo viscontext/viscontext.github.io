@@ -6,8 +6,8 @@ final names for the platform, its records, and their sections are intentionally
 unresolved while the conceptual framework is being researched.
 
 The project is currently a functional catalog prototype. It includes nine
-fictional projects and four attributed records imported from NASA SVS and Our
-World in Data. Together they exercise multi-visualization projects, ordered
+fictional projects and eleven attributed records imported from NASA SVS, Our
+World in Data, the UK Co-Benefits Atlas, and the IPCC. Together they exercise multi-visualization projects, ordered
 stories, large sampled collections, explicit missing metadata, provenance, and
 large media collections. The prototype also includes reader-facing context
 tables and a local-only author submission form built from a provisional framework.
