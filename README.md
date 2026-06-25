@@ -61,6 +61,7 @@ framework + examples -> framework tooling -> canonical JSON -> website + static 
 The current implementation tests two flows: readers browse, filter, and inspect
 project context; authors use a local Firebase session to save private Firestore
 drafts, upload constrained preview images, and submit records for review.
-It also includes a first static SVG badge that can link from an external
-visualization back to its context record. Production Firebase configuration,
-reviewer publication, and generated record-specific badges remain deferred.
+It also includes downloadable SVG badge variants and project-specific embed
+snippets that can link from an external visualization back to its context
+record. Production Firebase configuration, reviewer publication, and generated
+status-aware badges remain deferred.

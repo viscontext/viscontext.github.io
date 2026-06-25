@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="126" height="28" viewBox="0 0 126 28" role="img" aria-labelledby="title desc">
+  <title id="title">Minimal VisContext badge</title>
+  <desc id="desc">A minimal badge linking to visualization context metadata.</desc>
+  <rect width="126" height="28" rx="14" fill="#ffffff"/>
+  <rect x="0.5" y="0.5" width="125" height="27" rx="13.5" fill="none" stroke="#171717"/>
+  <circle cx="15" cy="14" r="3.5" fill="#ff5b45"/>
+  <circle cx="25" cy="14" r="3.5" fill="#b6e36b"/>
+  <text x="38" y="18" fill="#171717" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700">Context link</text>
+</svg>

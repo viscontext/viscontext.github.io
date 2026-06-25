@@ -1,4 +1,5 @@
 ---
+import BadgeEmbedPanel from "../../components/BadgeEmbedPanel.astro";
 import MetadataTable from "../../components/MetadataTable.astro";
 import ProjectVisual from "../../components/ProjectVisual.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -140,6 +141,8 @@ const formatCount = (count: number) => new Intl.NumberFormat("en").format(count)
       </div>
       <MetadataTable sections={framework.presentation.sections} values={record.sections} />
     </section>
+
+    <BadgeEmbedPanel record={record} />
 
     <div class="detail-actions">
       <a href={`/api/v1/records/${record.id}.json`}>Download this record as JSON</a>

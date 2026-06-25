@@ -1,0 +1,70 @@
+---
+import { badgeAltText, badgeVariants, htmlBadgeEmbed, markdownBadgeEmbed, recordPageUrl, siteOrigin } from "../lib/badges";
+import type { ContextRecord } from "../lib/data";
+
+interface Props {
+  record?: ContextRecord;
+  heading?: string;
+  intro?: string;
+}
+
+const { record, heading = "Link to this context record", intro } = Astro.props;
+const targetUrl = record ? recordPageUrl(record) : `${siteOrigin}/records/YOUR-RECORD-ID/`;
+const targetLabel = record ? record.work.title : "YOUR-RECORD-ID";
+const plainHtmlLink = `<a href="${targetUrl}">Context metadata on VisContext</a>`;
+const plainMarkdownLink = `[Context metadata on VisContext](${targetUrl})`;
+---
+
+<section class="badge-section badge-embed-panel" aria-labelledby="badge-embed-heading">
+  <div class="context-heading-row">
+    <div>
+      <h2 id="badge-embed-heading">{heading}</h2>
+      <p>{intro ?? "Use one of these badges in the original visualization, article, dashboard, or project page. The badge should link back to this repository record."}</p>
+    </div>
+    <a href="/badges/">All badge variants</a>
+  </div>
+
+  <p class="badge-warning">
+    These badges mean that context metadata is available. They do not mean the visualization is verified, true, reviewed, complete, or endorsed.
+  </p>
+
+  <p class="badge-target">
+    Link target: <a href={targetUrl}>{targetLabel}</a>
+  </p>
+
+  <ul class="badge-variant-grid">
+    {badgeVariants.map((variant) => {
+      const htmlEmbed = htmlBadgeEmbed(targetUrl, variant);
+      const markdownEmbed = markdownBadgeEmbed(targetUrl, variant);
+      return (
+        <li class="badge-variant-card">
+          <figure>
+            <img src={variant.src} width={variant.width} height={variant.height} alt={`${variant.label}: ${badgeAltText()}`} />
+            <figcaption>{variant.label}</figcaption>
+          </figure>
+          <p>{variant.description}</p>
+          <p class="badge-actions">
+            <a href={variant.src} download>Download SVG</a>
+            <a href={variant.src}>Open SVG</a>
+          </p>
+          <details>
+            <summary>HTML embed</summary>
+            <pre><code>{htmlEmbed}</code></pre>
+          </details>
+          <details>
+            <summary>Markdown embed</summary>
+            <pre><code>{markdownEmbed}</code></pre>
+          </details>
+        </li>
+      );
+    })}
+  </ul>
+
+  <details class="plain-link-details">
+    <summary>Plain text link instead of a badge</summary>
+    <h3>HTML</h3>
+    <pre><code>{plainHtmlLink}</code></pre>
+    <h3>Markdown</h3>
+    <pre><code>{plainMarkdownLink}</code></pre>
+  </details>
+</section>

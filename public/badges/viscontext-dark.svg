@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="228" height="36" viewBox="0 0 228 36" role="img" aria-labelledby="title desc">
+  <title id="title">Dark VisContext badge</title>
+  <desc id="desc">A dark badge stating that visualization context metadata is available.</desc>
+  <rect width="228" height="36" rx="4" fill="#171717"/>
+  <rect x="0.5" y="0.5" width="227" height="35" rx="3.5" fill="none" stroke="#171717"/>
+  <circle cx="16" cy="18" r="5" fill="#ff5b45"/>
+  <circle cx="30" cy="18" r="5" fill="#b6e36b"/>
+  <circle cx="44" cy="18" r="5" fill="#f5f1e8"/>
+  <text x="58" y="22.5" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700">VisContext</text>
+  <text x="131" y="22.5" fill="#f5f1e8" font-family="Arial, Helvetica, sans-serif" font-size="13">metadata available</text>
+</svg>

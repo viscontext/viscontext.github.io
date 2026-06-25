@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="166" height="32" viewBox="0 0 166 32" role="img" aria-labelledby="title desc">
+  <title id="title">Compact VisContext badge</title>
+  <desc id="desc">A compact badge stating that context metadata is available.</desc>
+  <rect width="166" height="32" rx="4" fill="#ffffff"/>
+  <rect x="0.5" y="0.5" width="165" height="31" rx="3.5" fill="none" stroke="#171717"/>
+  <circle cx="16" cy="16" r="4.5" fill="#ff5b45"/>
+  <circle cx="28" cy="16" r="4.5" fill="#b6e36b"/>
+  <circle cx="40" cy="16" r="4.5" fill="#171717"/>
+  <text x="54" y="20.5" fill="#171717" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700">VisContext</text>
+  <text x="127" y="20.5" fill="#666666" font-family="Arial, Helvetica, sans-serif" font-size="11">context</text>
+</svg>
