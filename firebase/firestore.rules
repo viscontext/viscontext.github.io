@@ -1,0 +1,44 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function ownsSubmission(data) {
+      return signedIn() && data.ownerId == request.auth.uid;
+    }
+
+    function validSubmission(data) {
+      return data.keys().hasOnly([
+          'ownerId',
+          'status',
+          'frameworkVersion',
+          'payload',
+          'media',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.ownerId is string
+        && data.status in ['draft', 'submitted']
+        && data.frameworkVersion is string
+        && data.payload is map
+        && data.media is map
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    match /submissions/{submissionId} {
+      allow create: if ownsSubmission(request.resource.data)
+        && validSubmission(request.resource.data);
+      allow read: if ownsSubmission(resource.data);
+      allow update: if ownsSubmission(resource.data)
+        && resource.data.status == 'draft'
+        && ownsSubmission(request.resource.data)
+        && validSubmission(request.resource.data);
+      allow delete: if ownsSubmission(resource.data)
+        && resource.data.status == 'draft';
+    }
+  }
+}

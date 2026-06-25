@@ -11,26 +11,34 @@ World in Data, the UK Co-Benefits Atlas, and the IPCC. Together they exercise mu
 stories, large sampled collections, explicit missing metadata, provenance, and
 large media collections. Every attributed record exposes an original source
 preview in the catalog and project page. The prototype also includes reader-facing context
-tables and a local-only author submission form built from a provisional framework.
+tables and an emulator-backed author submission form built from a provisional framework.
 
 ## Project documents
 
 - [Product and implementation plan](docs/implementation-plan.md)
+- [Local Firebase upload workflow](docs/firebase-local.md)
 
 ## Local development
 
-Requires Node.js 22 or later.
+Requires Node.js 22 or later. The complete local upload workflow also requires
+Java 11 or later for the Firebase emulators.
 
 ```sh
 npm install
-npm run dev
+npm run dev:local
 ```
+
+This starts the site at `http://127.0.0.1:4321` and the Firebase Emulator Suite
+at `http://127.0.0.1:4000`. It uses the local-only `demo-viscontext` project;
+no Firebase account, credentials, or billing account is involved. Use `npm run
+dev` when only the static catalog is needed.
 
 Run the complete validation, test, type-check, build, and HTML accessibility
 pipeline with:
 
 ```sh
 npm run check
+npm run test:rules
 ```
 
 ## Architecture
@@ -41,11 +49,15 @@ framework + examples -> framework tooling -> canonical JSON -> website + static 
 
 - `framework/` is the language-neutral conceptual framework.
 - `packages/framework-tooling/` validates YAML and generates canonical JSON.
-- `apps/web/` renders only generated data with Astro.
+- `apps/web/` renders generated catalog data with Astro and connects the local
+  author workflow through a Firebase adapter.
+- `firebase/` contains local Firestore and Storage authorization rules and their
+  emulator-backed tests.
 - GitHub Actions validates every change and deploys `main` to GitHub Pages.
 
 ## Current direction
 
 The current implementation tests two flows: readers browse, filter, and inspect
-project context; authors draft a project submission and preview it locally.
-Authentication, server persistence, and real media upload remain deferred.
+project context; authors use a local Firebase session to save private Firestore
+drafts, upload constrained preview images, and submit records for review.
+Production Firebase configuration and reviewer publication remain deferred.

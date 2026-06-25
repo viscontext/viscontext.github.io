@@ -8,15 +8,28 @@ import { framework } from "../../lib/data";
     <div>
       <p class="prototype-label">Author workflow prototype</p>
       <h1>Upload a visualization project</h1>
-      <p>Enter project details and context metadata. Login and server publishing are not connected yet.</p>
+      <p>Enter project details, save a private draft, upload a preview image, and submit the project for review.</p>
     </div>
   </header>
 
+  <section class="shell firebase-panel" aria-labelledby="firebase-panel-title">
+    <div>
+      <h2 id="firebase-panel-title">Local author session</h2>
+      <p id="backend-status" role="status" aria-live="polite">Checking the local Firebase emulators…</p>
+      <p id="auth-status">Not signed in.</p>
+    </div>
+    <div class="firebase-actions">
+      <button class="button" type="button" id="sign-in">Start demo author session</button>
+      <button class="button secondary" type="button" id="sign-out" hidden>Sign out</button>
+      <a id="emulator-link" href="http://127.0.0.1:4000/" hidden>Open Emulator Suite</a>
+    </div>
+  </section>
+
   <div class="shell upload-notice" role="note">
-    <strong>Prototype behavior:</strong> “Save draft” stores text in this browser only. Selected files are not uploaded or saved.
+    <strong>Local-only backend:</strong> the <code>demo-viscontext</code> project has no production resources. Emulator data is temporary and cannot create Firebase charges.
   </div>
 
-  <form class="upload-form shell" id="upload-form">
+  <form class="upload-form shell" id="upload-form" data-framework-version={framework.version}>
     <fieldset>
       <legend>1. Project details</legend>
       <div class="form-grid">
@@ -38,7 +51,7 @@ import { framework } from "../../lib/data";
       <legend>2. Visualization</legend>
       <div class="form-grid">
         <label>Original project URL <input name="projectUrl" type="url" placeholder="https://" /></label>
-        <label>Visualization image <input name="visualFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" /></label>
+        <label>Visualization image <input name="visualFile" type="file" accept="image/png,image/jpeg,image/webp" /><small>PNG, JPEG, or WebP; maximum 5 MB.</small></label>
         <label class="full-width">Text alternative <textarea name="altText" rows="3" placeholder="Describe the important visual content and pattern"></textarea></label>
       </div>
     </fieldset>
@@ -63,9 +76,10 @@ import { framework } from "../../lib/data";
     </fieldset>
 
     <div class="form-actions">
-      <button class="button" type="button" id="save-draft">Save draft locally</button>
-      <button class="button secondary" type="submit">Preview submission</button>
-      <button class="text-button" type="reset" id="clear-draft">Clear form</button>
+      <button class="button" type="button" id="save-draft" disabled>Save private draft</button>
+      <button class="button secondary" type="submit" id="submit-project" disabled>Submit for review</button>
+      <button class="text-button" type="button" id="preview-submission">Preview</button>
+      <button class="text-button" type="reset" id="clear-draft">Clear draft</button>
       <span id="draft-status" role="status" aria-live="polite"></span>
     </div>
   </form>
@@ -74,10 +88,15 @@ import { framework } from "../../lib/data";
     <form method="dialog"><button class="dialog-close" type="submit" value="close" aria-label="Close preview">×</button></form>
     <h2>Submission preview</h2>
     <dl><div><dt>Project</dt><dd id="preview-title"></dd></div><div><dt>Author</dt><dd id="preview-author"></dd></div><div><dt>Visualizations</dt><dd id="preview-visualizations"></dd></div><div><dt>Context responses</dt><dd id="preview-count"></dd></div></dl>
-    <p>This is only a local preview. Publishing will be connected after login and backend work.</p>
+    <p>This preview remains local. “Submit for review” writes the record to the local Firestore emulator.</p>
   </dialog>
 
   <script>
+    import { deleteDoc, doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
+    import { onAuthStateChanged, signInAnonymously, signOut, type User } from 'firebase/auth';
+    import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+    import { createLocalFirebase } from '../../lib/firebase-local';
+
     function requiredElement<T extends Element>(selector: string): T {
       const element = document.querySelector<T>(selector);
       if (!element) throw new Error(`Missing upload element: ${selector}`);
@@ -85,43 +104,73 @@ import { framework } from "../../lib/data";
     }
 
     const form = requiredElement<HTMLFormElement>('#upload-form');
+    const backendStatus = requiredElement<HTMLElement>('#backend-status');
+    const authStatus = requiredElement<HTMLElement>('#auth-status');
+    const signInButton = requiredElement<HTMLButtonElement>('#sign-in');
+    const signOutButton = requiredElement<HTMLButtonElement>('#sign-out');
+    const emulatorLink = requiredElement<HTMLAnchorElement>('#emulator-link');
     const saveButton = requiredElement<HTMLButtonElement>('#save-draft');
+    const submitButton = requiredElement<HTMLButtonElement>('#submit-project');
+    const previewButton = requiredElement<HTMLButtonElement>('#preview-submission');
     const clearButton = requiredElement<HTMLButtonElement>('#clear-draft');
+    const fileInput = requiredElement<HTMLInputElement>('input[name="visualFile"]');
     const status = requiredElement<HTMLElement>('#draft-status');
     const preview = requiredElement<HTMLDialogElement>('#submission-preview');
     const previewTitle = requiredElement<HTMLElement>('#preview-title');
     const previewAuthor = requiredElement<HTMLElement>('#preview-author');
     const previewVisualizations = requiredElement<HTMLElement>('#preview-visualizations');
     const previewCount = requiredElement<HTMLElement>('#preview-count');
-    const storageKey = 'viscontext-upload-draft-v1';
+    const services = createLocalFirebase();
+    const draftStorageKey = 'viscontext-firebase-draft-id-v1';
+    const acceptedImageTypes = new Map([
+      ['image/jpeg', 'jpg'],
+      ['image/png', 'png'],
+      ['image/webp', 'webp'],
+    ]);
+    let currentUser: User | null = null;
+    let draftId = localStorage.getItem(draftStorageKey);
+    let savedMedia: Record<string, unknown> = {};
 
     function serializableEntries(): Array<[string, string]> {
       return [...new FormData(form).entries()]
         .filter((entry): entry is [string, string] => typeof entry[1] === 'string');
     }
 
-    function restoreDraft() {
-      const stored = localStorage.getItem(storageKey);
-      if (!stored) return;
-      for (const [name, value] of JSON.parse(stored)) {
-        const field = form.elements.namedItem(name);
-        if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement) field.value = value;
+    function setField(name: string, value: unknown) {
+      if (typeof value !== 'string') return;
+      const field = form.elements.namedItem(name);
+      if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement) {
+        field.value = value;
       }
-      status.textContent = 'Local draft restored.';
     }
 
-    saveButton.addEventListener('click', () => {
-      localStorage.setItem(storageKey, JSON.stringify(serializableEntries()));
-      status.textContent = `Draft saved locally at ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.`;
-    });
+    function payloadFromForm() {
+      const data = new FormData(form);
+      const context: Record<string, Record<string, string>> = {};
+      const project: Record<string, string> = {};
+      for (const [name, value] of serializableEntries()) {
+        if (name.startsWith('context.')) {
+          const [, sectionId, fieldId] = name.split('.');
+          if (!sectionId || !fieldId) continue;
+          context[sectionId] ??= {};
+          context[sectionId][fieldId] = value;
+        } else {
+          project[name] = value;
+        }
+      }
+      return { project, context, selectedFileName: (data.get('visualFile') as File | null)?.name ?? '' };
+    }
 
-    clearButton.addEventListener('click', () => {
-      localStorage.removeItem(storageKey);
-      status.textContent = 'Local draft cleared.';
-    });
+    function restorePayload(payload: unknown) {
+      if (!payload || typeof payload !== 'object') return;
+      const value = payload as { project?: Record<string, unknown>; context?: Record<string, Record<string, unknown>> };
+      for (const [name, fieldValue] of Object.entries(value.project ?? {})) setField(name, fieldValue);
+      for (const [sectionId, fields] of Object.entries(value.context ?? {})) {
+        for (const [fieldId, fieldValue] of Object.entries(fields)) setField(`context.${sectionId}.${fieldId}`, fieldValue);
+      }
+    }
 
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
+    function showPreview() {
       const data = new FormData(form);
       const title = data.get('title');
       const author = data.get('author');
@@ -132,8 +181,143 @@ import { framework } from "../../lib/data";
       const answered = serializableEntries().filter(([name, value]) => name.startsWith('context.') && value.trim()).length;
       previewCount.textContent = `${answered} ${answered === 1 ? 'field' : 'fields'} answered`;
       preview.showModal();
+    }
+
+    function setBusy(busy: boolean) {
+      signInButton.disabled = busy;
+      signOutButton.disabled = busy;
+      saveButton.disabled = busy || !currentUser;
+      submitButton.disabled = busy || !currentUser;
+    }
+
+    async function restoreDraft(user: User) {
+      if (!services || !draftId) return;
+      try {
+        const snapshot = await getDoc(doc(services.db, 'submissions', draftId));
+        if (!snapshot.exists() || snapshot.data().ownerId !== user.uid || snapshot.data().status !== 'draft') {
+          draftId = null;
+          localStorage.removeItem(draftStorageKey);
+          return;
+        }
+        restorePayload(snapshot.data().payload);
+        savedMedia = snapshot.data().media ?? {};
+        status.textContent = 'Private draft restored from Firestore.';
+      } catch {
+        draftId = null;
+        localStorage.removeItem(draftStorageKey);
+      }
+    }
+
+    async function uploadSelectedImage(user: User, submissionId: string) {
+      const file = fileInput.files?.[0];
+      if (!file) return savedMedia;
+      const extension = acceptedImageTypes.get(file.type);
+      if (!extension) throw new Error('Choose a PNG, JPEG, or WebP image.');
+      if (file.size > 5 * 1024 * 1024) throw new Error('The preview image must be 5 MB or smaller.');
+      if (!services) throw new Error('Local Firebase is unavailable.');
+
+      const path = `submissions/${user.uid}/${submissionId}/preview.${extension}`;
+      const fileReference = ref(services.storage, path);
+      await uploadBytes(fileReference, file, { contentType: file.type });
+      const url = await getDownloadURL(fileReference);
+      savedMedia = {
+        preview: {
+          path,
+          name: file.name,
+          contentType: file.type,
+          size: file.size,
+          url,
+          altText: String(new FormData(form).get('altText') ?? ''),
+        },
+      };
+      return savedMedia;
+    }
+
+    async function persistSubmission(nextStatus: 'draft' | 'submitted') {
+      if (!services || !currentUser) return;
+      if (nextStatus === 'submitted' && !form.reportValidity()) return;
+
+      setBusy(true);
+      status.textContent = nextStatus === 'draft' ? 'Saving private draft…' : 'Submitting project…';
+      try {
+        draftId ??= crypto.randomUUID();
+        localStorage.setItem(draftStorageKey, draftId);
+        const media = await uploadSelectedImage(currentUser, draftId);
+        await setDoc(doc(services.db, 'submissions', draftId), {
+          ownerId: currentUser.uid,
+          status: nextStatus,
+          frameworkVersion: form.dataset.frameworkVersion ?? '',
+          payload: payloadFromForm(),
+          media,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        });
+
+        if (nextStatus === 'submitted') {
+          localStorage.removeItem(draftStorageKey);
+          draftId = null;
+          savedMedia = {};
+          form.reset();
+          status.textContent = 'Project submitted to the local review queue.';
+        } else {
+          status.textContent = `Private draft saved at ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.`;
+        }
+      } catch (error) {
+        status.textContent = error instanceof Error ? error.message : 'The submission could not be saved.';
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    signInButton.addEventListener('click', async () => {
+      if (!services) return;
+      setBusy(true);
+      status.textContent = 'Starting local author session…';
+      try {
+        await signInAnonymously(services.auth);
+      } catch (error) {
+        status.textContent = error instanceof Error ? error.message : 'Could not start the local session.';
+        setBusy(false);
+      }
     });
 
-    restoreDraft();
+    signOutButton.addEventListener('click', async () => {
+      if (services) await signOut(services.auth);
+    });
+
+    saveButton.addEventListener('click', () => void persistSubmission('draft'));
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      void persistSubmission('submitted');
+    });
+    previewButton.addEventListener('click', showPreview);
+
+    clearButton.addEventListener('click', () => {
+      const deletedDraftId = draftId;
+      draftId = null;
+      savedMedia = {};
+      localStorage.removeItem(draftStorageKey);
+      if (services && currentUser && deletedDraftId) {
+        void deleteDoc(doc(services.db, 'submissions', deletedDraftId)).catch(() => undefined);
+      }
+      status.textContent = 'Draft cleared.';
+    });
+
+    if (!services) {
+      backendStatus.textContent = 'Backend disabled on the public prototype.';
+      authStatus.textContent = 'Run npm run dev:local to use local login, drafts, and uploads.';
+      signInButton.disabled = true;
+    } else {
+      backendStatus.textContent = 'Connected to local Authentication, Firestore, and Storage emulators.';
+      emulatorLink.hidden = false;
+      onAuthStateChanged(services.auth, (user) => {
+        currentUser = user;
+        signInButton.hidden = Boolean(user);
+        signOutButton.hidden = !user;
+        authStatus.textContent = user ? `Signed in as demo author ${user.uid.slice(0, 8)}.` : 'Not signed in.';
+        setBusy(false);
+        if (user) void restoreDraft(user);
+      });
+    }
   </script>
 </BaseLayout>

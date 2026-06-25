@@ -145,10 +145,15 @@ textarea { resize: vertical; }
 .framework-notes.platform-model { max-width: none; margin: 0 0 28px; }
 
 .upload-notice { margin-top: 22px; padding: 12px; border: 1px solid #d19a22; background: #fff8df; }
+.firebase-panel { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-top: 22px; padding: 16px; border: 1px solid var(--border); background: var(--panel); }
+.firebase-panel h2 { margin: 0 0 5px; font-size: 18px; }
+.firebase-panel p { margin: 3px 0; }
+.firebase-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
 .upload-form { padding-block: 22px 60px; }
 fieldset { margin: 0 0 22px; padding: 18px; border: 1px solid var(--border); }
 legend { padding: 0 7px; font-size: 20px; font-weight: 700; }
 legend small { color: var(--muted); font-size: 12px; font-weight: 400; }
+.form-grid label > small { display: block; margin-top: 4px; color: var(--muted); font-weight: 400; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .full-width { grid-column: 1 / -1; }
 .field-intro { color: var(--muted); }
@@ -178,6 +183,7 @@ dialog dd { margin: 0; }
   .project-overview .project-visual { border-right: 0; border-bottom: 1px solid var(--border); }
   .metadata-table { display: block; overflow-x: auto; }
   .contributor-list { grid-template-columns: 1fr; }
+  .firebase-panel { align-items: flex-start; flex-direction: column; }
 }
 
 @media (max-width: 560px) {

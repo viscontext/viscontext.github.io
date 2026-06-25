@@ -9,10 +9,11 @@
   "scripts": {
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
-    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev"
+    "dev": "ASTRO_DEV_BACKGROUND=0 ASTRO_TELEMETRY_DISABLED=1 astro dev"
   },
   "dependencies": {
-    "astro": "7.0.0"
+    "astro": "7.0.0",
+    "firebase": "12.15.0"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.9",

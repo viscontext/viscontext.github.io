@@ -244,8 +244,8 @@ sections:
 | Validation | Ajv in the CLI, build, tests, and browser editor | One validation contract at every boundary. |
 | Public API | Versioned static JSON files | Requires no running server and is generated from the same validated source as the pages. |
 | Initial persistence | Git repository | Reviewable history, branching, attribution, rollback, and no database bill while the framework is unstable. |
-| Production identity and persistence | Provider not selected yet; accessed through application adapters | Authenticated accounts, private drafts, direct submission, authorization, and uploads are required, but should not constrain framework development. |
-| Drafts | Local files, Git branches/forks, and browser local storage | Drafts stay private to the author until intentionally submitted. |
+| Production identity and persistence | Firebase behind an application adapter; Local Emulator Suite during development | Authentication, Firestore, and Storage share one authorization model while the `demo-*` project keeps local work isolated from production and billing. |
+| Drafts | Firestore for private browser drafts; local files and Git branches remain supported | Drafts stay private to the author until intentionally submitted, while the evolving context payload remains versioned JSON. |
 | Publishing | Pull request merged to `main` | CI validates the framework or record and the merge triggers deployment. |
 | CI and deployment | GitHub Actions and GitHub Pages | Fits this public repository and has no separate hosting service to operate. |
 | Tests | Vitest, Playwright, and axe-core | Covers tooling, generated pages, browser editor behavior, and accessibility. |
@@ -605,19 +605,31 @@ None of these decisions block Increment 0.
    conceptually separate?
 3. **Media ownership:** Will the platform host visuals or only metadata and
    optimized previews? Repository-backed hosting strongly favors the latter.
-4. **Expected scale:** Approximate record count, update frequency, media volume,
+4. **Dataset availability:** Dataset fields need to support both canonical
+   links to original datasets and, later, a constrained dataset upload flow.
+   The framework should distinguish source data, derived data, sample data,
+   unavailable data, and unknown availability instead of treating dataset
+   availability as a single yes/no field.
+5. **Outbound attribution badges:** The platform should eventually generate a
+   small embeddable attribution badge or label that visualization authors can
+   place next to their visualization. The badge should link from the external
+   visualization back to the record, expose the current record status, and use a
+   name that can survive project renaming, for example “VisContext” as a
+   temporary working label. Badge criteria, issuer, date, and supersession rules
+   must stay explicit so the badge is not mistaken for a truth seal.
+6. **Expected scale:** Approximate record count, update frequency, media volume,
    and traffic determine how long GitHub Pages remains appropriate.
-5. **Public contribution policy:** Who may submit third-party records, and who
+7. **Public contribution policy:** Who may submit third-party records, and who
    resolves ownership disputes and takedowns?
-6. **Framework governance:** Who approves taxonomy changes, and when does an
+8. **Framework governance:** Who approves taxonomy changes, and when does an
    experimental version become stable?
-7. **Stable identifiers:** Should records eventually receive DOI-like persistent
+9. **Stable identifiers:** Should records eventually receive DOI-like persistent
    identifiers, or are project URLs and archived releases enough initially?
-8. **Licensing:** Software, framework/specification, record metadata, and linked
+10. **Licensing:** Software, framework/specification, record metadata, and linked
    media need separate explicit licenses.
-9. **Languages:** Should the framework support multilingual labels and values
+11. **Languages:** Should the framework support multilingual labels and values
    immediately, even if the initial website is English-only?
-10. **Research boundary:** Which usage data, if any, may be collected, and under
+12. **Research boundary:** Which usage data, if any, may be collected, and under
     what consent and ethics process?
 
 ## 18. Current implementation and next slice
@@ -635,12 +647,13 @@ The current prototype includes:
   context metadata table;
 - original source previews for attributed records, with fictional schematics as
   an explicit fallback;
-- an author upload form with browser-local draft saving and submission preview;
+- an author upload form backed locally by emulated Authentication, Firestore,
+  and Storage, with private drafts, constrained image upload, and submission;
 - a plain framework field table for inspecting the provisional structure;
 - unit tests, type checks, HTML accessibility validation, and dependency audit;
 - pinned CI and GitHub Pages deployment workflows.
 
 The next work should remain functional and user-flow driven: iterate on catalog
 browsing, project detail organization, and author submission requirements before
-adding visual polish. Production taxonomy work, authentication, real uploads,
-comments, and badges remain deferred.
+adding visual polish. Production Firebase provisioning, reviewer publication,
+taxonomy work, comments, and badges remain deferred.
