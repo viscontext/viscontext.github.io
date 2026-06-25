@@ -17,6 +17,7 @@ tables and an emulator-backed author submission form built from a provisional fr
 
 - [Product and implementation plan](docs/implementation-plan.md)
 - [Local Firebase upload workflow](docs/firebase-local.md)
+- [Prototype badge downloads](https://viscontext.github.io/badges/)
 
 ## Local development
 
@@ -60,4 +61,6 @@ framework + examples -> framework tooling -> canonical JSON -> website + static 
 The current implementation tests two flows: readers browse, filter, and inspect
 project context; authors use a local Firebase session to save private Firestore
 drafts, upload constrained preview images, and submit records for review.
-Production Firebase configuration and reviewer publication remain deferred.
+It also includes a first static SVG badge that can link from an external
+visualization back to its context record. Production Firebase configuration,
+reviewer publication, and generated record-specific badges remain deferred.

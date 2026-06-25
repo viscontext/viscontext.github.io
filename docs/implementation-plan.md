@@ -576,6 +576,7 @@ framework/                language-neutral conceptual framework
 records/                  versioned public record source files
 packages/
   framework-tooling/      loader, validator, normalizer, generator
+public/                   committed static assets copied into the public build
 generated/                ignored local build output
 tests/                    cross-layer fixtures and integration tests
 docs/
@@ -610,13 +611,14 @@ None of these decisions block Increment 0.
    The framework should distinguish source data, derived data, sample data,
    unavailable data, and unknown availability instead of treating dataset
    availability as a single yes/no field.
-5. **Outbound attribution badges:** The platform should eventually generate a
-   small embeddable attribution badge or label that visualization authors can
-   place next to their visualization. The badge should link from the external
-   visualization back to the record, expose the current record status, and use a
-   name that can survive project renaming, for example “VisContext” as a
-   temporary working label. Badge criteria, issuer, date, and supersession rules
-   must stay explicit so the badge is not mistaken for a truth seal.
+5. **Outbound attribution badges:** A first static SVG badge prototype exists
+   for download and embedding. The platform should eventually generate
+   record-specific badges or labels that visualization authors can place next to
+   their visualization. The badge should link from the external visualization
+   back to the record, expose the current record status, and use a name that can
+   survive project renaming, for example “VisContext” as a temporary working
+   label. Badge criteria, issuer, date, and supersession rules must stay
+   explicit so the badge is not mistaken for a truth seal.
 6. **Expected scale:** Approximate record count, update frequency, media volume,
    and traffic determine how long GitHub Pages remains appropriate.
 7. **Public contribution policy:** Who may submit third-party records, and who
@@ -647,6 +649,8 @@ The current prototype includes:
   context metadata table;
 - original source previews for attributed records, with fictional schematics as
   an explicit fallback;
+- a static SVG badge download and embed page for linking external
+  visualizations back to repository records;
 - an author upload form backed locally by emulated Authentication, Firestore,
   and Storage, with private drafts, constrained image upload, and submission;
 - a plain framework field table for inspecting the provisional structure;
@@ -656,4 +660,4 @@ The current prototype includes:
 The next work should remain functional and user-flow driven: iterate on catalog
 browsing, project detail organization, and author submission requirements before
 adding visual polish. Production Firebase provisioning, reviewer publication,
-taxonomy work, comments, and badges remain deferred.
+taxonomy work, comments, and generated record-specific badges remain deferred.

@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { records } from "../../lib/data";
+
+const badgeUrl = "https://viscontext.github.io/badges/viscontext.svg";
+const exampleRecord = records.find((record) => !record.work.fictional) ?? records[0];
+const exampleRecordUrl = `https://viscontext.github.io/records/${exampleRecord.id}/`;
+const genericEmbed = `<a href="https://viscontext.github.io/records/YOUR-RECORD-ID/">
+  <img src="${badgeUrl}" alt="Context metadata available on VisContext">
+</a>`;
+const exampleEmbed = `<a href="${exampleRecordUrl}">
+  <img src="${badgeUrl}" alt="Context metadata available on VisContext">
+</a>`;
+---
+
+<BaseLayout title="Visualization badges" description="Download and embed a VisContext metadata badge.">
+  <header class="page-heading shell simple-heading">
+    <div>
+      <p class="prototype-label">Badge prototype</p>
+      <h1>Visualization badges</h1>
+      <p>Download a small attribution badge that can link from a visualization back to its context metadata record.</p>
+    </div>
+  </header>
+
+  <section class="badge-content shell" aria-labelledby="download-badge">
+    <div class="badge-panel">
+      <div>
+        <h2 id="download-badge">Download badge</h2>
+        <p>This first badge is intentionally plain. It means “context metadata is available here.” It does not mean the visualization is verified, true, reviewed, or complete.</p>
+        <p class="badge-actions">
+          <a class="button" href="/badges/viscontext.svg" download>Download SVG badge</a>
+          <a class="button secondary" href="/badges/viscontext.svg">Open SVG</a>
+        </p>
+      </div>
+      <figure class="badge-preview">
+        <img src="/badges/viscontext.svg" alt="VisContext metadata available badge" />
+        <figcaption>Current prototype badge, SVG format.</figcaption>
+      </figure>
+    </div>
+
+    <section class="badge-section" aria-labelledby="embed-badge">
+      <h2 id="embed-badge">Embed next to a visualization</h2>
+      <p>Use the badge as a link to the matching project record. Replace <code>YOUR-RECORD-ID</code> with the record slug once the visualization has a record in the repository.</p>
+      <pre><code>{genericEmbed}</code></pre>
+    </section>
+
+    <section class="badge-section" aria-labelledby="example-badge">
+      <h2 id="example-badge">Example embed</h2>
+      <p>This example links to <a href={`/records/${exampleRecord.id}/`}>{exampleRecord.work.title}</a>.</p>
+      <pre><code>{exampleEmbed}</code></pre>
+    </section>
+
+    <section class="badge-section" aria-labelledby="future-badge-work">
+      <h2 id="future-badge-work">Still future work</h2>
+      <ul>
+        <li>Project-specific badges with record status and framework version.</li>
+        <li>A stable name, criteria, issuer, and supersession rules.</li>
+        <li>PNG exports if needed for platforms that cannot embed SVG.</li>
+        <li>A generated badge per record once publishing and review workflows exist.</li>
+      </ul>
+    </section>
+  </section>
+</BaseLayout>

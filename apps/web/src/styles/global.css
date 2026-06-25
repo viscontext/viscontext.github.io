@@ -144,6 +144,16 @@ textarea { resize: vertical; }
 .framework-notes { max-width: 780px; margin-top: 36px; padding: 18px; border: 1px solid var(--border); background: var(--panel); }
 .framework-notes.platform-model { max-width: none; margin: 0 0 28px; }
 
+.badge-content { padding-block: 24px 60px; }
+.badge-panel { display: grid; grid-template-columns: 1fr 300px; gap: 24px; padding: 18px; border: 1px solid var(--border); background: var(--panel); }
+.badge-panel h2 { margin-top: 0; }
+.badge-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.badge-preview { margin: 0; padding: 14px; border: 1px solid var(--border); background: #fff; }
+.badge-preview img { display: block; max-width: 100%; height: auto; }
+.badge-preview figcaption { margin-top: 10px; color: var(--muted); font-size: 12px; }
+.badge-section { margin-top: 28px; }
+.badge-section pre { overflow-x: auto; padding: 14px; border: 1px solid var(--border); background: #f7f7f7; }
+
 .upload-notice { margin-top: 22px; padding: 12px; border: 1px solid #d19a22; background: #fff8df; }
 .firebase-panel { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-top: 22px; padding: 16px; border: 1px solid var(--border); background: var(--panel); }
 .firebase-panel h2 { margin: 0 0 5px; font-size: 18px; }
@@ -183,6 +193,7 @@ dialog dd { margin: 0; }
   .project-overview .project-visual { border-right: 0; border-bottom: 1px solid var(--border); }
   .metadata-table { display: block; overflow-x: auto; }
   .contributor-list { grid-template-columns: 1fr; }
+  .badge-panel { grid-template-columns: 1fr; }
   .firebase-panel { align-items: flex-start; flex-direction: column; }
 }
 

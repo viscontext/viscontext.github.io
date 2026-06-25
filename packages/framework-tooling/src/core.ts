@@ -362,6 +362,17 @@ async function writeJson(filePath: string, value: unknown): Promise<void> {
   await fs.writeFile(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
 }
 
+async function copyPublicAssets(repositoryRoot: string, outputRoot: string): Promise<void> {
+  const publicSource = path.join(repositoryRoot, "public");
+  try {
+    await fs.access(publicSource);
+  } catch {
+    return;
+  }
+
+  await fs.cp(publicSource, path.join(outputRoot, "public"), { recursive: true });
+}
+
 export async function generateProject(repositoryRoot = defaultRepositoryRoot): Promise<void> {
   const context = await createCompilerContext(repositoryRoot);
   const records = await loadExampleRecords(context, repositoryRoot);
@@ -370,6 +381,7 @@ export async function generateProject(repositoryRoot = defaultRepositoryRoot): P
   const apiRoot = path.join(outputRoot, "public", "api", "v1");
 
   await fs.rm(outputRoot, { recursive: true, force: true });
+  await copyPublicAssets(repositoryRoot, outputRoot);
 
   const canonicalFramework = {
     ...context.framework,
